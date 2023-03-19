@@ -60,3 +60,41 @@ h1 {
 }
 
 /* TAGS DE RECHERCHE SELECTIVE */
+.tags {
+    padding-left: 68px;
+    margin-top: 15px;
+}
+
+.tags > select {
+    width: 170px;
+    height: 69px;
+
+    color: #fff;
+
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+
+    border-radius: 5px;
+
+    text-align: center;
+}
+
+#firstTag {
+    background-color: #3282F7;
+    margin-right: 20px;
+}
+
+#secondTag {
+    background: #68D9A4;
+    margin-right: 20px;
+}
+
+#thirdTag {
+    background-color: #ED6454;
+}
+
+/* INTERFACE DES RECETTES */
+
