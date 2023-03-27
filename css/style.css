@@ -97,4 +97,51 @@ h1 {
 }
 
 /* INTERFACE DES RECETTES */
+.recipes-wrapper {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    background-color: #c0e225;
+}
 
+.containerCard {
+    width: 30%;
+    padding-bottom: 50px;
+}
+
+.imageCard {
+    width: 100%;
+    background-color: #C7BEBE;
+    min-height: 178px;
+    border-radius: 5px 5px 0 0;
+}
+
+.timerClock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #E7E7E7;
+}
+
+.titleCard {
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+
+    padding-left: 20px;
+}
+
+.divClock {
+    padding-right: 20px;
+}
+
+.divClock > span {
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+}

@@ -7,13 +7,17 @@ class RecipeCard {
         const wrapper = document.createElement('div')
         wrapper.classList.add('recipeInterface-wrapper')
 
+        for (let recipeElement of this._recipe) {
+        const { id, name, servings, appliance, ustensils, description, time } =
+        recipeElement;
+
         const recipeCard = `
             <div class='img-recipe'></div>
             <div>
                 <div>
-                    <h2>${this._recipe.name}</h2>
+                    <h2>${name}</h2>
                     <ul>
-                        <li>${this._recipe.ingredients}</li>
+                        <li>${ingredients}</li>
                     </ul>
                 </div>
                 <div>
@@ -27,5 +31,6 @@ class RecipeCard {
         wrapper.innerHTML = recipeCard
        
         return wrapper
+    }
     }
 }
