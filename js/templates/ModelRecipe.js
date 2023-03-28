@@ -29,7 +29,6 @@ let createCard = (recipe) => {
         `
     
     let titleAndClockTimer = create('div', {class: 'titleAndClock'})
-    // titleAndClockTimer.appendChild(titleCard)
     titleAndClockTimer.appendChild(timerCard)
 
     let containerCard = create('article', {class: 'containerCard'})
@@ -37,12 +36,32 @@ let createCard = (recipe) => {
     containerCard.appendChild(timerCard)
 
     // INGREDIENTS PART
-    let ingredientsAndUtensils = create('div', {class: 'divIngredientsUtensils'})
-    ingredientsAndUtensils.innerHTML = `
-            <p class='description'${recipe[1].description}</p>
+    let divIngredientsList = create('div', {class: 'divIngredientsList'})
+
+    let ingredientsList = recipe[1].ingredients.map(ingredients => {
+ 
+        if(Object.prototype.hasOwnProperty.call(ingredients, 'quantity') && Object.prototype.hasOwnProperty.call(ingredients, 'unit')) { 
+           return `<p>${ingredients.ingredient}: <span>${ingredients.quantity} ${ingredients.unit}</span></p>`
+        } else if(Object.prototype.hasOwnProperty.call(ingredients, 'quantity') && !(Object.prototype.hasOwnProperty.call(ingredients, 'unit'))) {
+           return `<p>${ingredients.ingredient}: <span>${ingredients.quantity}</span></p>`
+        } else {
+           return `<p>${ingredients.ingredient}</p>`
+        }
+    }).join('')
+
+    divIngredientsList.innerHTML = ingredientsList;
+
+    let ingredientsAndDescription = create('div', {class: 'divIngredientsAndDescription'})
+    ingredientsAndDescription.innerHTML = `
+            <p class='description'>${recipe[1].description}</p>
         `
-    
-    containerCard.appendChild(ingredientsAndUtensils)
+
+    // DIV FOR INGREDIENTS AND DESCRIPTION
+    let divBottomCard = create('div', {class: 'containerIngredientsDescription'})
+    divBottomCard.appendChild(divIngredientsList)
+    divBottomCard.appendChild(ingredientsAndDescription)
+
+    containerCard.appendChild(divBottomCard)
 
     document.querySelector('.recipes-wrapper').appendChild(containerCard)
 }

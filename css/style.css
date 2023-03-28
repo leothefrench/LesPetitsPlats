@@ -102,12 +102,14 @@ h1 {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-    background-color: #c0e225;
 }
 
 .containerCard {
-    width: 30%;
-    padding-bottom: 50px;
+    width: 28%;
+    border-radius: 5px;
+    margin-left: 60px;
+    margin-bottom: 50px;
+    background-color: #E7E7E7;
 }
 
 .imageCard {
@@ -144,4 +146,43 @@ h1 {
     font-weight: 700;
     font-size: 18px;
     line-height: 22px;
+}
+
+.containerIngredientsDescription {
+    display: flex;
+}
+
+.divIngredientsList {
+    width: 50%;
+}
+
+.divIngredientsList p {
+    font-family: 'Lato', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 14px;
+
+    padding-left: 20px;
+
+    margin: 0;
+    margin-right: 5px;
+}
+
+.divIngredientsAndDescription {
+    width: 50%;
+}
+
+.description {
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    height: 109px;
+
+    padding-right: 18px;
+    margin-top: 0;
+    margin-bottom: 15px;
 }
