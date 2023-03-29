@@ -1,6 +1,6 @@
 
-console.log(recipes)
-console.log(typeof recipes) // OBJET
+// console.log(recipes)
+// console.log(typeof recipes) // OBJET
 
 let recipesArray = Object.entries(recipes); // RETURN AN ARRAY
 
@@ -16,10 +16,32 @@ const create = (elm, attributes) => {
 	return element;
 }
 
+// FUNCTION CREATION GLOBAL CARD
 let createCard = (recipe) => {
+
+    // IMPLEMENTATION TAGS (INGREDIENTS - APPAREIL - USTENSILS)
+    let tagInput = create('div', {class: 'tagInput'})   // DIV GLOBAL FOR INPUT & CHEVRON
+    let inputTag = create('input', {class: 'inputTag'})
+    let chevronTag = create('div', {class: 'divSpanChevron'})
+    let spanIconChevron = create('span', {class: 'spanIcon'})
+    spanIconChevron.innerHTML = ''
+    chevronTag.appendChild(spanIconChevron)
+
+    tagInput.appendChild(inputTag)
+    tagInput.appendChild(chevronTag)
+
+    let listElementsDiv = create('div', {class: 'listElements'})
+    listElementsDiv.innerHTML = `
+            <ul>
+                <li>${recipe[1].ingredients.ingredient}</li>
+            </ul>
+    `
+    
+
+
     let imgCard = create('div', {class: 'imageCard', alt: 'img-card'}) // IMAGE
 
-    let timerCard = create('div', {class: 'timerClock'})
+    let timerCard = create('div', {class: 'timerClock'}) // CLOCK ICON AND TIME COOKING
     timerCard.innerHTML = `
             <h2 class='titleCard'>${recipe[1].name}</h2>
             <div class='divClock'>
