@@ -66,7 +66,47 @@ h1 {
     padding-left: 100px;
 }
 
-.tags > button {
+.ingredients {
+background-color: #3282F7;
+}
+
+.ingredients > span {
+    padding-left: 31px;
+}
+/*
+.appareils {
+    background-color: #68D9A4;
+}
+
+.appareils > span {
+    padding-left: 31px;
+}
+
+.ustensiles {
+    background-color: #ED6454;
+}
+
+.ustensiles > span {
+    padding-left: 31px;
+} */
+
+.dropdownMenu {
+    position: relative;
+}
+
+.inputSearchBtn {
+    background-color: #3282F7;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+    border: none;
+}
+
+/* BUTTONS*/
+.ingredients {
     width: 170px;
     height: 69px;
     border-radius: 5px;
@@ -82,29 +122,56 @@ h1 {
     margin-right: 20px;
 }
 
-.ingredients {
-background-color: #3282F7;
+.listInputSearch {
+    padding: 22px 0 27px 19px
 }
 
-.ingredients > span {
-    padding-left: 31px;
+
+.globalSearch {
+    width: 667px;
+    border-radius: 5px;
+    background-color: #3282F7;
+    display: none;
+    position: absolute;
 }
 
-.appareils {
-    background-color: #68D9A4;
+.listInputSearch {
+    display: flex;
+    justify-content: space-between;
 }
 
-.appareils > span {
-    padding-left: 31px;
+.fa-chevron-up {
+    padding-right: 28px;
 }
 
-.ustensiles {
-    background-color: #ED6454;
+.listElements {
+    display: flex;
+    flex-wrap: wrap;
+    height: 400px;
+    overflow-y: scroll;
 }
 
-.ustensiles > span {
-    padding-left: 31px;
+.listElements > p {
+    width: 30%;
+    color: #fff;
+
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+
+    padding-left: 19px;
+    margin-top: 0;
+    margin-bottom: 10px;
 }
+
+
+
+
+
+
+
 
 /* INTERFACE DES RECETTES */
 .recipes-wrapper {

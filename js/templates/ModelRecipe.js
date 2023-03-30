@@ -1,10 +1,114 @@
-
 // console.log(recipes)
 // console.log(typeof recipes) // OBJET
 
 let recipesArray = Object.entries(recipes); // RETURN AN ARRAY
 
-console.log(recipesArray);
+// console.log(recipesArray);
+
+function secondarySearch() {
+    // IMPLEMENTATION TAGS LISTS UNDER BTN (INGREDIENTS - APPAREIL - USTENSILS)
+
+    const tags = document.querySelector('.tags')
+
+    let dropdownMenu = document.createElement('div') // DIV CONTAINER FOR BUTTON AND INPUT SEARCH
+    dropdownMenu.setAttribute('class', 'dropdownMenu')
+
+    let buttonTag = document.createElement('button') // BUTTON TAGS
+    buttonTag.setAttribute('class', 'ingredients')
+    buttonTag.setAttribute('aria-hidden', 'false')
+    buttonTag.textContent = 'Ingredients'
+    
+
+ 
+    let spanChevronDown = document.createElement('span') // CHEVRON DOWN
+    spanChevronDown.innerHTML = `
+        <i class="fa-solid fa-chevron-down"></i>
+    `
+    buttonTag.appendChild(spanChevronDown) // ADDING CHEVRON DOWN TO BUTTON
+    dropdownMenu.appendChild(buttonTag) // ADDING BUTTON IN CONTAINER
+
+    let buttonAndInputDiv = document.createElement('div')
+    buttonAndInputDiv.classList.add('buttonAndInputDiv')
+
+    let listInputSearch = document.createElement('div') // DIV FOR INPUT SEARCH AND ARROW UP
+    listInputSearch.setAttribute('class', 'listInputSearch')
+    listInputSearch.setAttribute('aria-hidden', 'true')
+
+    // console.log(listInputSearch)
+
+    let inputSearch = document.createElement('input') // INPUT SEARCH
+    inputSearch.classList.add('inputSearchBtn')
+    inputSearch.setAttribute('placeholder', 'Rechercher un ingrédient')
+     
+    let arrowChevronUp = document.createElement('span')
+    arrowChevronUp.setAttribute('class', 'spanArrowChevronUp')
+    
+    arrowChevronUp.innerHTML = `<i class="fa-solid fa-chevron-up"></i>`
+    listInputSearch.appendChild(inputSearch)
+    listInputSearch.appendChild(arrowChevronUp)
+
+    let listElementsDiv = document.createElement('div')
+    listElementsDiv.classList.add('listElements')
+
+    // console.log(recipesArray)
+
+    let arrayIngredients = []
+    
+    recipes.map(recette => {
+        recette.ingredients.map(ingredient => {
+            if(arrayIngredients.filter(ing => ing == ingredient.ingredient).length == 0) {
+                arrayIngredients.push(ingredient.ingredient)
+            }
+       })
+    })
+
+    // console.log(arrayIngredients)
+
+    // INJECTION DATA LIST INGREDIENTS
+    let listIngredients =  arrayIngredients.map(ingredients => {
+        return `<p>${ingredients}</p>`    
+    }).join('')
+
+    // console.log(listIngredients)
+
+    listElementsDiv.innerHTML = listIngredients // CHECK THIS
+
+    let globalSearch =  document.createElement('div')
+    globalSearch.classList.add('globalSearch')
+
+    globalSearch.appendChild(listInputSearch)
+    globalSearch.appendChild(listElementsDiv)
+
+    dropdownMenu.appendChild(globalSearch)
+
+    tags.appendChild(dropdownMenu)
+
+    console.log(tags)
+
+    // ADD EVENT LISTENER ON BUTTON SEARCH BAR
+    let search = document.querySelector('.ingredients') // BTN SEARCH
+    let globalSearchDiv = document.querySelector('.globalSearch') // DISPLAY 
+    let arrowUp = document.querySelector('.spanArrowChevronUp')
+    console.log(arrowChevronUp)
+
+    search.addEventListener('click', () => {
+        if(globalSearchDiv.style.display === 'none') {
+            globalSearchDiv.style.display = 'block'
+            search.style.display = 'none'
+        } else{
+            globalSearchDiv.style.display = 'none'          
+        }
+    })
+
+    arrowUp.addEventListener('click', () => {
+        if(search.style.display = 'none') {
+            search.style.display = 'block'
+            globalSearchDiv.style.display  = 'none'
+        }
+    })
+}
+
+secondarySearch()
 
 // FUNCTION CREATION DES ELEMENTS DE LA CARD
 const create = (elm, attributes) => {
@@ -18,27 +122,6 @@ const create = (elm, attributes) => {
 
 // FUNCTION CREATION GLOBAL CARD
 let createCard = (recipe) => {
-
-    // IMPLEMENTATION TAGS (INGREDIENTS - APPAREIL - USTENSILS)
-    let tagInput = create('div', {class: 'tagInput'})   // DIV GLOBAL FOR INPUT & CHEVRON
-    let inputTag = create('input', {class: 'inputTag'})
-    let chevronTag = create('div', {class: 'divSpanChevron'})
-    let spanIconChevron = create('span', {class: 'spanIcon'})
-    spanIconChevron.innerHTML = ''
-    chevronTag.appendChild(spanIconChevron)
-
-    tagInput.appendChild(inputTag)
-    tagInput.appendChild(chevronTag)
-
-    let listElementsDiv = create('div', {class: 'listElements'})
-    listElementsDiv.innerHTML = `
-            <ul>
-                <li>${recipe[1].ingredients.ingredient}</li>
-            </ul>
-    `
-    
-
-
     let imgCard = create('div', {class: 'imageCard', alt: 'img-card'}) // IMAGE
 
     let timerCard = create('div', {class: 'timerClock'}) // CLOCK ICON AND TIME COOKING
@@ -77,7 +160,6 @@ let createCard = (recipe) => {
     ingredientsAndDescription.innerHTML = `
             <p class='description'>${recipe[1].description}</p>
         `
-
     // DIV FOR INGREDIENTS AND DESCRIPTION
     let divBottomCard = create('div', {class: 'containerIngredientsDescription'})
     divBottomCard.appendChild(divIngredientsList)
@@ -91,4 +173,3 @@ let createCard = (recipe) => {
 recipesArray.forEach(recipe => createCard(recipe))
 
 
-// IMPLEMENTATION INGREDIENTS ET TAG A FAIRE 
