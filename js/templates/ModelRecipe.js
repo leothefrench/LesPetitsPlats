@@ -5,7 +5,7 @@ let recipesArray = Object.entries(recipes); // RETURN AN ARRAY
 
 // console.log(recipesArray);
 
-function secondarySearch() {
+function secondarySearch(nameTag, nameClass) {
     // IMPLEMENTATION TAGS LISTS UNDER BTN (INGREDIENTS - APPAREIL - USTENSILS)
 
     const tags = document.querySelector('.tags')
@@ -14,12 +14,10 @@ function secondarySearch() {
     dropdownMenu.setAttribute('class', 'dropdownMenu')
 
     let buttonTag = document.createElement('button') // BUTTON TAGS
-    buttonTag.setAttribute('class', 'ingredients')
+    buttonTag.setAttribute('class', `${nameClass}`)
     buttonTag.setAttribute('aria-hidden', 'false')
-    buttonTag.textContent = 'Ingredients'
+    buttonTag.textContent = `${nameTag}`
     
-
- 
     let spanChevronDown = document.createElement('span') // CHEVRON DOWN
     spanChevronDown.innerHTML = `
         <i class="fa-solid fa-chevron-down"></i>
@@ -49,9 +47,7 @@ function secondarySearch() {
 
     let listElementsDiv = document.createElement('div')
     listElementsDiv.classList.add('listElements')
-
-    // console.log(recipesArray)
-
+    
     let arrayIngredients = []
     
     recipes.map(recette => {
@@ -62,6 +58,7 @@ function secondarySearch() {
        })
     })
 
+    // arrayIngredients()
     // console.log(arrayIngredients)
 
     // INJECTION DATA LIST INGREDIENTS
@@ -69,9 +66,8 @@ function secondarySearch() {
         return `<p>${ingredients}</p>`    
     }).join('')
 
-    // console.log(listIngredients)
+    listElementsDiv.innerHTML = listIngredients
 
-    listElementsDiv.innerHTML = listIngredients // CHECK THIS
 
     let globalSearch =  document.createElement('div')
     globalSearch.classList.add('globalSearch')
@@ -83,13 +79,13 @@ function secondarySearch() {
 
     tags.appendChild(dropdownMenu)
 
-    console.log(tags)
+    // console.log(tags)
 
     // ADD EVENT LISTENER ON BUTTON SEARCH BAR
     let search = document.querySelector('.ingredients') // BTN SEARCH
     let globalSearchDiv = document.querySelector('.globalSearch') // DISPLAY 
     let arrowUp = document.querySelector('.spanArrowChevronUp')
-    console.log(arrowChevronUp)
+    // console.log(arrowChevronUp)
 
     search.addEventListener('click', () => {
         if(globalSearchDiv.style.display === 'none') {
@@ -108,7 +104,32 @@ function secondarySearch() {
     })
 }
 
-secondarySearch()
+secondarySearch('Ingrédients', 'ingredients')
+secondarySearch('Appareils', 'appareils')
+secondarySearch('Ustensiles', 'ustensiles')
+
+// function arrayIngredients() {
+//     let arrayIngredients = []
+    
+//     recipes.map(recette => {
+//         recette.ingredients.map(ingredient => {
+//             if(arrayIngredients.filter(ing => ing == ingredient.ingredient).length == 0) {
+//                 arrayIngredients.push(ingredient.ingredient)
+//             }
+//        })
+//     })
+// }
+
+
+
+
+
+
+
+
+
+
+
 
 // FUNCTION CREATION DES ELEMENTS DE LA CARD
 const create = (elm, attributes) => {

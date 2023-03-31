@@ -64,34 +64,7 @@ h1 {
 .tags {
     margin-top: 20px;
     padding-left: 100px;
-}
-
-.ingredients {
-background-color: #3282F7;
-}
-
-.ingredients > span {
-    padding-left: 31px;
-}
-/*
-.appareils {
-    background-color: #68D9A4;
-}
-
-.appareils > span {
-    padding-left: 31px;
-}
-
-.ustensiles {
-    background-color: #ED6454;
-}
-
-.ustensiles > span {
-    padding-left: 31px;
-} */
-
-.dropdownMenu {
-    position: relative;
+    display: flex;
 }
 
 .inputSearchBtn {
@@ -106,7 +79,7 @@ background-color: #3282F7;
 }
 
 /* BUTTONS*/
-.ingredients {
+.ingredients, .appareils, .ustensiles {
     width: 170px;
     height: 69px;
     border-radius: 5px;
@@ -122,10 +95,37 @@ background-color: #3282F7;
     margin-right: 20px;
 }
 
+.ingredients {
+    background-color: #3282F7;
+}
+
+.ingredients>span {
+    padding-left: 31px;
+}
+
+.appareils {
+    background-color: #68D9A4;
+}
+
+.appareils>span {
+    padding-left: 31px;
+}
+
+.ustensiles {
+    background-color: #ED6454;
+}
+
+.ustensiles>span {
+    padding-left: 31px;
+}
+
+.dropdownMenu {
+    position: relative;
+}
+
 .listInputSearch {
     padding: 22px 0 27px 19px
 }
-
 
 .globalSearch {
     width: 667px;
