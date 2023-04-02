@@ -5,7 +5,7 @@ let recipesArray = Object.entries(recipes); // RETURN AN ARRAY
 
 // console.log(recipesArray);
 
-function secondarySearch(nameTag, nameClass) {
+function secondarySearch(nameTag, nameClass, nameFunction, className) {
     // IMPLEMENTATION TAGS LISTS UNDER BTN (INGREDIENTS - APPAREIL - USTENSILS)
 
     const tags = document.querySelector('.tags')
@@ -47,22 +47,12 @@ function secondarySearch(nameTag, nameClass) {
 
     let listElementsDiv = document.createElement('div')
     listElementsDiv.classList.add('listElements')
-    
-    let arrayIngredients = []
-    
-    recipes.map(recette => {
-        recette.ingredients.map(ingredient => {
-            if(arrayIngredients.filter(ing => ing == ingredient.ingredient).length == 0) {
-                arrayIngredients.push(ingredient.ingredient)
-            }
-       })
-    })
 
-    // arrayIngredients()
-    // console.log(arrayIngredients)
+/***********************************ARRAY FOR INGREDIENTS********************************* */
+    let listIngredientsWithoutDuplicate = nameFunction()
+    // console.log(listIngredientsWithoutDuplicate)
 
-    // INJECTION DATA LIST INGREDIENTS
-    let listIngredients =  arrayIngredients.map(ingredients => {
+    let listIngredients =  listIngredientsWithoutDuplicate.map(ingredients => {
         return `<p>${ingredients}</p>`    
     }).join('')
 
@@ -82,15 +72,17 @@ function secondarySearch(nameTag, nameClass) {
     // console.log(tags)
 
     // ADD EVENT LISTENER ON BUTTON SEARCH BAR
-    let search = document.querySelector('.ingredients') // BTN SEARCH
+    let search = document.querySelector(`${className}`) // BTN SEARCH
     let globalSearchDiv = document.querySelector('.globalSearch') // DISPLAY 
     let arrowUp = document.querySelector('.spanArrowChevronUp')
-    // console.log(arrowChevronUp)
+    let ingredients = document.querySelector('.ingredients')
+    console.log(search)
 
     search.addEventListener('click', () => {
         if(globalSearchDiv.style.display === 'none') {
             globalSearchDiv.style.display = 'block'
-            search.style.display = 'none'
+            ingredients.style.display = 'none'
+            console.log('POUF')
         } else{
             globalSearchDiv.style.display = 'none'          
         }
@@ -104,32 +96,52 @@ function secondarySearch(nameTag, nameClass) {
     })
 }
 
-secondarySearch('Ingrédients', 'ingredients')
-secondarySearch('Appareils', 'appareils')
-secondarySearch('Ustensiles', 'ustensiles')
+secondarySearch('Ingrédients', 'ingredients',arrayForIngredients, '.ingredients')
+secondarySearch('Appareils', 'appareils', arrayForUstensils, '.appareils')
+secondarySearch('Ustensiles', 'ustensiles', arrayForAppliances, '.ustensiles')
 
-// function arrayIngredients() {
-//     let arrayIngredients = []
+
+function arrayForIngredients() {
+    let arrayIngredients = []
     
-//     recipes.map(recette => {
-//         recette.ingredients.map(ingredient => {
-//             if(arrayIngredients.filter(ing => ing == ingredient.ingredient).length == 0) {
-//                 arrayIngredients.push(ingredient.ingredient)
-//             }
-//        })
-//     })
-// }
+    recipes.map(recette => {
+        recette.ingredients.map(ingredient => {
+            if(arrayIngredients.filter(ing => ing == ingredient.ingredient).length == 0) {
+                arrayIngredients.push(ingredient.ingredient)
+            }
+       })
+    })
+    return arrayIngredients
+}
 
+console.log(arrayForIngredients())
 
+function arrayForAppliances() {
+    let  arrayAppliances = []
 
+    recipes.map(recette => {
+        if(arrayAppliances.filter(ing => ing == recette.appliance).length == 0) {
+            arrayAppliances.push(recette.appliance)
+        }
+    } )
+    return arrayAppliances
+}
+console.log(arrayForAppliances())
 
+function arrayForUstensils() {
+    let arrayUstensils = []
+    
+    recipes.map(recette => {
+        recette.ustensils.map(ustensil => {
+            if(arrayUstensils.filter(ing => ing == ustensil).length == 0) {
+                arrayUstensils.push(ustensil)
+            }
+       })
+    })
+    return arrayUstensils
+}
 
-
-
-
-
-
-
+console.log(arrayForUstensils())
 
 // FUNCTION CREATION DES ELEMENTS DE LA CARD
 const create = (elm, attributes) => {
@@ -140,6 +152,8 @@ const create = (elm, attributes) => {
     // console.log(element)
 	return element;
 }
+
+
 
 // FUNCTION CREATION GLOBAL CARD
 let createCard = (recipe) => {

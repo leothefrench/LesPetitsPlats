@@ -76,8 +76,46 @@ h1 {
     font-size: 18px;
     line-height: 22px;
     border: none;
+    width: 90%;
 }
 
+/* SPAN RESULT TAG */
+.groupResultsTags {
+    display: inline-flex;
+    position: relative;
+    /* vertical-align: middle; */
+    padding-left: 100px;
+    margin-top: 25px;
+}
+
+.resultTag {
+    width: 107px;
+    height: 37px;
+    border-radius: 5px;
+    color: #fff;
+    margin-right: 83px;
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.resultTag > i {
+    padding-left: 13px;
+}
+
+.resultTag:first-child {
+    background: #3282F7;
+}
+
+.resultTag:nth-child(2) {
+    background-color: #68D9A4;
+}
+
+.resultTag:last-child {
+    background-color: #ED6454;
+}
 /* BUTTONS*/
 .ingredients, .appareils, .ustensiles {
     width: 170px;
@@ -93,6 +131,8 @@ h1 {
 
     color: #fff;
     margin-right: 20px;
+
+    cursor: pointer;
 }
 
 .ingredients {
@@ -132,20 +172,24 @@ h1 {
     border-radius: 5px;
     background-color: #3282F7;
     display: none;
-    position: absolute;
+    /* position: absolute; */
 }
 
 .listInputSearch {
-    display: flex;
-    justify-content: space-between;
+    /* display: flex;
+    justify-content: space-between; */
+    /* display: none; */
+    width: inherit;
 }
 
 .fa-chevron-up {
     padding-right: 28px;
+    color: #fff;
 }
 
 .listElements {
     display: flex;
+    /* display: none; */
     flex-wrap: wrap;
     height: 400px;
     overflow-y: scroll;
