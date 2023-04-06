@@ -5,7 +5,7 @@ let recipesArray = Object.entries(recipes); // RETURN AN ARRAY
 
 // console.log(recipesArray);
 
-function secondarySearch(nameTag, nameClass, nameFunction, className) {
+function secondarySearch(nameTag, nameClass, nameFunction, className {
     // IMPLEMENTATION TAGS LISTS UNDER BTN (INGREDIENTS - APPAREIL - USTENSILS)
 
     const tags = document.querySelector('.tags')
