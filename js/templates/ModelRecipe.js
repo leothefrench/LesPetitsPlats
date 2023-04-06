@@ -1,11 +1,11 @@
 // console.log(recipes)
 // console.log(typeof recipes) // OBJET
 
-let recipesArray = Object.entries(recipes); // RETURN AN ARRAY
+let recipesArray = Object.entries(recipes); // RETURN AN ARRAY OF ARRAYS
 
 // console.log(recipesArray);
 
-function secondarySearch(nameTag, nameClass, nameFunction, className {
+function secondarySearch(nameTag, nameClass, nameFunction) {
     // IMPLEMENTATION TAGS LISTS UNDER BTN (INGREDIENTS - APPAREIL - USTENSILS)
 
     const tags = document.querySelector('.tags')
@@ -68,37 +68,62 @@ function secondarySearch(nameTag, nameClass, nameFunction, className {
     dropdownMenu.appendChild(globalSearch)
 
     tags.appendChild(dropdownMenu)
+}
 
-    // console.log(tags)
 
-    // ADD EVENT LISTENER ON BUTTON SEARCH BAR
-    let search = document.querySelector(`${className}`) // BTN SEARCH
-    let globalSearchDiv = document.querySelector('.globalSearch') // DISPLAY 
-    let arrowUp = document.querySelector('.spanArrowChevronUp')
-    let ingredients = document.querySelector('.ingredients')
-    console.log(search)
+secondarySearch('Ingrédients', 'ingredients',arrayForIngredients)
+secondarySearch('Appareils', 'appareils', arrayForUstensils)
+secondarySearch('Ustensiles', 'ustensiles', arrayForAppliances)
 
-    search.addEventListener('click', () => {
-        if(globalSearchDiv.style.display === 'none') {
-            globalSearchDiv.style.display = 'block'
-            ingredients.style.display = 'none'
-            console.log('POUF')
-        } else{
-            globalSearchDiv.style.display = 'none'          
-        }
-    })
+
+// ADD EVENT LISTENER ON BUTTON SEARCH INGREDIENTS
+let btnIngredients = document.querySelector('.ingredients')
+console.log(btnIngredients);
+let globalSearchDiv = document.querySelector('.globalSearch') // DISPLAY 
+let arrowUp = document.querySelector('.spanArrowChevronUp')
+
+btnIngredients.addEventListener('click', () => {
+    if(globalSearchDiv.style.display === 'none') {
+        globalSearchDiv.style.display = 'block'
+        btnIngredients.style.display = 'none'
+        console.log('POUF ONE')
+    } else{
+        globalSearchDiv.style.display = 'none'          
+    }
+})
 
     arrowUp.addEventListener('click', () => {
-        if(search.style.display = 'none') {
-            search.style.display = 'block'
+        if(globalSearchDiv.style.display = 'none') {
+            btnIngredients.style.display = 'block'
             globalSearchDiv.style.display  = 'none'
         }
     })
-}
 
-secondarySearch('Ingrédients', 'ingredients',arrayForIngredients, '.ingredients')
-secondarySearch('Appareils', 'appareils', arrayForUstensils, '.appareils')
-secondarySearch('Ustensiles', 'ustensiles', arrayForAppliances, '.ustensiles')
+
+// ADD EVENT LISTENER ON BUTTON SEARCH APPAREILS
+let btnAppareils = document.querySelector('.appareils')
+console.log(btnAppareils);
+let globalSearchDivAppareils = document.querySelector('.globalSearch') 
+let arrowUpAppareils = document.querySelector('.spanArrowChevronUp')
+
+btnAppareils.addEventListener('click', () => {
+    if(globalSearchDivAppareils.style.display === 'none') {
+        globalSearchDivAppareils.style.display = 'block'
+        btnAppareils.style.display = 'none'
+        console.log('POUF TWO')
+    } else{
+        globalSearchDivAppareils.style.display = 'none'          
+    }
+})
+
+    arrowUpAppareils.addEventListener('click', () => {
+        if(search.style.display = 'none') {
+            search.style.display = 'block'
+            globalSearchDivAppareils.style.display  = 'none'
+        }
+    })
+
+
 
 
 function arrayForIngredients() {
@@ -114,7 +139,7 @@ function arrayForIngredients() {
     return arrayIngredients
 }
 
-console.log(arrayForIngredients())
+// console.log(arrayForIngredients())
 
 function arrayForAppliances() {
     let  arrayAppliances = []
@@ -126,7 +151,7 @@ function arrayForAppliances() {
     } )
     return arrayAppliances
 }
-console.log(arrayForAppliances())
+// console.log(arrayForAppliances())
 
 function arrayForUstensils() {
     let arrayUstensils = []
@@ -141,7 +166,7 @@ function arrayForUstensils() {
     return arrayUstensils
 }
 
-console.log(arrayForUstensils())
+// console.log(arrayForUstensils())
 
 // FUNCTION CREATION DES ELEMENTS DE LA CARD
 const create = (elm, attributes) => {
