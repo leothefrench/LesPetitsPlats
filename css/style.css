@@ -3,7 +3,6 @@ body {
     bottom: 0;
     box-sizing: border-box;
     max-width: 1440px;
-
 }
 
 .header {
@@ -24,14 +23,13 @@ h1 {
 
 /* INPUT RECHERCHE DES RECETTES*/
 .divSearch {
-    margin: auto;
     border-radius: 5px;
-    width: 90%;
     height: 4.3rem;
     background: #E7E7E7;
     display: flex;
     justify-content: space-between;
     margin-left: 100px;
+    margin-right: 100px;
 }
 
 .inputSearch {
@@ -40,24 +38,24 @@ h1 {
     font-weight: 400;
     font-size: 18px;
     line-height: 22px;
-
     margin-top: 23px;
     margin-left: 24px;
-
     padding: 0;
-
     border: none;
     color: #000;
     background-color: #E7E7E7;
     outline: none;
 }
 
-
 .divIconLoupe {
     font-size: 44px;
     height: 44px;
     margin-top: 12px;
     padding-right: 12px;
+}
+
+.fa-magnifying-glass {
+    font-size: 32px;
 }
 
 /* TAGS DE RECHERCHE SELECTIVE */
@@ -81,19 +79,21 @@ h1 {
 
 /* SPAN RESULT TAG */
 .groupResultsTags {
-    display: inline-flex;
+    display: flex;
     position: relative;
     align-items: center;
     padding-left: 100px;
     margin-top: 25px;
+    display: none;
 }
 
 .resultTag {
+    display: flex;
     width: 107px;
     height: 37px;
     border-radius: 5px;
     color: #fff;
-    margin-right: 83px;
+    margin-right: 63px;
     font-family: 'Lato';
     font-style: normal;
     font-weight: 700;
@@ -101,8 +101,7 @@ h1 {
     line-height: 17px;
     text-align: center;
     box-sizing: border-box;
-    padding: 10px 0 10px 20px;
-    /* display: none; */
+    padding: 10px 0px 10px 20px;
 }
 
 .fa-circle-xmark {
@@ -123,20 +122,16 @@ h1 {
 }
 /* BUTTONS*/
 .ingredients, .appareils, .ustensiles {
-    width: 170px;
+    width: 150px;
     height: 69px;
     border-radius: 5px;
     border: none;
-
     font-family: 'Lato';
     font-style: normal;
     font-weight: 700;
     font-size: 18px;
     line-height: 22px;
-
     color: #fff;
-    margin-right: 20px;
-
     cursor: pointer;
 }
 
@@ -144,8 +139,8 @@ h1 {
     background-color: #3282F7;
 }
 
-.ingredients>span {
-    padding-left: 31px;
+.ingredients>span, .appareils>span, .ustensiles>span{
+    padding-left: 10px;
 }
 
 .appareils {
@@ -153,7 +148,7 @@ h1 {
 }
 
 .appareils>span {
-    padding-left: 31px;
+    padding-left: 10px;
 }
 
 .ustensiles {
@@ -161,30 +156,57 @@ h1 {
 }
 
 .ustensiles>span {
-    padding-left: 31px;
+    padding-left: 10px;
 }
 
 .dropdownMenu {
     position: relative;
+    margin-right: 20px;
 }
 
 .listInputSearch {
     padding: 22px 0 27px 19px
 }
 
-.globalSearch {
+.globalSearchIngredients, .globalSearchAppareils, .globalSearchUstensiles {
     width: 667px;
     border-radius: 5px;
     background-color: #3282F7;
     display: none;
-    /* position: absolute; */
 }
 
-.listInputSearch {
-    /* display: flex;
-    justify-content: space-between; */
-    /* display: none; */
-    width: inherit;
+.globalSearchAppareils {
+    background-color: #68D9A4;
+    width: 590px;
+}
+
+.globalSearchUstensiles {
+    background-color: #ED6454;
+}
+
+.inputSearchBtnIngredients, .inputSearchBtnAppareils, .inputSearchBtnUstensiles {
+    width: 90%;
+    border: none;
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 22px;
+    opacity: 0.5;
+    color: #fff;
+    border: none;
+}
+
+.inputSearchBtnIngredients {
+    background-color: #3282F7;
+}
+
+.inputSearchBtnAppareils {
+    background-color: #68D9A4;
+}
+
+.inputSearchBtnUstensiles {
+    background-color: #ED6454;
 }
 
 .fa-chevron-up {
@@ -194,7 +216,6 @@ h1 {
 
 .listElements {
     display: flex;
-    /* display: none; */
     flex-wrap: wrap;
     height: 400px;
     overflow-y: scroll;
@@ -203,24 +224,15 @@ h1 {
 .listElements > p {
     width: 30%;
     color: #fff;
-
     font-family: 'Lato';
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
     line-height: 22px;
-
     padding-left: 19px;
     margin-top: 0;
     margin-bottom: 10px;
 }
-
-
-
-
-
-
-
 
 /* INTERFACE DES RECETTES */
 .recipes-wrapper {
@@ -229,6 +241,7 @@ h1 {
     justify-content: space-around;
     flex-wrap: wrap;
     margin-left: 34px;
+    margin-right: 100px;
 }
 
 .containerCard {
@@ -289,9 +302,7 @@ h1 {
     font-weight: 700;
     font-size: 12px;
     line-height: 14px;
-
     padding-left: 20px;
-
     margin: 0;
     margin-right: 5px;
 }
@@ -308,7 +319,6 @@ h1 {
     text-overflow: ellipsis;
     overflow: hidden;
     height: 109px;
-
     padding-right: 18px;
     margin-top: 0;
     margin-bottom: 15px;

@@ -5,7 +5,7 @@ let recipesArray = Object.entries(recipes); // RETURN AN ARRAY OF ARRAYS
 
 // console.log(recipesArray);
 
-function secondarySearch(nameTag, nameClass, nameFunction) {
+function secondarySearch(nameTag, nameClass, nameFunction, searchBloc, nameChevronUp, inputSearchBtn) {
     // IMPLEMENTATION TAGS LISTS UNDER BTN (INGREDIENTS - APPAREIL - USTENSILS)
 
     const tags = document.querySelector('.tags')
@@ -15,7 +15,7 @@ function secondarySearch(nameTag, nameClass, nameFunction) {
 
     let buttonTag = document.createElement('button') // BUTTON TAGS
     buttonTag.setAttribute('class', `${nameClass}`)
-    buttonTag.setAttribute('aria-hidden', 'false')
+    // buttonTag.setAttribute('aria-hidden', 'false')
     buttonTag.textContent = `${nameTag}`
     
     let spanChevronDown = document.createElement('span') // CHEVRON DOWN
@@ -35,11 +35,12 @@ function secondarySearch(nameTag, nameClass, nameFunction) {
     // console.log(listInputSearch)
 
     let inputSearch = document.createElement('input') // INPUT SEARCH
-    inputSearch.classList.add('inputSearchBtn')
+    inputSearch.classList.add(`${inputSearchBtn}`)
     inputSearch.setAttribute('placeholder', 'Rechercher un ingrédient')
      
     let arrowChevronUp = document.createElement('span')
-    arrowChevronUp.setAttribute('class', 'spanArrowChevronUp')
+    // arrowChevronUp.classList.add('spanArrowChevronUp')
+    arrowChevronUp.setAttribute('class', `${nameChevronUp}`)
     
     arrowChevronUp.innerHTML = `<i class="fa-solid fa-chevron-up"></i>`
     listInputSearch.appendChild(inputSearch)
@@ -60,7 +61,7 @@ function secondarySearch(nameTag, nameClass, nameFunction) {
 
 
     let globalSearch =  document.createElement('div')
-    globalSearch.classList.add('globalSearch')
+    globalSearch.classList.add(`${searchBloc}`)
 
     globalSearch.appendChild(listInputSearch)
     globalSearch.appendChild(listElementsDiv)
@@ -71,22 +72,24 @@ function secondarySearch(nameTag, nameClass, nameFunction) {
 }
 
 
-secondarySearch('Ingrédients', 'ingredients',arrayForIngredients)
-secondarySearch('Appareils', 'appareils', arrayForUstensils)
-secondarySearch('Ustensiles', 'ustensiles', arrayForAppliances)
+secondarySearch('Ingrédients', 'ingredients',arrayForIngredients, 'globalSearchIngredients', 'spanArrowChevronUpIngredients', 'inputSearchBtnIngredients')
+secondarySearch('Appareils', 'appareils', arrayForUstensils, 'globalSearchAppareils', 'spanArrowChevronUpAppareils', 'inputSearchBtnAppareils')
+secondarySearch('Ustensiles', 'ustensiles', arrayForAppliances, 'globalSearchUstensiles', 'spanArrowChevronUpUstensiles', 'inputSearchBtnUstensiles')
 
 
 // ADD EVENT LISTENER ON BUTTON SEARCH INGREDIENTS
 let btnIngredients = document.querySelector('.ingredients')
-console.log(btnIngredients);
-let globalSearchDiv = document.querySelector('.globalSearch') // DISPLAY 
-let arrowUp = document.querySelector('.spanArrowChevronUp')
+// console.log(btnIngredients);
+let globalSearchDiv = document.querySelector('.globalSearchIngredients') // DISPLAY 
+let arrowUp = document.querySelector('.spanArrowChevronUpIngredients')
+let tags = document.querySelector('.tags')
 
 btnIngredients.addEventListener('click', () => {
     if(globalSearchDiv.style.display === 'none') {
         globalSearchDiv.style.display = 'block'
         btnIngredients.style.display = 'none'
-        console.log('POUF ONE')
+        tags.style.position = 'absolute'
+        // console.log('POUF ONE')
     } else{
         globalSearchDiv.style.display = 'none'          
     }
@@ -96,35 +99,59 @@ btnIngredients.addEventListener('click', () => {
         if(globalSearchDiv.style.display = 'none') {
             btnIngredients.style.display = 'block'
             globalSearchDiv.style.display  = 'none'
+            tags.style.position = ''
         }
     })
 
-
 // ADD EVENT LISTENER ON BUTTON SEARCH APPAREILS
 let btnAppareils = document.querySelector('.appareils')
-console.log(btnAppareils);
-let globalSearchDivAppareils = document.querySelector('.globalSearch') 
-let arrowUpAppareils = document.querySelector('.spanArrowChevronUp')
+// console.log(btnAppareils);
+let globalSearchDivAppareils = document.querySelector('.globalSearchAppareils') 
+let arrowUpAppareils = document.querySelector('.spanArrowChevronUpAppareils')
+// console.log(arrowUpAppareils);
 
 btnAppareils.addEventListener('click', () => {
     if(globalSearchDivAppareils.style.display === 'none') {
         globalSearchDivAppareils.style.display = 'block'
         btnAppareils.style.display = 'none'
-        console.log('POUF TWO')
+        tags.style.position = 'absolute'
     } else{
         globalSearchDivAppareils.style.display = 'none'          
     }
 })
 
     arrowUpAppareils.addEventListener('click', () => {
-        if(search.style.display = 'none') {
-            search.style.display = 'block'
+        if(globalSearchDivAppareils.style.display = 'none') {
+            btnAppareils.style.display = 'block'
             globalSearchDivAppareils.style.display  = 'none'
+            tags.style.position = ''
         }
     })
+// ADD EVENT LISTENER ON BUTTON SEARCH APPAREILS
+let btnUstensiles = document.querySelector('.ustensiles')
+// console.log(btnUstensiles);
+let globalSearchDivUstensiles = document.querySelector('.globalSearchUstensiles') 
+let arrowUpUstensiles = document.querySelector('.spanArrowChevronUpUstensiles')
+// console.log(arrowUpUstensiles);
 
+btnUstensiles.addEventListener('click', () => {
+    if(globalSearchDivUstensiles.style.display === 'none') {
+        globalSearchDivUstensiles.style.display = 'block'
+        globalSearchDivUstensiles.style.width = '500px'
+        btnUstensiles.style.display = 'none'
+        tags.style.position = 'absolute'
+    } else{
+        globalSearchDivUstensiles.style.display = 'none'          
+    }
+})
 
-
+    arrowUpUstensiles.addEventListener('click', () => {
+        if(globalSearchDivUstensiles.style.display = 'none') {
+            btnUstensiles.style.display = 'block'
+            globalSearchDivUstensiles.style.display  = 'none'
+            tags.style.position = ''
+        }
+    })
 
 function arrayForIngredients() {
     let arrayIngredients = []
