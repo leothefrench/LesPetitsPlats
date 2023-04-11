@@ -1,10 +1,6 @@
 // console.log(recipes) // ARRAY OF OBJECTS NO SORTED
 const inputSearch = document.querySelector('.inputSearch') // INPUT ZONE FROM USER 
-// console.log(inputSearch)
-
 /* *********** SEARCH BY NAME ********** */
-/* SORTING BY NAME */
-// console.log(recipes)
 let backSearchTitleRecipe = [];
 
 const sortedByName = recipes.sort((a, b) => {
@@ -13,7 +9,7 @@ const sortedByName = recipes.sort((a, b) => {
     }
     return 1;
 })
-// console.log(sortedByName)
+// console.log(sortedByName) // SORTED BY NAME OK
 let sortedByNameInLowerCase = sortedByName.map(function(myName) {
     myName.name = myName.name.toLowerCase()
     return myName
@@ -21,20 +17,28 @@ let sortedByNameInLowerCase = sortedByName.map(function(myName) {
 // console.log(sortedByNameInLowerCase); // RECIPE NAME NOW IN LOWER CASE
 inputSearch.addEventListener('keyup', (e) => {
     console.log(e.target.value)
-    if(e.target.value.length >= 3) {
-    const targetName = e.target.value.toLowerCase() // TRANSFORM IN LOWER CASE THE INPUT FROM USER
-    /* FILTER BY NAME */
-    const filterByName = sortedByNameInLowerCase.filter(character => {
-        return character.name.includes(targetName)
-    })
-    console.log(filterByName);
-
-    filterByName.map(recipe => {
-        backSearchTitleRecipe.push(recipe)
-    })
-    console.log(backSearchTitleRecipe);
+    if(e.target.value.length >= 3) { //BUG CAR L BOUCLE SE FAIT POUR 4, 5, 6, ETC..
+        const targetName = e.target.value.toLowerCase() // TRANSFORM IN LOWER CASE THE INPUT FROM USER
+        /* FILTER BY NAME */
+        const filterByName = sortedByNameInLowerCase.filter(character => {
+            return character.name.includes(targetName)
+        })
+        console.log(filterByName); 
+            filterByName.map(nom => {
+                if(backSearchTitleRecipe.filter(recipeName => recipeName == nom.name).length == 0) {
+                    // filterByName.map(recipe => {
+                        backSearchTitleRecipe.push(nom)
+                    // })
+                    return backSearchTitleRecipe;
+                }              
+            })
+        console.log(backSearchTitleRecipe);
+        document.querySelector('.recipes-wrapper').innerHTML = ''           // CLEAN DOM RECIPES WRAPPER CONTAINER
+        let recipesArrayFilterByName = Object.entries(backSearchTitleRecipe);        // RETURN AN ARRAY OF ARRAYS
+        recipesArrayFilterByName.forEach(recipe => createCard(recipe))      // INJECTION IN THE DOM AFTER SORTING BY NAME
     }  
 })
+
 
 /* *********** SEARCH BY RECIPE DESCRIPTION ********** */
 const sortedByDescription = recipes.sort((a, b) => {
@@ -48,19 +52,28 @@ let sortedByDescriptionInLowerCase = sortedByDescription.map(function(myDescript
     myDescription.description = myDescription.description.toLowerCase()
     return myDescription
 })
+console.log(sortedByDescriptionInLowerCase);
 
 inputSearch.addEventListener('keyup', (e) => {
-    console.log(e.target.value)
+    // console.log(e.target.value)
+    if(e.target.value.length >= 3) {
     const targetName = e.target.value.toLowerCase()
     /* FILTER BY DESCRIPTION */
     const filterByDescription = sortedByDescriptionInLowerCase.filter(character => {
         return character.name.includes(targetName)
     })
-    console.log(filterByDescription)
-
-
+    
+    filterByDescription.map(description => {
+        if(backSearchTitleRecipe.filter(recipeDescription => recipeDescription == description.description).length !== 0) {
+            filterByDescription.map(recipe => {
+                    backSearchTitleRecipe.push(recipe)
+            })
+            return backSearchTitleRecipe;
+        }              
+    })
+    console.log(backSearchTitleRecipe);
+    }
 })
-
 
 /* *********** SEARCH BY INGREDIENTS ********** */
 let recipesArrayFilterByName = Object.entries(recipes); // RETURN AN ARRAY WITH ARRAYS INSIDE
@@ -78,32 +91,45 @@ recipesArrayFilterByName.forEach(recette => arrayBackIndexOne(recette).sort((a, 
     return 1;
 })) // RETURN ALL THE ARRAY OF INGREDIENTS (INGREDIENT ARE INSIDE)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // document.querySelector('.recipes-wrapper').innerHTML = ''           // CLEAN DOM RECIPES WRAPPER CONTAINER
     // let recipesArrayFilterByName = Object.entries(filterByName);        // RETURN AN ARRAY OF ARRAYS
     // recipesArrayFilterByName.forEach(recipe => createCard(recipe))      // INJECTION IN THE DOM AFTER SORTING BY NAME
 
-    // document.querySelector('.recipes-wrapper').innerHTML = ''           // CLEAN DOM RECIPES WRAPPER CONTAINER
-    // let recipesArrayFilterByDescription = Object.entries(filterByDescription);        // RETURN AN ARRAY OF ARRAYS
-    // recipesArrayFilterByDescription.forEach(recipe => createCard(recipe))      // INJECTION IN THE DOM AFTER SORTING BY NAME
+
+
+
+
+/* FILTERING BY BTN APPLIANCES */
+// console.log(recipes) // ARRAY OF OBJECTS NO SORTED
+// const inputSearchAppliances = document.querySelector('.ustensiles') // INPUT ZONE FROM USER 
+
+// const sortedByNameBtn = recipes.sort((a, b) => {
+//     if(a.name < b.name) {
+//         return -1;
+//     }
+//     return 1;
+// })
+// console.log(sortedByNameBtn)
+// let sortedByNameBtnInLowerCase = sortedByName.map(function(myUstensiles) {
+//     myUstensiles.ustensils = myUstensiles.ustensils.toLowerCase()
+//     return myUstensiles
+// })
+
+// inputSearch.addEventListener('keyup', (e) => {
+
+//     console.log(e.target.value)
+
+//     if(e.target.value.length >= 3) {
+//         const targetName = e.target.value.toLowerCase() // TRANSFORM IN LOWER CASE THE INPUT FROM USER
+//         /* FILTER BY NAME */
+//         const filterByNameBtn = sortedByNameBtnInLowerCase.filter(character => {
+//             return character.ustensils.includes(targetName)
+//         })
+//         console.log(filterByNameBtn); 
+
+//        document.querySelector('.recipes-wrapper').innerHTML = ''         
+//         let recipesArrayFilterByName = Object.entries(filterByNameBtn);        // RETURN AN ARRAY OF ARRAYS
+//         recipesArrayFilterByName.forEach(recipe => createCard(recipe))      // INJECTION IN THE DOM AFTER SORTING BY NAME
+//     }  
+// })
+
