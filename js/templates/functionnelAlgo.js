@@ -53,7 +53,7 @@ let sortedByDescriptionInLowerCase = sortedByDescription.map(function(myDescript
     myDescription.description = myDescription.description.toLowerCase()
     return myDescription
 })
-// console.log(sortedByDescriptionInLowerCase);
+// console.log(sortedByDescriptionInLowerCase); 
 
 inputSearch.addEventListener('keyup', (e) => {
     // console.log(e.target.value)
