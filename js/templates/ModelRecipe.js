@@ -5,7 +5,7 @@ let recipesArray = Object.entries(recipes); // RETURN AN ARRAY OF ARRAYS
 
 // console.log(recipesArray);
 
-function secondarySearch(nameTag, nameClass, nameFunction, searchBloc, nameChevronUp, inputSearchBtn) {
+function secondarySearch(nameTag, nameClass, nameFunction, searchBloc, nameChevronUp, inputSearchBtn, listElementsTag) {
     // IMPLEMENTATION TAGS LISTS UNDER BTN (INGREDIENTS - APPAREIL - USTENSILS)
 
     const tags = document.querySelector('.tags')
@@ -48,6 +48,7 @@ function secondarySearch(nameTag, nameClass, nameFunction, searchBloc, nameChevr
 
     let listElementsDiv = document.createElement('div')
     listElementsDiv.classList.add('listElements')
+    listElementsDiv.classList.add(`${listElementsTag}`)
 
 /***********************************ARRAY FOR INGREDIENTS********************************* */
     let listIngredientsWithoutDuplicate = nameFunction()
@@ -72,9 +73,9 @@ function secondarySearch(nameTag, nameClass, nameFunction, searchBloc, nameChevr
 }
 
 
-secondarySearch('Ingrédients', 'ingredients',arrayForIngredients, 'globalSearchIngredients', 'spanArrowChevronUpIngredients', 'inputSearchBtnIngredients')
-secondarySearch('Appareils', 'appareils', arrayForUstensils, 'globalSearchAppareils', 'spanArrowChevronUpAppareils', 'inputSearchBtnAppareils')
-secondarySearch('Ustensiles', 'ustensiles', arrayForAppliances, 'globalSearchUstensiles', 'spanArrowChevronUpUstensiles', 'inputSearchBtnUstensiles')
+secondarySearch('Ingrédients', 'ingredients',arrayForIngredients, 'globalSearchIngredients', 'spanArrowChevronUpIngredients', 'inputSearchBtnIngredients', 'listElementsIngredients')
+secondarySearch('Appareils', 'appareils', arrayForAppliances, 'globalSearchAppareils', 'spanArrowChevronUpAppareils', 'inputSearchBtnAppareils', 'listElementsAppareils')
+secondarySearch('Ustensiles', 'ustensiles', arrayForUstensils, 'globalSearchUstensiles', 'spanArrowChevronUpUstensiles', 'inputSearchBtnUstensiles', 'listElementsUstensiles')
 
 
 // ADD EVENT LISTENER ON BUTTON SEARCH INGREDIENTS
