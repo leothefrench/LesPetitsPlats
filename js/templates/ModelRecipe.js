@@ -36,7 +36,7 @@ function secondarySearch(nameTag, nameClass, nameFunction, searchBloc, nameChevr
 
     let inputSearch = document.createElement('input') // INPUT SEARCH
     inputSearch.classList.add(`${inputSearchBtn}`)
-    inputSearch.setAttribute('placeholder', 'Rechercher un ingrédient')
+    inputSearch.setAttribute('placeholder', 'Rechercher')
      
     let arrowChevronUp = document.createElement('span')
     // arrowChevronUp.classList.add('spanArrowChevronUp')
