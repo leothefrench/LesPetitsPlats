@@ -5,6 +5,7 @@ const categoriesSearch = [...new Set(recipes.map((item) => {return item}))]
 
 document.querySelector('.inputSearch').addEventListener('keyup', (e) => {
     const dataSearch = e.target.value.toLowerCase();
+    console.log(dataSearch);
 
     /* FILTER BY NAME */
     const dataFilterByName = categoriesSearch.filter((item ) => {
@@ -57,7 +58,7 @@ document.querySelector('.inputSearch').addEventListener('keyup', (e) => {
     finalRecipeArray = Object.entries(mergeArraysFilter);       // RETURN AN ARRAY OF ARRAYS
 
     /* TESTING IF NO RECIPES ELSE DO THE NEXT THING */
-    if(finalRecipeArray == 0) {
+    if(1 === 0) {
         classRecipesWrapper.innerHTML = '<p>Aucune recette ne correspond à votre critère de recherche, vous pouvez chercher "tarte aux pommes", "poisson", etc.</p>'
     } else {
         finalRecipeArray.forEach(recipe => createCard(recipe));     // INJECTION IN THE DOM AFTER SORTING BY NAME
@@ -119,9 +120,15 @@ document.querySelector('.inputSearch').addEventListener('keyup', (e) => {
         console.log(tagFilterByUstensilsSecondary)
 
         let tagUtensilsAfterPrincipaleSearch = []
-        const arrTagUtensilsSecondary = mergeArraysFilter.filter((item ) => {
-            if(item.ustensils.includes(dataSearch)){
-                tagUtensilsAfterPrincipaleSearch.push(item.ustensils)
+
+        console.log(typeof (dataSearch))
+        const arrTagUtensilsSecondary = tagFilterByUstensilsSecondary.map((item) => {
+
+            // const dataSearch = e.target.value.toLowerCase();
+            console.log(dataSearch)
+
+            if(item.includes(dataSearch)){
+                tagUtensilsAfterPrincipaleSearch.push(item)
             }
         })
 
@@ -133,98 +140,6 @@ document.querySelector('.inputSearch').addEventListener('keyup', (e) => {
     }
 })
 
-/* A2 - FILTERING BY ONE TAG OR MANY TAGS AND ADDING NEW ONE */
-/* *********** TAG INGREDIENTS FILTER ********** */
-// const tagIngredients = document.querySelector('.inputSearchBtnIngredients')
-
-// tagIngredients.addEventListener('keyup', (e) => {
-//     const dataSearch = e.target.value.toLowerCase()
-//     console.log(dataSearch)
-
-//     // categoriesSearch.forEach(recipe => createCard(recipe));     // INJECTION IN THE DOM AFTER SORTING BY NAME
-//     /* ACTUALISATION DE RECHERCHE AVANCE PAR TAG */
-//     let listChoicetag = document.querySelectorAll('.listElements');
-    
-//     listChoicetag.forEach(item => {
-//         return item.innerHTML = ''
-//     })
-//     // console.log(dataFilterByIngredientsLast); // ARRAY WITH OBJECT - LIST OF RECIPES AFTER FILTER
-
-//     /* ACTUALISATION TAG INGREDIENTES APRES RECHERCHE PRINCIPALE */
-//         let tagByIngredient = [];
-//         const ingredientsArrRecipe = categoriesSearch.map((arrIngredient) => {
-//             let tempArray = []
-
-//             arrIngredient.ingredients.map(item => {
-//                 tempArray.push(item.ingredient)
-//             })
-//             // console.log(tempArray)
-//             const pouf = tempArray.forEach(item => {
-//                 tagByIngredient.push(item) 
-//             })
-//             console.log(tagByIngredient)
-//             const arrTagIngredientsSecondary = []
-
-//             const tagIngredientsForSecondarySearch = tagByIngredient.filter(item => {
-//                 if(item.toLowerCase().includes(dataSearch)) {
-//                     arrTagIngredientsSecondary.push(item)
-//                 }
-//             })
-//             console.log(arrTagIngredientsSecondary)
-//             // SUPPRESSION DES DOUBLONS
-//         const arrTagIngredientsSecondaryNoDuplicate = [...new Set(arrTagIngredientsSecondary.map((item) => {return item}))]
-//         console.log(arrTagIngredientsSecondaryNoDuplicate);
-//             // HYDRATATION LIST ELEMENTS TAG INGREDIENTS
-//             const listElementsTagIngredients = document.querySelector('.listElementsIngredients')
-            
-//             listElementsTagIngredients.innerHTML = `<ul>
-//                                                         <li>${arrTagIngredientsSecondaryNoDuplicate}</li>
-//                                                     </ul>`
-//     // HYDRATATION INTERFACE RECIPES WITH LAST RECIPES CONTAINING THE INGREDIENT 
-//     const classRecipesWrapper = document.querySelector('.recipes-wrapper') // CIBLAGE CONTENEUR CARDS
-//     classRecipesWrapper.innerHTML = ''   // CLEAN DOM RECIPES WRAPPER CONTAINER
-//     // arrTagIngredientsSecondaryNoDuplicate.forEach(recipe => createCard(recipe));     // INJECTION IN THE DOM
-//         })
-
-
-//         /* ACTUALISATION TAG APPAREILS APRES RECHERCHE PRINCIPALE */
-//         let tagApplianceAfterPrincipaleSearch = []
-//         const arrTagApplianceSecondary = categoriesSearch.filter((item ) => {
-//             if(item.appliance.toLowerCase().includes(dataSearch)){
-//                 tagApplianceAfterPrincipaleSearch.push(item.appliance)
-//             }
-//         })
-//         // console.log(tagApplianceAfterPrincipaleSearch);
-//         // HYDRATATION LIST ELEMENTS TAG APPLIANCE (APPAREILS)
-//         const listElementsTagAppliances = document.querySelector('.listElementsAppareils')
-//         listElementsTagAppliances.innerHTML = `<ul>
-//                                                     <li>${tagApplianceAfterPrincipaleSearch}</li>
-//                                                 </ul>`
-
-//         /* ACTUALISATION TAG USTENSILES APRES RECHERCHE PRINCIPALE */
-//         const tagFilterByUstensilsSecondary =  categoriesSearch.map(ele => {
-//             return ele.ustensils
-//         })
-//         // console.log(tagFilterByUstensilsSecondary)
-
-//         let tagUtensilsAfterPrincipaleSearch = []
-//         const arrTagUtensilsSecondary = categoriesSearch.filter((item ) => {
-//             if(item.ustensils.includes(dataSearch)){
-//                 tagUtensilsAfterPrincipaleSearch.push(item.ustensils)
-//             }
-//         })
-
-//         console.log(tagUtensilsAfterPrincipaleSearch)
-//         // HYDRATATION LIST ELEMENTS TAG UTENSILS
-//         const listElementsTagUtensils = document.querySelector('.listElementsUstensiles')
-//         // console.log(listElementsTagUtensils);
-//         listElementsTagUtensils.innerHTML = `<p>${tagUtensilsAfterPrincipaleSearch}</p>`   
-        
-//     // HYDRATATION PAGE
-//     // const classRecipesWrapper = document.querySelector('.recipes-wrapper') // CIBLAGE CONTENEUR CARDS
-//     // classRecipesWrapper.innerHTML = ''   // CLEAN DOM RECIPES WRAPPER CONTAINER
-//     // NOW HYDRATATION classRecipesWrapper AVEC UN MERGE SET DES 3 ARRAYS
-// })
 
 
 filterByTag('inputSearchBtnIngredients')
@@ -271,9 +186,11 @@ tagIngredients.addEventListener('keyup', (e) => {
             // console.log(arrTagIngredientsSecondary)
             // SUPPRESSION DES DOUBLONS
         const arrTagIngredientsSecondaryNoDuplicate = [...new Set(arrTagIngredientsSecondary.map((item) => {return item}))]
-        // console.log(arrTagIngredientsSecondaryNoDuplicate);
+        console.log(arrTagIngredientsSecondaryNoDuplicate);
             // HYDRATATION LIST ELEMENTS TAG INGREDIENTS
             const listElementsTagIngredients = document.querySelector('.listElementsIngredients')
+            
+            //MAP
             
             listElementsTagIngredients.innerHTML = `<ul>
                                                         <li>${arrTagIngredientsSecondaryNoDuplicate}</li>
@@ -301,17 +218,22 @@ tagIngredients.addEventListener('keyup', (e) => {
                                                 </ul>`
 
         /* ACTUALISATION TAG USTENSILES APRES RECHERCHE PRINCIPALE */
+        let tagUtensilsAfterPrincipaleSearch = []
         const tagFilterByUstensilsSecondary =  categoriesSearch.map(ele => {
             console.log(ele.ustensils);
-            return ele.ustensils
+            // return ele.ustensils
+            ele.ustensils.filter((item )=> {
+                if(item.toLowerCase().includes(dataSearch)) {
+                    tagUtensilsAfterPrincipaleSearch.push(item)
+                }
+            })
         })
 
-        let tagUtensilsAfterPrincipaleSearch = []
-        const arrTagUtensilsSecondary = tagFilterByUstensilsSecondary.filter((item ) => {
-            if(item.ustensils.toLowerCase().includes(dataSearch)){
-                tagUtensilsAfterPrincipaleSearch.push(item.ustensils)
-            }
-        })
+        // const arrTagUtensilsSecondary = tagFilterByUstensilsSecondary.filter((item) => {
+        //     if(item.includes(dataSearch)){
+        //         tagUtensilsAfterPrincipaleSearch.push(item === dataSearch.toLowerCase())
+        //     }
+        // })
 
         console.log(tagUtensilsAfterPrincipaleSearch)
         const arrTagUstensilesSecondaryNoDuplicate = [...new Set(tagUtensilsAfterPrincipaleSearch.map((item) => {return item}))]
@@ -320,11 +242,6 @@ tagIngredients.addEventListener('keyup', (e) => {
         const listElementsTagUtensils = document.querySelector('.listElementsUstensiles')
         // console.log(listElementsTagUtensils);
         listElementsTagUtensils.innerHTML = `<p>${arrTagUstensilesSecondaryNoDuplicate}</p>`   
-        
-    // HYDRATATION PAGE
-    // const classRecipesWrapper = document.querySelector('.recipes-wrapper') // CIBLAGE CONTENEUR CARDS
-    // classRecipesWrapper.innerHTML = ''   // CLEAN DOM RECIPES WRAPPER CONTAINER
-    // NOW HYDRATATION classRecipesWrapper AVEC UN MERGE SET DES 3 ARRAYS
     })
 }
 
