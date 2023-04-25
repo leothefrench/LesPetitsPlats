@@ -44,7 +44,7 @@ document.querySelector('.inputSearch').addEventListener('keyup', (e) => {
     const dataFilterByDescription = recipes.filter((item ) => {
         return (item.description.toLowerCase().includes(dataSearch))
     })
-    // console.log(dataFilterByDescription); // ARRAY WITH OBJECTS
+    console.log(dataFilterByDescription); // ARRAY WITH OBJECTS
       
     /* HYDRATION ARRAY WITH RECIPES BY DESCRIPTION WITHOUT DUPLICATE */
     let recipeArrayFilterByDescription = [...new Set(dataFilterByDescription.map((item) => {return item}))]
@@ -58,22 +58,18 @@ document.querySelector('.inputSearch').addEventListener('keyup', (e) => {
     classRecipesWrapper.innerHTML = ''   // CLEAN DOM RECIPES WRAPPER CONTAINER
     finalRecipeArray = Object.entries(mergeArraysFilter);       // RETURN AN ARRAY OF ARRAYS
 
-    console.log(mergeArraysFilter)
-    console.log(finalRecipeArray)
-
-    /* TESTING IF NO RECIPES ELSE DO THE NEXT THING */
+    /* A1 - TESTING IF NO RECIPES ELSE DO THE NEXT THING */
     if(mergeArraysFilter == 0) {
         classRecipesWrapper.innerHTML = '<p>Aucune recette ne correspond à votre critère de recherche, vous pouvez chercher "tarte aux pommes", "poisson", etc.</p>'
     } else {
         finalRecipeArray.forEach(recipe => createCard(recipe));     // INJECTION IN THE DOM AFTER SORTING BY NAME
+        
         /* ACTUALISATION DE RECHERCHE AVANCE PAR TAG */
         let listChoicetag = document.querySelectorAll('.listElements');
 
         listChoicetag.forEach(item => {
             return item.innerHTML = ''
         })
-        // console.log(dataFilterByIngredientsLast); // ARRAY WITH OBJECT - LIST OF RECIPES AFTER FILTER
-        // console.log(mergeArraysFilter); // ARRAY WITH OBJECT - LIST OF RECIPES AFTER FILTER
 
         /* ACTUALISATION TAG INGREDIENTS APRES RECHERCHE PRINCIPALE */
         let tagByIngredient = [];
@@ -96,8 +92,6 @@ document.querySelector('.inputSearch').addEventListener('keyup', (e) => {
             })
             const listElementsTagIngredients = document.querySelector('.listElementsIngredients')
             listElementsTagIngredients.innerHTML = listItems
-
-            // console.log(tagByIngredientNoDuplicate)
 
             /* SECONDARY FILTER BY TAG INGREDIENTS */
 
@@ -122,15 +116,47 @@ document.querySelector('.inputSearch').addEventListener('keyup', (e) => {
             // console.log(afterFilterByTagIngredients);
 
             let listItemsTagSecondary = afterFilterByTagIngredients.map(item => {
-                console.log(item);
                 return '<p>' + item + '</p>'
             })
+
+console.log(listItemsTagSecondary)
+
             const listElementsTagIngredients = document.querySelector('.listElementsIngredients')
             listElementsTagIngredients.innerHTML = listItemsTagSecondary
-        })
+
+            evenementOnChoiceChamps('listElementsIngredients', 'resultTag:first-child')   
+        }) 
     }
 
     filtrationSecondaireIngredients()
+
+    /* IMPLEMENTATION RECHERCHE AFFINE PAR CHAMPS - INGREDIENTS, APPAREISL & USTENSILES */
+
+    function evenementOnChoiceChamps(nameListChamps, resultChampsChild) {
+        /* EVENEMENT LORS DU CLIQUE SUR UN MOT DU CHAMPS */
+        const listOfChamps = document.querySelectorAll(`.${nameListChamps} > p`)
+        console.log(listOfChamps);
+
+        const listing = [...listOfChamps]
+        console.log(listing)
+
+        listing.forEach((item) => {
+            item.addEventListener('click', function() {
+                console.log(item.innerText)
+                const groupTags = document.querySelector('.groupResultsTags')
+
+                const groupTagsIngredients = document.querySelector(`.${resultChampsChild}`)
+                console.log(groupTagsIngredients);
+                groupTagsIngredients.innerHTML = item.innerText
+                groupTags.style.display = 'flex'
+
+                /* RESULTAT DE RECHERCHE ACTUALISE */
+                if(listItemsTagSecondary.includes(item.innerText)) {
+                    console.log('THE CONDITION IS TRUE');
+                }
+            })
+        })
+    }
 
     function filtrationSecondaireAppareils() {
         /* ACTUALISATION TAG APPAREILS APRES RECHERCHE PRINCIPALE */
@@ -148,7 +174,7 @@ document.querySelector('.inputSearch').addEventListener('keyup', (e) => {
         let listItemsAppliance = tagApplianceAfterPrincipaleSearchNoDuplicate.map(item => {
             return '<p>' + item + '</p>'
         })
-        console.log(listItemsAppliance);
+
         const listElementsTagAppliances = document.querySelector('.listElementsAppareils')
         // console.log(listElementsTagAppliances);
         listElementsTagAppliances.innerHTML = listItemsAppliance
@@ -170,8 +196,11 @@ document.querySelector('.inputSearch').addEventListener('keyup', (e) => {
                 console.log(item);
                 return '<p>' + item + '</p>'
             })
+            
             const listElementsTagAppliances = document.querySelector('.listElementsAppareils')
             listElementsTagAppliances.innerHTML = listItemsTagSecondary
+
+            evenementOnChoiceChamps('listElementsAppareils', 'resultTag:nth-child(2)')  
         })
     }
 
@@ -216,8 +245,10 @@ document.querySelector('.inputSearch').addEventListener('keyup', (e) => {
             })
             const listElementsTagUstensiles = document.querySelector('.listElementsUstensiles')
             listElementsTagUstensiles.innerHTML = listItemsTagSecondary
+
+            evenementOnChoiceChamps('listElementsUstensiles', 'resultTag:last-child') 
         })
-    }
+    } 
 
     filtrationSecondaireUstensiles()
     })
@@ -225,6 +256,11 @@ document.querySelector('.inputSearch').addEventListener('keyup', (e) => {
     }
 }
 })
+
+
+
+
+
 
 
 
