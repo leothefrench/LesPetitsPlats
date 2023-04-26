@@ -7,7 +7,10 @@ searchBar.addEventListener('keyup', (e) => {
     const searchedLetters = e.target.value; // Value Enter by user
     const cards = document.querySelectorAll('.containerCard') // All container of the cards
 
-    filterElements(searchedLetters, cards);
+    filterElements(searchedLetters, cards)
+    /* POINT 4 SCENARIO PRINCIPALE */
+    const itemsOfTags = document.querySelectorAll('.listElements')
+    console.log(itemsOfTags);
 })
 
 function filterElements(letters, elements) {
@@ -21,3 +24,5 @@ function filterElements(letters, elements) {
         }
     }
 }
+
+
