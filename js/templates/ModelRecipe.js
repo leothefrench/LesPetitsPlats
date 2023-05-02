@@ -164,10 +164,14 @@ function arrayForIngredients() {
             }
        })
     })
-    return arrayIngredients
+
+    let ingredientsInOrder = arrayIngredients.sort()
+    // console.log(ingredientsInOrder)
+
+    return ingredientsInOrder
 }
 
-// console.log(arrayForIngredients())
+// console.log(arrayForIngredients()) // SUPPRIMER LES DOUBLONS
 
 function arrayForAppliances() {
     let  arrayAppliances = []
@@ -176,10 +180,12 @@ function arrayForAppliances() {
         if(arrayAppliances.filter(ing => ing == recette.appliance).length == 0) {
             arrayAppliances.push(recette.appliance)
         }
-    } )
-    return arrayAppliances
+    })
+
+    let appliancesInOrder = arrayAppliances.sort()
+    // console.log(appliancesInOrder)
+    return appliancesInOrder
 }
-// console.log(arrayForAppliances())
 
 function arrayForUstensils() {
     let arrayUstensils = []
@@ -191,7 +197,10 @@ function arrayForUstensils() {
             }
        })
     })
-    return arrayUstensils
+
+    let ustensilesInOrder = arrayUstensils.sort()
+    // console.log(ustensilesInOrder)
+    return ustensilesInOrder
 }
 
 // console.log(arrayForUstensils())
