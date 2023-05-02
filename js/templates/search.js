@@ -59,7 +59,7 @@ function searchUser(userInput, arrayRecipes) {
 
     // ARRAY MERGE WITHOUT DUPLICATE IN ES6 - NEW SET
     const mergeArraysFilter = [...new Set([...recipeArrayFilterByName, ...dataFilterByIngredientsLast, ...recipeArrayFilterByDescription])]
-    // console.log(mergeArraysFilter)
+    console.log(mergeArraysFilter)
     hydrateInterface(mergeArraysFilter) // INJECTION RECETTES RESTANTES DANS LE DOM APRES RECHERCHE UTILISATEUR
 
     champsIngredients(mergeArraysFilter) 
@@ -103,7 +103,7 @@ function champsIngredients(recettes) {
 
         const listIngredientsSorted = tagByIngredientNoDuplicate.sort()
         // console.log(listIngredientsSorted)
-        
+       
         let listItems = listIngredientsSorted.map(item => {
             return '<p>' + item + '</p>'
         })
@@ -131,7 +131,7 @@ function champsIngredients(recettes) {
             listElementsTagIngredients.innerHTML = listItemsTagSecondary
 
             choiceChamps('listElementsIngredients', 'resultTag:first-child')
-            
+            // hydrateInterface(arrayOfObeect)
         })
     })
 }
@@ -236,17 +236,25 @@ function choiceChamps(nameListChamps, resultChampsChild) {
         groupTags.style.display = 'flex'
 
         const value = item.innerText
-        console.log(value) // J'AI LA VALUE  ET MAINTENANT  ???
-
+        console.log(value) // J'AI LA VALUE  ET MAINTENANT IL FAUT HYDRATER LA PAGE WEB
+        
         })
     })
 }
 
+// function HydrateAfterSecondarySearch(valueClicked, recipeAfterClick) {
+//     searchUser(valueClicked, mergeArraysFilter)
+// }
+
+
+
+/* A2 */
 champsIngredients(recipes)
+
 champsAppareils(recipes)
 champsUstensiles(recipes)
 
-/* A2 */
+
 // document.querySelector('.inputSearchBtnIngredients').addEventListener('keyup', (e) => {
 //     const dataSearchINGREDIENTS = e.target.value.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, ""); // INPUT USER BUTTON
 //     console.log(dataSearchINGREDIENTS)
