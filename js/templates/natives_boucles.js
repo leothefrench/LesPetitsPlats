@@ -22,6 +22,7 @@ let allTagActivated = [ingredientsTagActivated, appliancesTagActivated, ustensil
 const mainSearch = (searchValue) => {
 	const search = searchValue.toLowerCase();
 	recipesFilteredBySearch = recipesFilteredByTags;
+	console.log(recipesFilteredBySearch)
 	recipesFilteredBySearch = recipesFilteredBySearch.filter(
 		(recipe) => recipe.name.toLowerCase().includes(search) || recipe.description.toLowerCase().includes(search) || recipe.ingredients.some((el) => el.ingredient.toLowerCase().includes(search))
 	);
@@ -53,17 +54,29 @@ let searchUser = document.querySelector(".inputSearch");
 // console.log(searchUser);
 searchUser.addEventListener("keyup", searchbarValue);
 
-// console.log(ingredientsTagActivated)
+/* Search by tag Ingredients */
+const searchByTag = (tagValue) => {
+	const search = tagValue.toLowerCase();
+	recipesFilteredBySearch = recipesFilteredByTags;
+	console.log(recipesFilteredBySearch)
+	recipesFilteredBySearch = recipesFilteredBySearch.filter(
+		(recipe) => recipe.ingredients.some((el) => el.ingredient.toLowerCase().includes(search))
+	);
+    console.log(recipesFilteredBySearch)
 
-/* Update for each button after searchBarValue */
-// const updateSearchTags = () => {
-// 	searchTags[0].array = ingredientsList;
-// 	searchTags[0].arrayFiltered = ingredientsListFiltered;
-// 	searchTags[1].array = appliancesList;
-// 	searchTags[1].arrayFiltered = appliancesListFiltered;
-// 	searchTags[2].array = ustensilsList;
-// 	searchTags[2].arrayFiltered = ustensilsListFiltered;
-// };
+    // HYDRATATION LIST ELEMENTS TAG APPLIANCE (APPAREILS)
+    // let listItemsAppliance = tagApplianceAfterPrincipaleSearchNoDuplicate.map(item => {
+    //     return '<p>' + item + '</p>'
+    // })
+
+    // const listElementsTagAppliances = document.querySelector('.listElementsAppareils')
+    // listElementsTagAppliances.innerHTML = listItemsAppliance
+};
+
+
+
+
+
 
 
 
@@ -97,7 +110,8 @@ const searchByTags = (listOfRecipesForSearch) => {
 	}
 };
 
-searchByTags(recipes)
+
+
 
 
 
