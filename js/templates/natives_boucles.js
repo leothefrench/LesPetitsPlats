@@ -1,11 +1,11 @@
 // Init Arrays
 let recipesFilteredByTags = recipes;
-console.log(recipesFilteredByTags)
+// console.log(recipesFilteredByTags)
 let recipesFilteredBySearch = recipesFilteredByTags;
 
 let ingredientsList = [];
 let appliancesList = [];
-var ustensilsList = [];
+let ustensilsList = [];
 
 let ingredientsListFiltered = ingredientsList;
 let appliancesListFiltered = appliancesList;
@@ -16,6 +16,7 @@ let appliancesTagActivated = [];
 let ustensilsTagActivated = [];
 
 let allTagActivated = [ingredientsTagActivated, appliancesTagActivated, ustensilsTagActivated];
+// console.log(allTagActivated)
 
 // Main Search - Nominal script 
 const mainSearch = (searchValue) => {
@@ -25,7 +26,17 @@ const mainSearch = (searchValue) => {
 		(recipe) => recipe.name.toLowerCase().includes(search) || recipe.description.toLowerCase().includes(search) || recipe.ingredients.some((el) => el.ingredient.toLowerCase().includes(search))
 	);
     console.log(recipesFilteredBySearch)
-    createCard(recipesFilteredBySearch)
+
+	const classRecipesWrapper = document.querySelector('.recipes-wrapper')
+
+    if(recipesFilteredBySearch == 0) {
+        classRecipesWrapper.innerHTML = '<h2>Aucune recette ne correspond à votre critère de recherche, vous pouvez chercher "tarte aux pommes", "poisson", etc.</h2>'
+    } else {
+        classRecipesWrapper.innerHTML = ''   // CLEAN DOM RECIPES WRAPPER CONTAINER
+        finalRecipeArray = Object.entries(recipesFilteredBySearch);
+
+        finalRecipeArray.forEach(recipe => createCard(recipe));     // INJECTION IN THE DOM
+    }
 };
 
 const searchbarValue = (e) => {
@@ -33,19 +44,36 @@ const searchbarValue = (e) => {
         console.log(e.target.value);
 		mainSearch(e.target.value);
 	} else {
-		mainSearch(""); // INNERHTML DANS LA PAGE WEB
+		mainSearch("");
 	}
 };
 
 // Input listener on searchbar
 let searchUser = document.querySelector(".inputSearch");
-console.log(searchUser);
+// console.log(searchUser);
 searchUser.addEventListener("keyup", searchbarValue);
 
+// console.log(ingredientsTagActivated)
+
+/* Update for each button after searchBarValue */
+// const updateSearchTags = () => {
+// 	searchTags[0].array = ingredientsList;
+// 	searchTags[0].arrayFiltered = ingredientsListFiltered;
+// 	searchTags[1].array = appliancesList;
+// 	searchTags[1].arrayFiltered = appliancesListFiltered;
+// 	searchTags[2].array = ustensilsList;
+// 	searchTags[2].arrayFiltered = ustensilsListFiltered;
+// };
+
+
+
+
+
 // Main search with tags
-const searchByTags = () => {
+const searchByTags = (listOfRecipesForSearch) => {
 	// Reset recipesFilteredByTags array
-	recipesFilteredByTags = recipes;
+	recipesFilteredByTags = listOfRecipesForSearch;
+	console.log(recipesFilteredByTags)
 	// Filter recipesFilteredByTags array with ingredients tags
 	for (let i = 0; i < ingredientsTagActivated.length; i++) {
 		recipesFilteredByTags = recipesFilteredByTags.filter((recipe) => recipe.ingredients.some((el) => el.ingredient.toLowerCase().includes(ingredientsTagActivated[i])));
@@ -59,7 +87,7 @@ const searchByTags = () => {
 		recipesFilteredByTags = recipesFilteredByTags.filter((recipe) => recipe.ustensils.some((el) => el.toLowerCase().includes(ustensilsTagActivated[i])));
 	}
 	// Launch mainSearch
-	const searchValue = document.querySelector(".inputSearch");
+	const searchValue = document.querySelector(".inputSearchBtnIngredients");
     console.log(searchValue)
 	// If searchbar have 3 characters launch search else launch empty search
 	if (searchValue.value.length > 2) {
@@ -68,6 +96,10 @@ const searchByTags = () => {
 		mainSearch("");
 	}
 };
+
+searchByTags(recipes)
+
+
 
 // search In Tags
 const searchInTags = (e, array, arrayFiltered, renderListFunction, wrapper) => {
