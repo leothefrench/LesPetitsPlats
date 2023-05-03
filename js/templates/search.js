@@ -45,8 +45,6 @@ function searchUser(userInput, arrayRecipes) {
 
     /* RECIPE FILTERED BY INGREDIENTS AND WITHOUT DUPLICATE */ 
     let dataFilterByIngredientsLast = [...new Set(allIngredientsOfRecipes.map((item) => {return item}))]
-    // console.log(dataFilterByIngredientsLast); // BUG LIGNE  45 
-    
 
     /* FILTER BY DESCRIPTION - PRINCIPAL SEARCH BAR */
     const dataFilterByDescription = recipes.filter((item ) => {
@@ -67,8 +65,7 @@ function searchUser(userInput, arrayRecipes) {
     champsUstensiles(mergeArraysFilter)
 }
 
-
-/* ACTUALISATION DE L'INTERFACE RESTANTES APRES FILTRATION */
+/* FONCTION D'ACTUALISATION DE L'INTERFACE AVEC LES RECETTES RESTANTES APRES FILTRATION */
 
 function hydrateInterface(arrRecipesRemaining) {
     /* A1 - TESTING IF NO RECIPES ELSE DO THE NEXT THING */
@@ -79,7 +76,7 @@ function hydrateInterface(arrRecipesRemaining) {
         classRecipesWrapper.innerHTML = ''   // CLEAN DOM RECIPES WRAPPER CONTAINER
         finalRecipeArray = Object.entries(arrRecipesRemaining);
 
-        finalRecipeArray.forEach(recipe => createCard(recipe));     // INJECTION IN THE DOM AFTER SORTING BY NAME
+        finalRecipeArray.forEach(recipe => createCard(recipe));     // INJECTION IN THE DOM
     }
 }
 
@@ -242,43 +239,24 @@ function choiceChamps(nameListChamps, resultChampsChild) {
     })
 }
 
-// function HydrateAfterSecondarySearch(valueClicked, recipeAfterClick) {
-//     searchUser(valueClicked, mergeArraysFilter)
-// }
-
-
-
 /* A2 */
 champsIngredients(recipes)
-
 champsAppareils(recipes)
 champsUstensiles(recipes)
 
-
-// document.querySelector('.inputSearchBtnIngredients').addEventListener('keyup', (e) => {
-//     const dataSearchINGREDIENTS = e.target.value.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, ""); // INPUT USER BUTTON
-//     console.log(dataSearchINGREDIENTS)
-//     champsIngredients(recipes)
-//     champsAppareils(recipes)
-//     champsUstensiles(recipes)
-// })
-
-// document.querySelector('.inputSearchBtnAppareils').addEventListener('keyup', (e) => {
-//     const dataSearch = e.target.value.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, ""); // INPUT USER BUTTON
-
-//     champsAppareils(recipes)
-//     champsUstensiles(recipes)
-//     champsIngredients(recipes)
-// })
-
-// document.querySelector('.inputSearchBtnUstensiles').addEventListener('keyup', (e) => {
-//     const dataSearch = e.target.value.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, ""); // INPUT USER BUTTON
-
-//     champsUstensiles(recipes)
-//     champsIngredients(recipes)
-//     champsAppareils(recipes)
-// })
-
-
 /* A3 */
+/* POUR CHAQUE BOUTON, RECUPERER L'EVENEMENT CLICK, DECLENCHER UNE FONCTION QUI AJOUTE UN ELEMENT TAG CORRESPONDANT A SA CATEGORIE
 
+
+
+*/
+function addTag() {
+    const listOfChamps = document.querySelectorAll(`.${nameListChamps} > p`)
+    const listing = [...listOfChamps]
+
+    listing.forEach((item) => {
+        item.addEventListener('click', function() {
+        
+        })
+    })
+}
