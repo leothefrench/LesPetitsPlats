@@ -1,89 +1,78 @@
-/* SCENARIO NOMINAL */
+// Init Arrays
+let recipesFilteredByTags = recipes;
+console.log(recipesFilteredByTags)
+let recipesFilteredBySearch = recipesFilteredByTags;
 
-/* RECHERCHE 3 CARACTERES MINIMUM (1.2 & 3) */
-const searchBar =  document.querySelector('.inputSearch')
+let ingredientsList = [];
+let appliancesList = [];
+var ustensilsList = [];
 
-// searchBar.addEventListener('keyup', (e) => {
-//     const searchedLetters = e.target.value; // Value Enter by user
-//     const cards = document.querySelectorAll('.containerCard') // All container of the cards
+let ingredientsListFiltered = ingredientsList;
+let appliancesListFiltered = appliancesList;
+let ustensilsListFiltered = ustensilsList;
 
-//     filterElements(searchedLetters, cards)
-//     /* POINT 4 SCENARIO PRINCIPALE */
-//     const itemsOfTags = document.querySelectorAll('.listElements')
-//     console.log(itemsOfTags);
-// })
+let ingredientsTagActivated = [];
+let appliancesTagActivated = [];
+let ustensilsTagActivated = [];
 
-// function filterElements(letters, elements) {
-//     if(letters.length > 2) {
-//         for(let i = 0; i < elements.length; i++) {
-//             if(elements[i].textContent.toLowerCase().includes(letters)) {
-//                 elements[i].style.display = 'block'
-//             } else {
-//                 elements[i].style.display = 'none'
-//             }
-//         }
-//     }
-// }
+let allTagActivated = [ingredientsTagActivated, appliancesTagActivated, ustensilsTagActivated];
 
-console.log(recipes);
-/* PARTITION CODE FOR LIST ELEMENTS WITH LEFT AND RIGHT */
-const partition = (tableau, gauche, droite) => {
-    let pointPivot = tableau[Math.floor(gauche + droite) / 2] // ELEMENT CENTRAL
+// Main Search - Nominal script 
+const mainSearch = (searchValue) => {
+	const search = searchValue.toLowerCase();
+	recipesFilteredBySearch = recipesFilteredByTags;
+	recipesFilteredBySearch = recipesFilteredBySearch.filter(
+		(recipe) => recipe.name.toLowerCase().includes(search) || recipe.description.toLowerCase().includes(search) || recipe.ingredients.some((el) => el.ingredient.toLowerCase().includes(search))
+	);
+    console.log(recipesFilteredBySearch)
+    createCard(recipesFilteredBySearch)
+};
 
-    while(gauche <= droite) {
-        while(tableau[gauche].localeCompare(pointPivot) < 0) {
-            gauche++
-        }
-        while(tableau[droite].localeCompare(pointPivot) > 0) {
-            droite--
-        }
-        if(gauche <= droite) {
-            echangePosition(tableau, gauche, droite);
-            gauche++
-            droite--
-        }
-    }
-    return gauche
-}
+const searchbarValue = (e) => {
+	if (e.target.value.length > 2) {
+        console.log(e.target.value);
+		mainSearch(e.target.value);
+	} else {
+		mainSearch(""); // INNERHTML DANS LA PAGE WEB
+	}
+};
 
-const echangePosition = (element, indexGauche, indexDroite) => {
-    let temporaire = element[indexGauche]
-    element[indexGauche] = element[indexDroite]
-    element[indexDroite] = temporaire
-}
+// Input listener on searchbar
+let searchUser = document.querySelector(".inputSearch");
+console.log(searchUser);
+searchUser.addEventListener("keyup", searchbarValue);
 
-/* FONCTION D'EXTRACTION & DE TRI DES MOTS */
-const rapideTri = (tableau, gauche, droite) => {
-    let index;
+// Main search with tags
+const searchByTags = () => {
+	// Reset recipesFilteredByTags array
+	recipesFilteredByTags = recipes;
+	// Filter recipesFilteredByTags array with ingredients tags
+	for (let i = 0; i < ingredientsTagActivated.length; i++) {
+		recipesFilteredByTags = recipesFilteredByTags.filter((recipe) => recipe.ingredients.some((el) => el.ingredient.toLowerCase().includes(ingredientsTagActivated[i])));
+	}
+	// Filter recipesFilteredByTags array with appliances tags
+	for (let i = 0; i < appliancesTagActivated.length; i++) {
+		recipesFilteredByTags = recipesFilteredByTags.filter((recipe) => recipe.appliance.toLowerCase().includes(appliancesTagActivated[i]));
+	}
+	// Filter recipesFilteredByTags array with ustensils tags
+	for (let i = 0; i < ustensilsTagActivated.length; i++) {
+		recipesFilteredByTags = recipesFilteredByTags.filter((recipe) => recipe.ustensils.some((el) => el.toLowerCase().includes(ustensilsTagActivated[i])));
+	}
+	// Launch mainSearch
+	const searchValue = document.querySelector(".inputSearch");
+    console.log(searchValue)
+	// If searchbar have 3 characters launch search else launch empty search
+	if (searchValue.value.length > 2) {
+		mainSearch(searchValue.value);
+	} else {
+		mainSearch("");
+	}
+};
 
-    if(tableau.length > 1) {
-        index = partition(tableau, gauche, droite) // Pivot fonction partition
-
-        if(gauche < index -1){ // DES ELEMENTS ENCORE SUR LA GAUCHE
-            rapideTri(tableau, gauche, index - 1)
-        }
-        if(index < right) { // DES ELEMENTS ENCORE SUR LA DROITE
-            rapideTri(tableau, index, droite)
-        }
-    }
-    return tableau
-}
-
-/* POINT 2 DU SCENARIO NOMINAL - RECHERCHE NAME, INGREDIENTS & DECRIPTION */
-
-// FILTRAGE & RECUPERATION ID, NAME, INGREDIENTS & DESCRIPTION
-const creationTableauFiltrer = (tableau) => {
-    const tableauFiltrer = []
-
-    for(let i = 0; i < tableau.length; i++) {
-        let filtrerElementsArr = (({id, ingredients, name, description }) => ({id, ingredients, name, description }))([i][1])
-        console.log(filtrerElementsArr);
-
-        tableauFiltrer.push(filtrerElementsArr)
-    }
-    return tableauFiltrer
-}
-
-const tableauSearch = creationTableauFiltrer(recipes)
-console.log(tableauSearch);
-
+// search In Tags
+const searchInTags = (e, array, arrayFiltered, renderListFunction, wrapper) => {
+	const search = e.value.toLowerCase();
+	arrayFiltered = array;
+	arrayFiltered = arrayFiltered.filter((data) => data.toLowerCase().includes(search));
+	renderListFunction(arrayFiltered, wrapper);
+};
