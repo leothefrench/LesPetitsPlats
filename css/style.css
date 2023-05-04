@@ -217,7 +217,7 @@ h1 {
 .listElements {
     display: flex;
     flex-wrap: wrap;
-    height: 400px;
+    height: 300px;
     overflow-y: scroll;
 }
 
