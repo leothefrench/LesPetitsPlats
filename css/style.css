@@ -88,12 +88,12 @@ h1 {
 }
 
 .resultTag {
-    display: flex;
+    display: inline-block;
     width: 107px;
     height: 37px;
     border-radius: 5px;
     color: #fff;
-    margin-right: 63px;
+    margin-right: 1rem;
     font-family: 'Lato';
     font-style: normal;
     font-weight: 700;
@@ -113,13 +113,13 @@ h1 {
     background: #3282F7;
 }
 
-.resultTag:nth-child(2) {
+/* .resultTag:nth-child(2) {
     background-color: #68D9A4;
 }
 
-.resultTag:last-child {
+.resultTag:nth-child(3) {
     background-color: #ED6454;
-}
+} */
 /* BUTTONS*/
 .ingredients, .appareils, .ustensiles {
     width: 150px;
