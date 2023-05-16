@@ -2,21 +2,6 @@
 let recipesFilteredByTags = recipes;
 let recipesFilteredBySearch = recipesFilteredByTags;
 
-// let ingredientsList = [];
-// let appliancesList = [];
-// let ustensilsList = [];
-
-// let ingredientsListFiltered = ingredientsList;
-// let appliancesListFiltered = appliancesList;
-// let ustensilsListFiltered = ustensilsList;
-
-// let ingredientsTagActivated = [];
-// let appliancesTagActivated = [];
-// let ustensilsTagActivated = [];
-
-// let allTagActivated = [ingredientsTagActivated, appliancesTagActivated, ustensilsTagActivated];
-// console.log(allTagActivated)
-
 /* PRINCIPAL SEARCH */
 const mainSearch = (searchValue) => {
 	const search = searchValue.toLowerCase();
@@ -48,25 +33,43 @@ const searchbarValue = (e) => {
 	}
 };
 
-// Input listener on searchbar
+// KEY UP IN PRINCIPAL SEARCH BAR
 let searchUser = document.querySelector(".inputSearch");
 // console.log(searchUser);
 searchUser.addEventListener("keyup", searchbarValue);
 
 /* LIST INGREDIENTS FOR EACH RECIPE */
-const arrayIngredients = [];
-let allIngredientsArr = [];
+const getAllIngredients = () => {
 
-for (let i = 0; i < recipes.length; i++ ) {
-	const ingredients = recipes[i].ingredients;
-	arrayIngredients.push(ingredients);
+	let allIngredientsArr = [];
+	for (let i = 0; i < recipes.length; i++ ) {
+		const ingredients = recipes[i].ingredients;
+		allIngredientsArr.push([]);
+
+		for (let j = 0; j < ingredients.length; j++) {
+			allIngredientsArr[i].push(ingredients[j].ingredient)
+		}
+	}
+	console.log(allIngredientsArr);
+
+	let allIngredientsLowerCase = [];
+	for (let i = 0; i < allIngredientsArr.length; i++ ) {
+		const ingredients = allIngredientsArr[i];
+
+		for (let j =0; j < ingredients.length; j++ ) {
+			allIngredientsLowerCase.push(ingredients[j].toLowerCase())
+		}
+	}
+	console.log(allIngredientsLowerCase);
+
+	// DELETE DUPLICATE IN THE ARRAY ALL INGREDIENRS IN LOWER CASE
+	const allIngredientsInLowerCaseNoDuplicate = [...new Set(allIngredientsLowerCase)];
+	console.log(allIngredientsInLowerCaseNoDuplicate);
+
 }
 
-for (let j = 0; j < arrayIngredients.length; j++) {
-	const allIngredientsArr = arrayIngredients[0][j]
-}
-console.log(arrayIngredients);
-console.log(allIngredientsArr);
+getAllIngredients()
+
 
 /* FUNCTION TO GET ALL THE APPLIANCES FOR THE RECIPES WITH NO DUPLICATE */
 const getAllAppliance = () => {
@@ -76,12 +79,62 @@ const getAllAppliance = () => {
 		const appliance = recipes[i].appliance.toLowerCase()
 		allAppliancesInLowerCase.push(appliance) // STOCK ALL APPLIANCES
 	}
-	console.log(allAppliancesInLowerCase);
+	// console.log(allAppliancesInLowerCase);
 
 	// DELETE DUPLICATE IN THE ARRAY ALL APPLIANCE IN LOWER CASE
 	const allAppliancesInLowerCaseNoDuplicate = [...new Set(allAppliancesInLowerCase)];
 	
-	console.log(allAppliancesInLowerCaseNoDuplicate);
+	// console.log(allAppliancesInLowerCaseNoDuplicate);
+
+	return allAppliancesInLowerCaseNoDuplicate
+}
+getAllAppliance();
+
+/* INJECTION APPLIANCES IN THE LIST APPLIANCE REMAINING */
+const listAppliance = document.querySelector('.listElementsAppliances');
+console.log(listAppliance);
+
+listAppliance.innerHTML = '';
+for (let i = 0; i < getAllAppliance().length; i++) {
+	listAppliance.innerHTML += `<p>${getAllAppliance()[i]}</p>`
 }
 
-getAllAppliance();
+/* FUNCTION TO GET ALL THE UTENSILS FOR THE RECIPES WITH NO DUPLICATE */
+const getUtensils = () => {
+	const allUtensilsInLowerCase = [];
+
+	const allUtensils = []
+	for (let i = 0; i < recipes.length; i++) {
+		const utensils = recipes[i].ustensils;
+		allUtensils.push(utensils) // STOCK ALL APPLIANCES
+	}
+	// console.log(allUtensils);
+
+	for (let i = 0; i < allUtensils.length; i++) {
+		const utensils = allUtensils[i]
+
+		for (let j = 0; j < utensils.length; j++) {
+			allUtensilsInLowerCase.push(utensils[j].toLowerCase())
+		}
+	}
+
+	// console.log(allUtensilsInLowerCase)
+
+	// DELETE DUPLICATE IN THE ARRAY ALL UTENSILS IN LOWER CASE
+	const allUtensilsInLowerCaseNoDuplicate = [...new Set(allUtensilsInLowerCase)];
+	
+	// console.log(allUtensilsInLowerCaseNoDuplicate);
+
+	return allUtensilsInLowerCaseNoDuplicate
+}
+getUtensils()
+
+/* INJECTION UTENSILS IN THE LIST UTENSILS REMAINING */
+
+const listUstensiles = document.querySelector('.listElementsUstensiles');
+console.log(listUstensiles);
+
+listUstensiles.innerHTML = '';
+for (let i = 0; i < getUtensils().length; i++) {
+	listUstensiles.innerHTML += `<p>${getUtensils()[i]}</p>`
+}
