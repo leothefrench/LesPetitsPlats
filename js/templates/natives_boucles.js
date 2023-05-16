@@ -1,24 +1,23 @@
-// Init Arrays
+// INITIALISATION DES ARRAYS VIDE
 let recipesFilteredByTags = recipes;
-// console.log(recipesFilteredByTags)
 let recipesFilteredBySearch = recipesFilteredByTags;
 
-let ingredientsList = [];
-let appliancesList = [];
-let ustensilsList = [];
+// let ingredientsList = [];
+// let appliancesList = [];
+// let ustensilsList = [];
 
-let ingredientsListFiltered = ingredientsList;
-let appliancesListFiltered = appliancesList;
-let ustensilsListFiltered = ustensilsList;
+// let ingredientsListFiltered = ingredientsList;
+// let appliancesListFiltered = appliancesList;
+// let ustensilsListFiltered = ustensilsList;
 
-let ingredientsTagActivated = [];
-let appliancesTagActivated = [];
-let ustensilsTagActivated = [];
+// let ingredientsTagActivated = [];
+// let appliancesTagActivated = [];
+// let ustensilsTagActivated = [];
 
-let allTagActivated = [ingredientsTagActivated, appliancesTagActivated, ustensilsTagActivated];
+// let allTagActivated = [ingredientsTagActivated, appliancesTagActivated, ustensilsTagActivated];
 // console.log(allTagActivated)
 
-// Main Search - Nominal script 
+/* PRINCIPAL SEARCH */
 const mainSearch = (searchValue) => {
 	const search = searchValue.toLowerCase();
 	recipesFilteredBySearch = recipesFilteredByTags;
@@ -54,71 +53,35 @@ let searchUser = document.querySelector(".inputSearch");
 // console.log(searchUser);
 searchUser.addEventListener("keyup", searchbarValue);
 
-/* Search by tag Ingredients */
-const searchByTag = (tagValue) => {
-	const search = tagValue.toLowerCase();
-	recipesFilteredBySearch = recipesFilteredByTags;
-	console.log(recipesFilteredBySearch)
-	recipesFilteredBySearch = recipesFilteredBySearch.filter(
-		(recipe) => recipe.ingredients.some((el) => el.ingredient.toLowerCase().includes(search))
-	);
-    console.log(recipesFilteredBySearch)
+/* LIST INGREDIENTS FOR EACH RECIPE */
+const arrayIngredients = [];
+let allIngredientsArr = [];
 
-    // HYDRATATION LIST ELEMENTS TAG APPLIANCE (APPAREILS)
-    // let listItemsAppliance = tagApplianceAfterPrincipaleSearchNoDuplicate.map(item => {
-    //     return '<p>' + item + '</p>'
-    // })
+for (let i = 0; i < recipes.length; i++ ) {
+	const ingredients = recipes[i].ingredients;
+	arrayIngredients.push(ingredients);
+}
 
-    // const listElementsTagAppliances = document.querySelector('.listElementsAppareils')
-    // listElementsTagAppliances.innerHTML = listItemsAppliance
-};
+for (let j = 0; j < arrayIngredients.length; j++) {
+	const allIngredientsArr = arrayIngredients[0][j]
+}
+console.log(arrayIngredients);
+console.log(allIngredientsArr);
 
+/* FUNCTION TO GET ALL THE APPLIANCES FOR THE RECIPES WITH NO DUPLICATE */
+const getAllAppliance = () => {
+	const allAppliancesInLowerCase = []; // TO STOCK ALL APPLIANCE IN LOWER CASE
 
-
-
-
-
-
-
-
-
-// Main search with tags
-const searchByTags = (listOfRecipesForSearch) => {
-	// Reset recipesFilteredByTags array
-	recipesFilteredByTags = listOfRecipesForSearch;
-	console.log(recipesFilteredByTags)
-	// Filter recipesFilteredByTags array with ingredients tags
-	for (let i = 0; i < ingredientsTagActivated.length; i++) {
-		recipesFilteredByTags = recipesFilteredByTags.filter((recipe) => recipe.ingredients.some((el) => el.ingredient.toLowerCase().includes(ingredientsTagActivated[i])));
+	for (let i = 0; i < recipes.length; i++) {
+		const appliance = recipes[i].appliance.toLowerCase()
+		allAppliancesInLowerCase.push(appliance) // STOCK ALL APPLIANCES
 	}
-	// Filter recipesFilteredByTags array with appliances tags
-	for (let i = 0; i < appliancesTagActivated.length; i++) {
-		recipesFilteredByTags = recipesFilteredByTags.filter((recipe) => recipe.appliance.toLowerCase().includes(appliancesTagActivated[i]));
-	}
-	// Filter recipesFilteredByTags array with ustensils tags
-	for (let i = 0; i < ustensilsTagActivated.length; i++) {
-		recipesFilteredByTags = recipesFilteredByTags.filter((recipe) => recipe.ustensils.some((el) => el.toLowerCase().includes(ustensilsTagActivated[i])));
-	}
-	// Launch mainSearch
-	const searchValue = document.querySelector(".inputSearchBtnIngredients");
-    console.log(searchValue)
-	// If searchbar have 3 characters launch search else launch empty search
-	if (searchValue.value.length > 2) {
-		mainSearch(searchValue.value);
-	} else {
-		mainSearch("");
-	}
-};
+	console.log(allAppliancesInLowerCase);
 
+	// DELETE DUPLICATE IN THE ARRAY ALL APPLIANCE IN LOWER CASE
+	const allAppliancesInLowerCaseNoDuplicate = [...new Set(allAppliancesInLowerCase)];
+	
+	console.log(allAppliancesInLowerCaseNoDuplicate);
+}
 
-
-
-
-
-// search In Tags
-const searchInTags = (e, array, arrayFiltered, renderListFunction, wrapper) => {
-	const search = e.value.toLowerCase();
-	arrayFiltered = array;
-	arrayFiltered = arrayFiltered.filter((data) => data.toLowerCase().includes(search));
-	renderListFunction(arrayFiltered, wrapper);
-};
+getAllAppliance();
