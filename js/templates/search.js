@@ -13,15 +13,12 @@ const tag = [] // POUR L'AJOUT DES VALEURS DES TAGS QUE L'ON VA RECUPERER ???
 /* FUNCTION DE RECHERCHE BARRE PRINCIPALE COMMENCANT AVEC AU MOINS DE 3 CARACTERES */
 function principalSearch(userInput, recettes) {
 
-    const recipesRemainingAfterSearch = searchUser(userInput, recettes) 
-    console.log(recipesRemainingAfterSearch);
+    const recipesRemainingAfterSearch = searchUser(userInput, recettes)
     const recettesFinales =  searchByTags(recipesRemainingAfterSearch)
+
 
     hydrateInterface(recettesFinales)
 }
-
-
-searchByTags(recipes) // RECHERCHE DIRECTE PAR LES CHAMPS AVANCES
 
 /* SEARCH BY PRINCIPAL BAR */
 function searchUser(userInput, arrayRecipes) {
@@ -35,7 +32,7 @@ function searchUser(userInput, arrayRecipes) {
 
     /* RECIPES REMAINING FILTERED BY NAME WITHOUT DUPLICATE */
     let recipeArrayFilterByName = [...new Set(dataFilterByName.map((item) => {return item}))]
-    console.log(recipeArrayFilterByName);
+    // console.log(recipeArrayFilterByName);
 
     /* RECIPES FILTERED BY INGREDIENTS */
     let allIngredientsOfRecipes = [];   // TEMPORARY ARRAY FOR CONTAINING AT THE END ALL INGREDIENTS
@@ -56,7 +53,7 @@ function searchUser(userInput, arrayRecipes) {
 
     /* RECIPES REMAINING FILTERED BY INGREDIENTS AND WITHOUT DUPLICATE */ 
     let dataFilterByIngredientsLast = [...new Set(allIngredientsOfRecipes.map((item) => {return item}))]
-    console.log(dataFilterByIngredientsLast);
+    // console.log(dataFilterByIngredientsLast);
 
     /* FILTER BY DESCRIPTION - PRINCIPAL SEARCH BAR */
     const dataFilterByDescription = recipes.filter((item) => {
@@ -65,14 +62,13 @@ function searchUser(userInput, arrayRecipes) {
     // console.log(dataFilterByDescription);
     /* RECIPES REMAINING FILTERED BY DESCRIPTION AND WIHOUT DUPLICATE */
     let recipeArrayFilterByDescription = [...new Set(dataFilterByDescription.map((item) => {return item}))]
-    console.log(recipeArrayFilterByDescription)
+    // console.log(recipeArrayFilterByDescription)
 
     // ARRAY MERGE WITHOUT DUPLICATE IN ES6 - NEW SET WITH SPREAD OPERATOR
     const mergeArraysFilter = [...new Set([...recipeArrayFilterByName, ...dataFilterByIngredientsLast, ...recipeArrayFilterByDescription])]
     console.log(mergeArraysFilter) 
 
-
-    ActualisationChampsIngredients(mergeArraysFilter) // FONCTION D'ACTUALISATION DU CHAMPS DE RECHERCHE AVANCE INGREDIENTS
+    ActualisationChampsIngredients(mergeArraysFilter) // FONCTION D'ACTUALISATION DU CHAMPS DE RECHERCHE AVANCE
     ActualisationChampsAppareils(mergeArraysFilter)
     actualisationChampsUstensiles(mergeArraysFilter)
 
@@ -119,7 +115,7 @@ function searchByTags(recetteReduite) {
     let ustensiles = ustensilsIterable.map((item) => {return item.innerText})
     console.log(ustensiles); // JE RECUPERE UN ARRAY AVEC LES USTENSILES RESTANTS DES RECETTES REDUITE
 
-    const recettesFinales = recetteReduite.filter(recette => {
+    const recettesRestantes = recetteReduite.filter(recette => {
 
         let hasIngredients = true;
         let hasAppliance = true;
@@ -156,12 +152,14 @@ function searchByTags(recetteReduite) {
         }
     })
 
-    ActualisationChampsIngredients(recettesFinales) // FONCTION DE MISE A JOUR DES CHAMPS DE RECHERCHE AVANCEE
-    ActualisationChampsAppareils(recettesFinales)
-    actualisationChampsUstensiles(recettesFinales)
-    console.log(recettesFinales);
-    hydrateInterface(recettesFinales)
-    return recettesFinales;
+    // ActualisationChampsIngredients(recettesRestantes)
+    // ActualisationChampsAppareils(recettesRestantes)
+    // actualisationChampsUstensiles(recettesRestantes)
+
+    console.log(recettesRestantes);
+
+    hydrateInterface(recettesRestantes) // ACTUALISATION INTERFACE
+    return recettesRestantes;
 }   
 
 /* FONCTION DE MISE A JOUR DES CHAMPS DE RECHERCHE AVANCES - INGREDIENTS, APPAREILS, USTENSILES */
@@ -309,11 +307,6 @@ function actualisationChampsUstensiles(recettes) {
     })
 }
 
-// FONCTION DE RECHERCHE DIRECT PAR TAG QUI ACTUALISE DES ELEMENTS DE CHAQUE CHAMPS DE RECHERCHE AVANCEE
-ActualisationChampsIngredients(recipes) 
-ActualisationChampsAppareils(recipes)
-actualisationChampsUstensiles(recipes)
-
 /* DEFINITION DE LA FONCTION QUI RECOIT LE CLIQUE UTILISATEUR SUR LE CHAMPS INGREDIENTS ET AJOUTE LE TAG OU LES TAGS */
 
 function addTagIngredients() {
@@ -341,24 +334,25 @@ function addTagIngredients() {
             groupTags.appendChild(buttonTag)
             console.log('POUF ONE')
 
-            let cross = document.querySelectorAll('.fa-circle-xmark')
- 
-            cross.forEach(item => {
-                item.addEventListener('click', function() {
+
+            searchByTags(recipes) // Je dois passer QUOI ???
+
+            let cross = document.querySelector('.tagDesIngredients')
+            console.log(cross)
+
+                cross.addEventListener('click', function() {
                     document.querySelector('.resultTag').style.display = 'none';
-                    hydrateInterface(recipes)
-
-                    ActualisationChampsIngredients(recipes) 
-                    ActualisationChampsAppareils(recipes)
-                    actualisationChampsUstensiles(recipes)
-
                 })
-            })
-            searchByTags(recipes) // ICI UN BUG ???
        })
     })  
 }
 
+// let chevronDownIngredients = document.querySelector('.ingredients')
+// console.log(chevronDownIngredients)
+// chevronDownIngredients.addEventListener('click', function() {
+//     console.log('OkAY ')
+//     addTagIngredients()
+// })
 addTagIngredients()
 
 /* DEFINITION DE LA FONCTION QUI RECOIT LE CLIQUE UTILISATEUR SUR LE CHAMPS APPAREILS ET AJOUTE LE TAG OU LES TAGS */
@@ -378,23 +372,17 @@ function addTagAppliances() {
             groupTags.appendChild(buttonTag)
             console.log('POUF 2')
 
-            let cross = document.querySelectorAll('.fa-circle-xmark')
-
-            cross.forEach(item => {
-                item.addEventListener('click', function() {
-                    document.querySelector('.resultTag').style.display = 'none';
-                    hydrateInterface(recipes)
-
-                    ActualisationChampsIngredients(recipes) 
-                    ActualisationChampsAppareils(recipes)
-                    actualisationChampsUstensiles(recipes)
-                })
-            })
             searchByTags(recipes)
+
+            let cross = document.querySelector('.tagDesAppareils')
+            console.log(cross)
+
+                cross.addEventListener('click', function() {
+                    document.querySelector('.resultTag').style.display = 'none';
+                })
         })
     })
 }
-
 addTagAppliances()
 
 /* DEFINITION DE LA FONCTION QUI RECOIT LE CLIQUE UTILISATEUR SUR LE CHAMPS USTENSILES ET AJOUTE LE TAG OU LES TAGS */
@@ -414,19 +402,14 @@ function addTagUstensiles() {
             groupTags.appendChild(buttonTag)
             console.log('POUF 3') 
 
-            let cross = document.querySelectorAll('.fa-circle-xmark')
-
-            cross.forEach(item => {
-                item.addEventListener('click', function() {
-                    document.querySelector('.resultTag').style.display = 'none';
-                    hydrateInterface(recipes)
-
-                    ActualisationChampsIngredients(recipes) 
-                    ActualisationChampsAppareils(recipes)
-                    actualisationChampsUstensiles(recipes)
-                })
-            })
             searchByTags(recipes)
+
+            let cross = document.querySelector('.tagDesUstensiles')
+            console.log(cross)
+
+                cross.addEventListener('click', function() {
+                    document.querySelector('.resultTag').style.display = 'none';
+                })
         })
     })
 }
