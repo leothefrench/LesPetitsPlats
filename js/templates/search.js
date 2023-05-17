@@ -2,20 +2,19 @@
 
 /* ADD EVENT LISTENER SUR INPUT DE L'UTILISATEUR DANS LA BARRE PRINCIPALE DE RECHERCHE */
 document.querySelector('.inputSearch').addEventListener('keyup', (e) => {
-    const dataSearch = e.target.value.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, ""); // INPUT USER IN PRINCIPAL SEARCH
-    console.log(dataSearch);
-
-    principalSearch(dataSearch, recipes)
+    principalSearch(recipes)
 })
 
-const tag = [] // POUR L'AJOUT DES VALEURS DES TAGS QUE L'ON VA RECUPERER ???
-
 /* FUNCTION DE RECHERCHE BARRE PRINCIPALE COMMENCANT AVEC AU MOINS DE 3 CARACTERES */
-function principalSearch(userInput, recettes) {
+function principalSearch(recettes) {
+    const dataSearch = document
+        .querySelector('.inputSearch')
+        .value.toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, ""); 
 
-    const recipesRemainingAfterSearch = searchUser(userInput, recettes)
+    const recipesRemainingAfterSearch = searchUser(dataSearch, recettes)
     const recettesFinales =  searchByTags(recipesRemainingAfterSearch)
-
 
     hydrateInterface(recettesFinales)
 }
@@ -31,7 +30,13 @@ function searchUser(userInput, arrayRecipes) {
     // console.log(dataFilterByName);
 
     /* RECIPES REMAINING FILTERED BY NAME WITHOUT DUPLICATE */
-    let recipeArrayFilterByName = [...new Set(dataFilterByName.map((item) => {return item}))]
+    let recipeArrayFilterByName = [
+        ...new Set(
+            dataFilterByName.map((item) => {
+                return item
+            })
+        ),
+    ]
     // console.log(recipeArrayFilterByName);
 
     /* RECIPES FILTERED BY INGREDIENTS */
@@ -45,27 +50,55 @@ function searchUser(userInput, arrayRecipes) {
         // console.log(tempArray) // BACK ALL ARRAYS INGREDIENTS FOR EACH RECIPE - OK
 
         const dataFilterByIngredients = tempArray.filter((item) => {
-            if(item.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "").includes(userInput)) {  
+            if(
+                item.toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{Diacritic}/gu, "")
+                .includes(userInput)
+                ) {  
                 allIngredientsOfRecipes.push(arrayIngredients)
             }
         }) 
     })
 
     /* RECIPES REMAINING FILTERED BY INGREDIENTS AND WITHOUT DUPLICATE */ 
-    let dataFilterByIngredientsLast = [...new Set(allIngredientsOfRecipes.map((item) => {return item}))]
+    let dataFilterByIngredientsLast = [
+        ...new Set(
+            allIngredientsOfRecipes.map((item) => {
+                return item
+            })
+        )
+    ]
     // console.log(dataFilterByIngredientsLast);
 
     /* FILTER BY DESCRIPTION - PRINCIPAL SEARCH BAR */
     const dataFilterByDescription = recipes.filter((item) => {
-        return (item.description.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "").includes(userInput))
+        return (item.description
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .includes(userInput)
+        )
     })
     // console.log(dataFilterByDescription);
     /* RECIPES REMAINING FILTERED BY DESCRIPTION AND WIHOUT DUPLICATE */
-    let recipeArrayFilterByDescription = [...new Set(dataFilterByDescription.map((item) => {return item}))]
+    let recipeArrayFilterByDescription = [
+        ...new Set(
+            dataFilterByDescription.map((item) => {
+                return item
+            })
+        )
+    ]
     // console.log(recipeArrayFilterByDescription)
 
     // ARRAY MERGE WITHOUT DUPLICATE IN ES6 - NEW SET WITH SPREAD OPERATOR
-    const mergeArraysFilter = [...new Set([...recipeArrayFilterByName, ...dataFilterByIngredientsLast, ...recipeArrayFilterByDescription])]
+    const mergeArraysFilter = [
+        ...new Set([
+            ...recipeArrayFilterByName,
+            ...dataFilterByIngredientsLast,
+            ...recipeArrayFilterByDescription
+        ])
+    ]
     console.log(mergeArraysFilter) 
 
     ActualisationChampsIngredients(mergeArraysFilter) // FONCTION D'ACTUALISATION DU CHAMPS DE RECHERCHE AVANCE
@@ -95,28 +128,34 @@ function hydrateInterface(arrRecipesRemaining) {
 function searchByTags(recetteReduite) {
     console.log(recetteReduite)
     /* TAG INGREDIENTS ADDED */
-    const ingredientsElementsTags = document.querySelectorAll(".tagDesIngredients")
+    const ingredientsElementsTags = 
+        document.querySelectorAll(".tagDesIngredients")
     const ingredientsIterable = Array.from(ingredientsElementsTags)
 
-    let ingredients = ingredientsIterable.map((item) => {return item.innerText})
+    let ingredients = ingredientsIterable.map((item) => {
+        return item.innerText
+    })
     console.log(ingredients); // JE RECUPERE UN ARRAY AVEC LES INGREDIENTS RESTANTS DES RECETTES REDUITES
          
     /* TAG APPLIANCE ADDED */
     const appliancesElements = document.querySelectorAll(".tagDesAppareils")
     const appliancesIterable = Array.from(appliancesElements)
  
-    let appliance = appliancesIterable.map((item) => {return item.innerText})
+    let appliance = appliancesIterable.map((item) => {
+        return item.innerText
+    })
     console.log(appliance); // JE RECUPERE UN ARRAY AVEC LES APPAREILS RESTANTS DES RECETTES REDUITE
 
    /* TAG USTENSILES ADDED */
     const ustensilsElements = document.querySelectorAll(".tagDesUstensiles")
     const ustensilsIterable = Array.from(ustensilsElements)
 
-    let ustensiles = ustensilsIterable.map((item) => {return item.innerText})
+    let ustensiles = ustensilsIterable.map((item) => {
+        return item.innerText
+    })
     console.log(ustensiles); // JE RECUPERE UN ARRAY AVEC LES USTENSILES RESTANTS DES RECETTES REDUITE
 
     const recettesRestantes = recetteReduite.filter(recette => {
-
         let hasIngredients = true;
         let hasAppliance = true;
         let hasUstensils = true;
@@ -127,7 +166,7 @@ function searchByTags(recetteReduite) {
         // console.log(recette3);
 
         ingredients.forEach(ingredient => {
-            if (!recette3.includes(ingredient)) { // CA BUG
+            if (!recette3.includes(ingredient)) {
                 hasIngredients = false;
             }
         })
@@ -152,9 +191,9 @@ function searchByTags(recetteReduite) {
         }
     })
 
-    // ActualisationChampsIngredients(recettesRestantes)
-    // ActualisationChampsAppareils(recettesRestantes)
-    // actualisationChampsUstensiles(recettesRestantes)
+    ActualisationChampsIngredients(recettesRestantes)
+    ActualisationChampsAppareils(recettesRestantes)
+    actualisationChampsUstensiles(recettesRestantes)
 
     console.log(recettesRestantes);
 
@@ -178,7 +217,13 @@ function ActualisationChampsIngredients(recettes) { // ON PASSE LES RECIPES REST
             tagByIngredient.push(item)
         })
         // console.log(tagByIngredient) // RECUPERATION DE TOUS LES INGREDIENTS DANS UN SEUL ARRAY
-        const tagByIngredientNoDuplicate = [...new Set(tagByIngredient.map((item) => {return item}))]
+        const tagByIngredientNoDuplicate = [
+            ...new Set(
+                tagByIngredient.map((item) => {
+                    return item
+                })
+            )
+        ]
         // console.log(tagByIngredientNoDuplicate) // CHECK NO DUPLICATE INTO ARRAY OF INGREDIENTS
 
         const listIngredientsSorted = tagByIngredientNoDuplicate.sort() // PAR ORDRE ALPHABETIQUE
@@ -191,8 +236,10 @@ function ActualisationChampsIngredients(recettes) { // ON PASSE LES RECIPES REST
         listElementsTagIngredients.innerHTML = listItems // INJECTION DANS LE CHAMPS INGREDIENTS
 
         /* L'UTILISATEUR PRECISE SA RECHERCHE AVEC LE CHAMPS INPUT INGREDIENTS (POINT 5) */
-        document.querySelector('.inputSearchBtnIngredients').addEventListener('keyup', (e) => {
-            const inputSearchTag = e.target.value.toLowerCase(); 
+        document
+            .querySelector('.inputSearchBtnIngredients')
+            .addEventListener('keyup', (e) => {
+                const inputSearchTag = e.target.value.toLowerCase(); 
 
             let afterFilterByTagIngredients = []
 
@@ -212,8 +259,10 @@ function ActualisationChampsIngredients(recettes) { // ON PASSE LES RECIPES REST
 
             addTagIngredients()     
         })
+        addTagIngredients()
     })
 }
+
 /* CHAMPS APPAREILS */
 function ActualisationChampsAppareils(recettes) {
     let tagApplianceAfterPrincipaleSearch = [] // ARRAY VA RECEVOIR LES APPAREILS
@@ -260,6 +309,7 @@ function ActualisationChampsAppareils(recettes) {
 
         addTagAppliances()
     })
+    addTagAppliances()
 }
 /* CHAMPS USTENSILES */
 function actualisationChampsUstensiles(recettes) {
@@ -305,6 +355,7 @@ function actualisationChampsUstensiles(recettes) {
 
         addTagUstensiles()
     })
+    addTagUstensiles()
 }
 
 /* DEFINITION DE LA FONCTION QUI RECOIT LE CLIQUE UTILISATEUR SUR LE CHAMPS INGREDIENTS ET AJOUTE LE TAG OU LES TAGS */
@@ -334,25 +385,17 @@ function addTagIngredients() {
             groupTags.appendChild(buttonTag)
             console.log('POUF ONE')
 
+            principalSearch(recipes)
 
-            searchByTags(recipes) // Je dois passer QUOI ???
-
-            let cross = document.querySelector('.tagDesIngredients')
-            console.log(cross)
-
-                cross.addEventListener('click', function() {
-                    document.querySelector('.resultTag').style.display = 'none';
-                })
+            spanButton.addEventListener('click', function () {
+                console.log(buttonTag, 'BUTTON INGREDIENTS')
+                groupTags.removeChild(buttonTag)
+                principalSearch(recipes)
+            })
        })
     })  
 }
 
-// let chevronDownIngredients = document.querySelector('.ingredients')
-// console.log(chevronDownIngredients)
-// chevronDownIngredients.addEventListener('click', function() {
-//     console.log('OkAY ')
-//     addTagIngredients()
-// })
 addTagIngredients()
 
 /* DEFINITION DE LA FONCTION QUI RECOIT LE CLIQUE UTILISATEUR SUR LE CHAMPS APPAREILS ET AJOUTE LE TAG OU LES TAGS */
@@ -372,14 +415,13 @@ function addTagAppliances() {
             groupTags.appendChild(buttonTag)
             console.log('POUF 2')
 
-            searchByTags(recipes)
+            principalSearch(recipes)
 
-            let cross = document.querySelector('.tagDesAppareils')
-            console.log(cross)
-
-                cross.addEventListener('click', function() {
-                    document.querySelector('.resultTag').style.display = 'none';
-                })
+            buttonTag.addEventListener('click', function () {
+                console.log(buttonTag, 'BUTTON APPLIANCE')
+                groupTags.removeChild(buttonTag)
+                principalSearch(recipes)
+            })
         })
     })
 }
@@ -402,14 +444,13 @@ function addTagUstensiles() {
             groupTags.appendChild(buttonTag)
             console.log('POUF 3') 
 
-            searchByTags(recipes)
+            principalSearch(recipes)
 
-            let cross = document.querySelector('.tagDesUstensiles')
-            console.log(cross)
-
-                cross.addEventListener('click', function() {
-                    document.querySelector('.resultTag').style.display = 'none';
-                })
+            buttonTag.addEventListener('click', function () {
+                console.log(buttonTag, 'BUTTON USTENSILES')
+                groupTags.removeChild(buttonTag)
+                principalSearch(recipes)
+            })
         })
     })
 }
