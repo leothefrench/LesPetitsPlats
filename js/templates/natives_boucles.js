@@ -41,10 +41,7 @@ const searchbarValue = (e) => {
 
 // KEY UP IN PRINCIPAL SEARCH BAR
 let searchUser = document.querySelector(".inputSearch");
-// console.log(searchUser);
 searchUser.addEventListener("keyup", searchbarValue);
-
-
 
 /* FUNCTION TO GET ALL THE INGREDIENTS FOR THE RECIPES WITH NO DUPLICATE */
 const getAllIngredients = () => {
@@ -79,9 +76,9 @@ const getAllIngredients = () => {
 
 getAllIngredients()
 
-/* INJECTION INGREDIENTS IN THE LIST INGREDIENS REMAINING */
+/* INJECTION INGREDIENTS IN THE LIST INGREDIENTS REMAINING */
 const listIngredients = document.querySelector('.listElementsIngredients');
-console.log(listIngredients);
+// console.log(listIngredients);
 
 listIngredients.innerHTML = '';
 for (let i = 0; i < getAllIngredients().length; i++) {
@@ -110,7 +107,7 @@ getAllAppliance();
 
 /* INJECTION APPLIANCES IN THE LIST APPLIANCE REMAINING */
 const listAppliance = document.querySelector('.listElementsAppliances');
-console.log(listAppliance);
+// console.log(listAppliance);
 
 listAppliance.innerHTML = '';
 for (let i = 0; i < getAllAppliance().length; i++) {
@@ -150,7 +147,7 @@ getUtensils();
 /* INJECTION UTENSILS IN THE LIST UTENSILS REMAINING */
 
 const listUstensiles = document.querySelector('.listElementsUstensiles');
-console.log(listUstensiles);
+// console.log(listUstensiles);
 
 listUstensiles.innerHTML = '';
 for (let i = 0; i < getUtensils().length; i++) {
@@ -161,13 +158,13 @@ for (let i = 0; i < getUtensils().length; i++) {
 
 /* FILTRATION CHAMPS INGREDIENTS */
 let listIngredientsNoDuplicate = getAllIngredients();
-console.log(listIngredientsNoDuplicate);
+// console.log(listIngredientsNoDuplicate);
 const champsInputIngredients = document.querySelector('.inputSearchBtnIngredients');
-console.log(champsInputIngredients)
+// console.log(champsInputIngredients)
 
 champsInputIngredients.addEventListener('keyup', (e) => {
 	let inputIngredient = e.target.value.toLowerCase()
-	console.log(inputIngredient)
+	// console.log(inputIngredient)
 
 	if(inputIngredient.length >= 1) {
 		let ingredientsRemaining = [];
@@ -177,11 +174,11 @@ champsInputIngredients.addEventListener('keyup', (e) => {
 				ingredientsRemaining.push(listIngredientsNoDuplicate[i]);
 			}
 		}
-		console.log(ingredientsRemaining);
+		// console.log(ingredientsRemaining);
 
 		/* INJECTION INGREDIENTS IN THE LIST INGREDIENTS REMAINING */
 		const listIngredients= document.querySelector('.listElementsIngredients');
-		console.log(listIngredients);
+		// console.log(listIngredients);
 
 		listIngredients.innerHTML = '';
 		for (let i = 0; i < ingredientsRemaining.length; i++) {
@@ -192,13 +189,13 @@ champsInputIngredients.addEventListener('keyup', (e) => {
 
 /* FILTRATION CHAMPS APPLIANCES */
 let listAppliancesNoDuplicate = getAllAppliance();
-console.log(listAppliancesNoDuplicate);
+// console.log(listAppliancesNoDuplicate);
 const champsInputAppliances = document.querySelector('.inputSearchBtnAppareils');
-console.log(champsInputAppliances)
+// console.log(champsInputAppliances)
 
 champsInputAppliances.addEventListener('keyup', (e) => {
 	let inputAppliance = e.target.value.toLowerCase()
-	console.log(inputAppliance)
+	// console.log(inputAppliance)
 
 	if(inputAppliance.length >= 1) {
 		let appliancesRemaining = [];
@@ -208,7 +205,7 @@ champsInputAppliances.addEventListener('keyup', (e) => {
 				appliancesRemaining.push(listAppliancesNoDuplicate[i]);
 			}
 		}
-		console.log(appliancesRemaining);
+		// console.log(appliancesRemaining);
 
 		/* INJECTION APPLIANCES IN THE LIST APPLIANCE REMAINING */
 		const listAppliances = document.querySelector('.listElementsAppliances');
@@ -223,13 +220,13 @@ champsInputAppliances.addEventListener('keyup', (e) => {
 
 /* FILTRATION CHAMPS USTENSILES */
 let listUstensilesNoDuplicate = getUtensils();
-console.log(listUstensilesNoDuplicate);
+// console.log(listUstensilesNoDuplicate);
 const champsInputUstensiles = document.querySelector('.inputSearchBtnUstensiles');
-console.log(champsInputUstensiles)
+// console.log(champsInputUstensiles)
 
 champsInputUstensiles.addEventListener('keyup', (e) => {
 	let inputUstensile = e.target.value.toLowerCase()
-	console.log(inputUstensile)
+	// console.log(inputUstensile)
 
 	if(inputUstensile.length >= 1) {
 		let ustensilesRemaining = [];
@@ -239,11 +236,11 @@ champsInputUstensiles.addEventListener('keyup', (e) => {
 				ustensilesRemaining.push(listUstensilesNoDuplicate[i]);
 			}
 		}
-		console.log(ustensilesRemaining);
+		// console.log(ustensilesRemaining);
 
 		/* INJECTION APPLIANCES IN THE LIST APPLIANCE REMAINING */
 		const listUstensiles = document.querySelector('.listElementsUstensiles');
-		console.log(listUstensiles);
+		// console.log(listUstensiles);
 
 		listUstensiles.innerHTML = '';
 		for (let i = 0; i < ustensilesRemaining.length; i++) {
