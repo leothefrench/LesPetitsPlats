@@ -344,37 +344,50 @@ function actualisationChampsUstensiles(recettes) {
 /* DEFINITION DE LA FONCTION QUI RECOIT LE CLIQUE UTILISATEUR SUR LE CHAMPS INGREDIENTS ET AJOUTE LE TAG OU LES TAGS */
 
 function addTagIngredients() {
+
+    /* AJOUT D'UNE CONDITION POUR VERIFIER SI LE TAG EST PRESENT */
     const listOfChamps = document.querySelectorAll('.listElementsIngredients > p')
     const listing = [...listOfChamps] // TRANSFORME EN ARRAY AVEC SPREAD OPERATOR
 
-    listing.forEach(item => {
-        item.addEventListener('click', function(e) {
-            e.preventDefault()
-            const groupTags = document.querySelector('.groupResultsTags')
-            groupTags.style.display = 'flex'
-            const buttonTag = document.createElement('button')
-            buttonTag.classList.add('resultTag')
-            buttonTag.style.backgroundColor = '#3282F7';
-            const spanButton = document.createElement('span')
-            spanButton.classList.add('tagDesIngredients')
-            spanButton.innerText = `${item.innerText}`
-            const crossInsideSpan = document.createElement('i')
-            crossInsideSpan.classList.add('fa-regular')
-            crossInsideSpan.classList.add('fa-circle-xmark')
-            spanButton.appendChild(crossInsideSpan)
-            buttonTag.appendChild(spanButton)
+    /* AJOUT D'UNE CONDITION POUR VERIFIER SI LE TAG EST PRESENT POUR AJOUTER LE TAG*/
 
-            groupTags.appendChild(buttonTag)
-  
-            principalSearch(recipes)
+    let isTagAlreadyAdded = false;
 
-            spanButton.addEventListener('click', function () {
-                console.log(buttonTag, 'BUTTON INGREDIENTS')
-                groupTags.removeChild(buttonTag)
+    if(isTagAlreadyAdded === false){
+        isTagAlreadyAdded = true;
+
+        listing.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault()
+                const groupTags = document.querySelector('.groupResultsTags')
+                groupTags.style.display = 'flex'
+                const buttonTag = document.createElement('button')
+                buttonTag.classList.add('resultTag')
+                buttonTag.style.backgroundColor = '#3282F7';
+                const spanButton = document.createElement('span')
+                spanButton.classList.add('tagDesIngredients')
+                spanButton.innerText = `${item.innerText}`
+                const crossInsideSpan = document.createElement('i')
+                crossInsideSpan.classList.add('fa-regular')
+                crossInsideSpan.classList.add('fa-circle-xmark')
+                spanButton.appendChild(crossInsideSpan)
+                buttonTag.appendChild(spanButton)
+
+                groupTags.appendChild(buttonTag)
+   
                 principalSearch(recipes)
+
+                spanButton.addEventListener('click', function () {
+                    console.log(buttonTag, 'BUTTON INGREDIENTS')
+                    groupTags.removeChild(buttonTag)
+                    principalSearch(recipes)
+                })
+
+                return false;
+
             })
-       })
-    })  
+        }) 
+    }
 }
 
 addTagIngredients()
