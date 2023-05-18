@@ -1,3 +1,83 @@
+/* RECHERCHE DES RECETTES DANS LA BARRE PRINCIPALE */
+
+/* ADD EVENT LISTENER SUR INPUT DE L'UTILISATEUR DANS LA BARRE PRINCIPALE DE RECHERCHE */
+document.querySelector('.inputSearch').addEventListener('keyup', () => {
+    principalSearch(recipes)
+})
+
+/* FUNCTION DE RECHERCHE BARRE PRINCIPALE COMMENCANT AVEC AU MOINS DE 3 CARACTERES */
+
+function principalSearch(recettes) {
+    const dataSearch = document
+        .querySelector('.inputSearch')
+        .value.toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, ""); 
+
+    const recipesRemainingAfterSearch = searchUser(dataSearch, recettes)
+    const recettesFinales =  searchByTags(recipesRemainingAfterSearch)
+
+    hydrateInterface(recettesFinales)
+}
+
+/* SEARCH BY PRINCIPAL BAR */
+function searchUser(userInput, arrayRecipes) {
+    if(userInput.length < 3) return arrayRecipes
+
+    const tableauFilter = [];
+
+	for (let i = 0; i < arrayRecipes.length; i++) {
+		const ingredients = arrayRecipes[i].ingredients;
+		const tableauIngredient = [];
+
+		for (let j = 0; j < ingredients.length; j ++) {
+			tableauIngredient.push(ingredients[j].ingredient)
+		}
+
+		if (
+			checkInput(arrayRecipes[i].name, userInput) ||
+			checkInput(arrayRecipes[i].description, userInput) ||
+			checkTableau(tableauIngredient, userInput)
+		) {
+			tableauFilter.push(arrayRecipes[i])
+		} else {
+			console.log('Aucunes recettes');
+		}
+	}
+	console.log(tableauFilter);
+	return tableauFilter;
+	
+}
+
+
+const checkInput = (mot, motInput) => {
+	return mot.toLowerCase().match(motInput.toLowerCase()) ? true : false;
+}
+
+const checkTableau = (tableauMots, motInput) => {
+	let nouveauTableau = [];
+
+	for (let i = 0; i < tableauMots.length; i++) {
+		nouveauTableau.push(tableauMots[i].toLowerCase());
+	}
+
+	let tableauMotsTrouver = [];
+
+	for (let i= 0; i < nouveauTableau.length; i++) {
+		if (nouveauTableau[i].match(motInput.toLowerCase())) {
+			tableauMotsTrouver.push(nouveauTableau[i])
+		}
+
+		if (tableauMotsTrouver > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+};
+
+
+
 // INITIALISATION DES ARRAYS VIDE
 let recipesFilteredByTags = recipes;
 let recipesFilteredBySearch = recipesFilteredByTags;
@@ -40,8 +120,8 @@ const searchbarValue = (e) => {
 };
 
 // KEY UP IN PRINCIPAL SEARCH BAR
-let searchUser = document.querySelector(".inputSearch");
-searchUser.addEventListener("keyup", searchbarValue);
+// let searchUser = document.querySelector(".inputSearch");
+// searchUser.addEventListener("keyup", searchbarValue);
 
 /* FUNCTION TO GET ALL THE INGREDIENTS FOR THE RECIPES WITH NO DUPLICATE */
 const getAllIngredients = () => {
