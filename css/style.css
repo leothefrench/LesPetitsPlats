@@ -89,7 +89,7 @@ h1 {
 
 .resultTag {
     display: flex;
-    width: 107px;
+    /* width: 107px; */
     height: 37px;
     border-radius: 5px;
     color: #fff;

@@ -36,7 +36,7 @@ function secondarySearch(nameTag, nameClass, nameFunction, searchBloc, nameChevr
 
     let inputSearch = document.createElement('input') // INPUT SEARCH
     inputSearch.classList.add(`${inputSearchBtn}`)
-    inputSearch.setAttribute('placeholder', 'Rechercher un ingrédient')
+    inputSearch.setAttribute('placeholder', 'Rechercher')
      
     let arrowChevronUp = document.createElement('span')
     // arrowChevronUp.classList.add('spanArrowChevronUp')
@@ -74,8 +74,8 @@ function secondarySearch(nameTag, nameClass, nameFunction, searchBloc, nameChevr
 
 
 secondarySearch('Ingrédients', 'ingredients',arrayForIngredients, 'globalSearchIngredients', 'spanArrowChevronUpIngredients', 'inputSearchBtnIngredients', 'listElementsIngredients')
-secondarySearch('Appareils', 'appareils', arrayForUstensils, 'globalSearchAppareils', 'spanArrowChevronUpAppareils', 'inputSearchBtnAppareils', 'listElementsAppliances')
-secondarySearch('Ustensiles', 'ustensiles', arrayForAppliances, 'globalSearchUstensiles', 'spanArrowChevronUpUstensiles', 'inputSearchBtnUstensiles', 'listElementsUstensiles')
+secondarySearch('Appareils', 'appareils', arrayForAppliances, 'globalSearchAppareils', 'spanArrowChevronUpAppareils', 'inputSearchBtnAppareils', 'listElementsAppliances')
+secondarySearch('Ustensiles', 'ustensiles', arrayForUstensils, 'globalSearchUstensiles', 'spanArrowChevronUpUstensiles', 'inputSearchBtnUstensiles', 'listElementsUstensiles')
 
 
 // ADD EVENT LISTENER ON BUTTON SEARCH INGREDIENTS
