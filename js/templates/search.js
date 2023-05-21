@@ -349,13 +349,6 @@ function addTagIngredients() {
     const listOfChamps = document.querySelectorAll('.listElementsIngredients > p')
     const listing = [...listOfChamps] // TRANSFORME EN ARRAY AVEC SPREAD OPERATOR
 
-    /* AJOUT D'UNE CONDITION POUR VERIFIER SI LE TAG EST PRESENT POUR AJOUTER LE TAG*/
-
-    let isTagAlreadyAdded = false;
-
-    if(isTagAlreadyAdded === false){
-        isTagAlreadyAdded = true;
-
         listing.forEach(item => {
             item.addEventListener('click', function(e) {
                 e.preventDefault()
@@ -374,20 +367,20 @@ function addTagIngredients() {
                 buttonTag.appendChild(spanButton)
 
                 groupTags.appendChild(buttonTag)
+
+                const indexOfItem = listing.indexOf(item)
+                console.log(indexOfItem);
+                listing.splice(indexOfItem, 1)
    
                 principalSearch(recipes)
-
+                
                 spanButton.addEventListener('click', function () {
                     console.log(buttonTag, 'BUTTON INGREDIENTS')
                     groupTags.removeChild(buttonTag)
                     principalSearch(recipes)
                 })
-
-                return false;
-
             })
         }) 
-    }
 }
 
 addTagIngredients()
