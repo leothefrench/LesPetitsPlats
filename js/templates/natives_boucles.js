@@ -96,10 +96,34 @@ const checkTableau = (tableauMots, motInput) => {
 function searchByTags(recetteReduite) { 
 	console.log(recetteReduite);
 
-	let ingredients = document.querySelectorAll('.listElementsIngredients')
-	console.log(ingredients)
-	let ingredientsIterable =  Array.from(ingredients)
-	console.log(ingredientsIterable);
+    /* TAG INGREDIENTS ADDED */
+    const ingredientsElementsTags = document.querySelectorAll(".tagDesIngredients")
+
+	let newListIngredients = []
+	for( let i = 0; i < ingredientsElementsTags.length; i++) {
+		newListIngredients.push(ingredientsElementsTags[i].innerText)
+	}
+	console.log(newListIngredients) // ARRAY WITH INGREDIENTS TAGS SELECTED
+
+    /* TAG APPLIANCE ADDED */
+    const appliancesElementsTags = document.querySelectorAll(".tagDesAppareils")
+
+	let newListAppareils = []
+	for( let i = 0; i < appliancesElementsTags.length; i++) {
+		newListAppareils.push(appliancesElementsTags[i].innerText)
+	}
+	console.log(newListAppareils) // ARRAY WITH APPAREILS TAGS SELECTED	
+
+    /* TAG USTENSILES ADDED */
+    const ustensilesElementsTags = document.querySelectorAll(".tagDesUstensiles")
+
+	let newListUstensiles = []
+	for( let i = 0; i < ustensilesElementsTags.length; i++) {
+		newListUStensiles.push(ustensilesElementsTags[i].innerText)
+	}
+	console.log(newListUstensiles) // ARRAY WITH APPAREILS TAGS SELECTED	
+
+
 
 /* ALL THE INGREDIENTS FOR THE RECIPES REMAINING WITH NO DUPLICATE */
 	let allIngredientsArr = [];
@@ -121,9 +145,9 @@ function searchByTags(recetteReduite) {
 		}
 	}
 
-	// DELETE DUPLICATE IN THE ARRAY ALL INGREDIENRS IN LOWER CASE
+	// DELETE DUPLICATE IN THE ARRAY ALL INGREDIENTS IN LOWER CASE
 	const allIngredientsInLowerCaseNoDuplicate = [...new Set(allIngredientsLowerCase)];
-	// console.log(allIngredientsInLowerCaseNoDuplicate); // JE RECUPERE UN ARRAY AVEC LES INGREDIENTS RESTANTS DES RECETTES REDUITES
+	console.log(allIngredientsInLowerCaseNoDuplicate); // JE RECUPERE UN ARRAY AVEC LES INGREDIENTS RESTANTS DES RECETTES REDUITES
 
 	/* ALL THE APPLIANCES FOR THE RECIPES WITH NO DUPLICATE */
 	const allAppliancesInLowerCase = []; // TO STOCK ALL APPLIANCE IN LOWER CASE
@@ -135,6 +159,7 @@ function searchByTags(recetteReduite) {
 
 	// DELETE DUPLICATE IN THE ARRAY ALL APPLIANCE IN LOWER CASE
 	const allAppliancesInLowerCaseNoDuplicate = [...new Set(allAppliancesInLowerCase)];
+	console.log(allAppliancesInLowerCaseNoDuplicate);
 
 /* ALL THE UTENSILS FOR THE RECIPES WITH NO DUPLICATE */
 	const allUtensilsInLowerCase = [];
@@ -155,54 +180,50 @@ function searchByTags(recetteReduite) {
 	}
 	// DELETE DUPLICATE IN THE ARRAY ALL UTENSILS IN LOWER CASE
 	const allUtensilsInLowerCaseNoDuplicate = [...new Set(allUtensilsInLowerCase)];
+	console.log(allUtensilsInLowerCaseNoDuplicate);
 
-    let hasIngredients = true;
-    let hasAppliance = true;
-    let hasUstensils = true;
+	// INTERSECTION DES ARRAYS INGREDIENTS & APPAREILS
+	console.log(recetteReduite);
 
+	for (let i = 0; i < recetteReduite.length; i++) {
+		let recettesRestantes = []
 
-    const recettesRestantes = []
-	const recette2 = []
-	console.log(recetteReduite)
-	for (let i =0; i < recetteReduite.length; i++) {
-		recette2.push(recetteReduite.ingredients)
+		let hasIngredients = true;
+		let hasAppliance = true;
+		let hasUstensils = true;
+
+		for (let i = 0; newListIngredients.length; i++) {
+			for (let j = 0; j < allIngredientsInLowerCaseNoDuplicate.length; j++) {
+				if( !(newListIngredients[i] === allIngredientsInLowerCaseNoDuplicate[j])) {
+					hasIngredients = false
+				}
+			}
+		}
+		console.log(recettesRestantes)
+
+		for (let i = 0; newListAppareils.length; i++) {
+			for (let j = 0; j < allAppliancesInLowerCaseNoDuplicate.length; j++) {
+				if( !(newListAppareils[i] === allAppliancesInLowerCaseNoDuplicate[j])) {
+					hasAppliance = false
+				}
+			}
+		}
+
+		for (let i = 0; newListUstensiles.length; i++) {
+			for (let j = 0; j < allUtensilsInLowerCaseNoDuplicate.length; j++) {
+				if( !(newListUstensiles[i] === allUtensilsInLowerCaseNoDuplicate[j])) {
+					hasUstensils = false
+				}
+			}
+		}
+
+		if (hasIngredients && hasAppliance && hasUstensils) {
+			return true
+		} else {
+			return false
+		}
 	}
-	console.log(recette2)
-
-
-	recetteReduite.filter(recette => {
-        // let hasIngredients = true;
-        // let hasAppliance = true;
-        // let hasUstensils = true;
-
-        let recette2 = recette.ingredients
-        let recette3 = recette2.map(item => {return item.ingredient})
-
-        allIngredientsInLowerCaseNoDuplicate.forEach(ingredient => {
-            if (!recette3.includes(ingredient)) {
-                hasIngredients = false;
-            }
-        })
-
-        allAppliancesInLowerCaseNoDuplicate.forEach(appliance => {
-            if (!recette.appliance.includes(appliance)) {
-                hasAppliance = false;
-            }
-        })
-
-        allUtensilsInLowerCaseNoDuplicate.forEach(ustensil => {
-            if (!recette.ustensils.includes(ustensil)) {
-                hasUstensils = false;
-            }
-        })
-
-        if (hasIngredients && hasAppliance && hasUstensils) {
-            return true
-        } else {
-            return false
-        }
-    })
-
+	
 	console.log(recettesRestantes)
 
 	actualisationChampsIngredients(recettesRestantes)
@@ -235,7 +256,7 @@ console.log(recetteReduite)
 					ingredientsArr[i].push(ingredients[j].ingredient)
 				}
 			}
-			console.log(ingredientsArr);
+			// console.log(ingredientsArr);
 
 			for (let i = 0; i < ingredientsArr.length; i++) {
 				const ingredients = ingredientsArr[i];
@@ -244,10 +265,10 @@ console.log(recetteReduite)
 					tableauIngredients.push(ingredients[j].toLowerCase())
 				}
 			}
-			console.log(tableauIngredients);
+			// console.log(tableauIngredients);
 			}
 		const tableauIngredientsNoDuplicate = [...new Set(tableauIngredients)]
-		console.log(tableauIngredientsNoDuplicate);
+		// console.log(tableauIngredientsNoDuplicate);
 
 		// Search ingredients by user
 		searchIngredient =searchBarIngredients.value.toLowerCase()
@@ -260,7 +281,7 @@ console.log(recetteReduite)
 			}
 		}
 
-		console.log(matchSearchArr);
+		// console.log(matchSearchArr);
 
 		listeIngredients.innerHTML = '' // CLEAN THE DOM
 
@@ -273,7 +294,7 @@ console.log(recetteReduite)
 }
 
 function actualisationChampsAppareils(recetteReduite) {
-console.log(recetteReduite)
+// console.log(recetteReduite)
 	let searchAppareils = '';
 	let tableauAppareils = [];
 	let listeAppareils = document.querySelector('.listElementsAppliances');
@@ -295,7 +316,7 @@ console.log(recetteReduite)
 
 			// REMOVE DUPLICATE APPLIANCE
 			const tableauAppareilsNoDuplicate = [...new Set(tableauAppareils)]
-			console.log(tableauAppareilsNoDuplicate);
+			// console.log(tableauAppareilsNoDuplicate);
 
 			searchAppareils = searchBarAppareils.value.toLowerCase()
 
@@ -319,7 +340,7 @@ console.log(recetteReduite)
 }
 
 function actualisationChampsUstensiles(recetteReduite) {
-console.log(recetteReduite)
+// console.log(recetteReduite)
 	let searchUstensiles = '';
 	let tableauUstensiles = [];
 	let listeUstensiles = document.querySelector('.listElementsUstensiles')
@@ -343,7 +364,7 @@ console.log(recetteReduite)
 			}
 
 			const tableauUstensilesNoDuplicate = [...new Set(tableauUstensiles)]
-			console.log(tableauUstensilesNoDuplicate);
+			// console.log(tableauUstensilesNoDuplicate);
 
 			searchUstensiles =  searchBarUstensiles.value.toLowerCase();
 
