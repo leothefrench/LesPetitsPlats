@@ -1,7 +1,8 @@
 /* RECHERCHE DES RECETTES DANS LA BARRE PRINCIPALE */
 
 /* ADD EVENT LISTENER SUR INPUT DE L'UTILISATEUR DANS LA BARRE PRINCIPALE DE RECHERCHE */
-document.querySelector('.inputSearch').addEventListener('keyup', () => {
+document.querySelector('.inputSearch').addEventListener('keyup', (e) => {
+	console.log(e.target.value)
     principalSearch(recipes)
 })
 
@@ -37,7 +38,7 @@ const hydrateInterface = (arrRecipesRemaining) => {
 function searchUser(userInput, arrayRecipes) {
     if(userInput.length < 3) return arrayRecipes
 
-    const tableauFilter = [];
+    const mergeArraysFilter = [];
 
 	for (let i = 0; i < arrayRecipes.length; i++) {
 		const ingredients = arrayRecipes[i].ingredients;
@@ -52,19 +53,15 @@ function searchUser(userInput, arrayRecipes) {
 			checkInput(arrayRecipes[i].description, userInput) ||
 			checkTableau(tableauIngredient, userInput)
 		) {
-			tableauFilter.push(arrayRecipes[i])
-		} else {
-			console.log('Aucunes recettes');
+			mergeArraysFilter.push(arrayRecipes[i])
 		}
 	}
+	console.log(mergeArraysFilter);
+	actualisationChampsIngredients(mergeArraysFilter)
+	actualisationChampsAppareils(mergeArraysFilter)
+	actualisationChampsUstensiles(mergeArraysFilter)
 
-	actualisationChampsIngredients(tableauFilter)
-	actualisationChampsAppareils(tableauFilter)
-	actualisationChampsUstensiles(tableauFilter)
-
-
-	console.log(tableauFilter);
-	return tableauFilter;
+	return mergeArraysFilter
 }
 
 const checkInput = (mot, motInput) => {
@@ -123,7 +120,7 @@ function searchByTags(recetteReduite) {
 	}
 	console.log(newListUstensiles) // ARRAY WITH APPAREILS TAGS SELECTED	
 
-
+for (let i = 0; i < recetteReduite.length; i++) {
 
 /* ALL THE INGREDIENTS FOR THE RECIPES REMAINING WITH NO DUPLICATE */
 	let allIngredientsArr = [];
@@ -159,7 +156,7 @@ function searchByTags(recetteReduite) {
 
 	// DELETE DUPLICATE IN THE ARRAY ALL APPLIANCE IN LOWER CASE
 	const allAppliancesInLowerCaseNoDuplicate = [...new Set(allAppliancesInLowerCase)];
-	console.log(allAppliancesInLowerCaseNoDuplicate);
+	// console.log(allAppliancesInLowerCaseNoDuplicate);
 
 /* ALL THE UTENSILS FOR THE RECIPES WITH NO DUPLICATE */
 	const allUtensilsInLowerCase = [];
@@ -180,10 +177,9 @@ function searchByTags(recetteReduite) {
 	}
 	// DELETE DUPLICATE IN THE ARRAY ALL UTENSILS IN LOWER CASE
 	const allUtensilsInLowerCaseNoDuplicate = [...new Set(allUtensilsInLowerCase)];
-	console.log(allUtensilsInLowerCaseNoDuplicate);
+	// console.log(allUtensilsInLowerCaseNoDuplicate);
 
 	// INTERSECTION DES ARRAYS INGREDIENTS & APPAREILS
-	console.log(recetteReduite);
 
 
 		let hasIngredients = true;
@@ -228,8 +224,8 @@ function searchByTags(recetteReduite) {
     actualisationChampsUstensiles(recettesRestantes)
 
 	hydrateInterface(recettesRestantes)
-// 	return recettesRestantes
-// }
+	return recettesRestantes
+}
 
 
 function actualisationChampsIngredients(recetteReduite) {
@@ -241,7 +237,8 @@ console.log(recetteReduite)
 	let searchBarIngredients = document.querySelector('.inputSearchBtnIngredients')
 
 	searchBarIngredients.addEventListener('input', () => {
-		if ( searchBarIngredients.value.length >= 1) {
+
+		if (searchBarIngredients.value.length != 0) {
 			const ingredientsArr = []
 			for (let i = 0; i < recetteReduite.length; i++) {
 				const ingredients = recetteReduite[i].ingredients;
@@ -299,8 +296,12 @@ function actualisationChampsAppareils(recetteReduite) {
 	let searchBarAppareils = document.querySelector('.inputSearchBtnAppareils')
 	// console.log(searchBarAppareils);
 
-	searchBarAppareils.addEventListener('input', () => {
-		if(searchBarAppareils.value.length >= 1) {
+	searchBarAppareils.addEventListener('keyup', (e) => {
+
+		const inputSearchTag = e.target.value.toLowerCase()
+		console.log(inputSearchTag);
+
+		if(inputSearchTag) {
 			const appareilsArr = [];
 			for (let i = 0; i < recetteReduite.length; i++) {
 				console.log(recetteReduite);
@@ -380,7 +381,7 @@ function actualisationChampsUstensiles(recetteReduite) {
 		addTagUstensiles()
 	}
 	// addTagUstensiles()
-})
+	})
 }
 
 hydrateInterface(recipes) // ACTUALISATION INTERFACE
@@ -481,3 +482,7 @@ function addTagUstensiles() {
 }
 
 addTagUstensiles()
+
+actualisationChampsIngredients(recipes)
+actualisationChampsAppareils(recipes)
+actualisationChampsUstensiles(recipes)
