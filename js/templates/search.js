@@ -368,9 +368,12 @@ function addTagIngredients() {
 
                 groupTags.appendChild(buttonTag)
 
-                const indexOfItem = listing.indexOf(item)
+                const indexOfItem = listing.indexOf(item) // RECUPERATION INDEX ITEM QUI RECOIT LE CLICK
                 console.log(indexOfItem);
-                listing.splice(indexOfItem, 1)
+
+                let newListing = listing.splice(indexOfItem)
+                console.log(newListing)
+                
    
                 principalSearch(recipes)
                 
