@@ -122,8 +122,7 @@ function hydrateInterface(arrRecipesRemaining) {
 
 function searchByTags(recetteReduite) {
     /* TAG INGREDIENTS ADDED */
-    const ingredientsElementsTags = 
-        document.querySelectorAll(".tagDesIngredients")
+    const ingredientsElementsTags = document.querySelectorAll(".tagDesIngredients")
     const ingredientsIterable = Array.from(ingredientsElementsTags)
 
     let ingredients = ingredientsIterable.map((item) => {
@@ -216,6 +215,14 @@ function actualisationChampsIngredients(recettes) { // ON PASSE LES RECIPES REST
 
         const listIngredientsSorted = tagByIngredientNoDuplicate.sort() // PAR ORDRE ALPHABETIQUE
         // console.log(listIngredientsSorted) // OK
+
+        const ingredientsElementsTags = document.querySelectorAll(".tagDesIngredients")
+        const ingredientsIterable = Array.from(ingredientsElementsTags)
+
+        //FILTER
+// listIngredientsSorted.filter
+
+
        
         let listItems = listIngredientsSorted.map(item => {
             return '<p>' + item + '</p>'
@@ -351,6 +358,9 @@ function addTagIngredients() {
 
         listing.forEach(item => {
             item.addEventListener('click', function(e) {
+
+                if (item.innerText ) {
+
                 e.preventDefault()
                 const groupTags = document.querySelector('.groupResultsTags')
                 groupTags.style.display = 'flex'
@@ -369,12 +379,14 @@ function addTagIngredients() {
                 groupTags.appendChild(buttonTag)
 
                 const indexOfItem = listing.indexOf(item) // RECUPERATION INDEX ITEM QUI RECOIT LE CLICK
-                console.log(indexOfItem);
+                console.log(indexOfItem); // OK FOR INDEX
 
-                let newListing = listing.splice(indexOfItem)
+                let newListing = listing.splice(indexOfItem) // RETOURNE LES P TAGS RESTANTS
                 console.log(newListing)
                 
-   
+                console.log(item.innerText);
+                item.style.display = 'none' // LA FONCTION PRINCIPALE SEARCH VA REHYDRATER LA LISTE DES INGREDIENTS
+
                 principalSearch(recipes)
                 
                 spanButton.addEventListener('click', function () {
@@ -382,6 +394,7 @@ function addTagIngredients() {
                     groupTags.removeChild(buttonTag)
                     principalSearch(recipes)
                 })
+            }
             })
         }) 
 }
