@@ -119,7 +119,7 @@ function searchByTags(recetteReduite) {
 
 	let newListUstensiles = []
 	for( let i = 0; i < ustensilesElementsTags.length; i++) {
-		newListUStensiles.push(ustensilesElementsTags[i].innerText)
+		newListUtensiles.push(ustensilesElementsTags[i].innerText)
 	}
 	console.log(newListUstensiles) // ARRAY WITH APPAREILS TAGS SELECTED	
 
@@ -185,8 +185,6 @@ function searchByTags(recetteReduite) {
 	// INTERSECTION DES ARRAYS INGREDIENTS & APPAREILS
 	console.log(recetteReduite);
 
-	for (let i = 0; i < recetteReduite.length; i++) {
-		let recettesRestantes = []
 
 		let hasIngredients = true;
 		let hasAppliance = true;
@@ -199,7 +197,6 @@ function searchByTags(recetteReduite) {
 				}
 			}
 		}
-		console.log(recettesRestantes)
 
 		for (let i = 0; newListAppareils.length; i++) {
 			for (let j = 0; j < allAppliancesInLowerCaseNoDuplicate.length; j++) {
@@ -231,8 +228,8 @@ function searchByTags(recetteReduite) {
     actualisationChampsUstensiles(recettesRestantes)
 
 	hydrateInterface(recettesRestantes)
-	return recettesRestantes
-}
+// 	return recettesRestantes
+// }
 
 
 function actualisationChampsIngredients(recetteReduite) {
