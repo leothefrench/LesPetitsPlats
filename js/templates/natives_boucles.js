@@ -120,7 +120,9 @@ function searchByTags(recetteReduite) {
 	}
 	console.log(newListUstensiles) // ARRAY WITH APPAREILS TAGS SELECTED	
 
-for (let i = 0; i < recetteReduite.length; i++) {
+const recetteFinales = []
+
+for (let z = 0; z < recetteReduite.length; z++) {
 
 /* ALL THE INGREDIENTS FOR THE RECIPES REMAINING WITH NO DUPLICATE */
 	let allIngredientsArr = [];
@@ -131,7 +133,7 @@ for (let i = 0; i < recetteReduite.length; i++) {
 		for (let j = 0; j < ingredients.length; j++) {
 			allIngredientsArr[i].push(ingredients[j].ingredient)
 		}
-	}
+	} // CHECK THIS
 
 	let allIngredientsLowerCase = [];
 	for (let i = 0; i < allIngredientsArr.length; i++ ) {
@@ -177,11 +179,10 @@ for (let i = 0; i < recetteReduite.length; i++) {
 	}
 	// DELETE DUPLICATE IN THE ARRAY ALL UTENSILS IN LOWER CASE
 	const allUtensilsInLowerCaseNoDuplicate = [...new Set(allUtensilsInLowerCase)];
-	// console.log(allUtensilsInLowerCaseNoDuplicate);
 
 	// INTERSECTION DES ARRAYS INGREDIENTS & APPAREILS
 
-
+ 
 		let hasIngredients = true;
 		let hasAppliance = true;
 		let hasUstensils = true;
@@ -211,20 +212,16 @@ for (let i = 0; i < recetteReduite.length; i++) {
 		}
 
 		if (hasIngredients && hasAppliance && hasUstensils) {
-			return true
-		} else {
-			return false
+			recetteFinales.push(recetteReduite[])
 		}
 	}
-	
-	console.log(recettesRestantes)
 
-	actualisationChampsIngredients(recettesRestantes)
-    actualisationChampsAppareils(recettesRestantes)
-    actualisationChampsUstensiles(recettesRestantes)
+	actualisationChampsIngredients(recetteFinales)
+    actualisationChampsAppareils(recetteFinales)
+    actualisationChampsUstensiles(recetteFinales)
 
-	hydrateInterface(recettesRestantes)
-	return recettesRestantes
+	hydrateInterface(recetteFinales)
+	return recetteFinales
 }
 
 
