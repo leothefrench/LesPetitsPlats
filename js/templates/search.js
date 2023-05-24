@@ -1,11 +1,11 @@
 /* RECHERCHE DES RECETTES DANS LA BARRE PRINCIPALE */
 
-/* ADD EVENT LISTENER SUR INPUT DE L'UTILISATEUR DANS LA BARRE PRINCIPALE DE RECHERCHE */
+/* ADD EVENT LISTENER SUR INPUT DE L'UTILISATEUR DANS LA BARRE DE RECHERCHE PRINCIPALE */
 document.querySelector('.inputSearch').addEventListener('keyup', () => {
     principalSearch(recipes)
 })
 
-/* FUNCTION DE RECHERCHE BARRE PRINCIPALE COMMENCANT AVEC AU MOINS DE 3 CARACTERES */
+/* FUNCTION DE RECHERCHE DANS LA BARRE PRINCIPALE COMMENCANT AVEC AU MOINS 3 CARACTERES */
 function principalSearch(recettes) {
     const dataSearch = document
         .querySelector('.inputSearch')
@@ -19,11 +19,11 @@ function principalSearch(recettes) {
     hydrateInterface(recettesFinales)
 }
 
-/* SEARCH BY PRINCIPAL BAR */
+/* USER SEARCH */
 function searchUser(userInput, arrayRecipes) {
     if(userInput.length < 3) return arrayRecipes
 
-    /* FUNCTION FILTER BY NAME */
+    /* FILTER BY NAME */
     const dataFilterByName = arrayRecipes.filter((item) => {
         return (item.name.toLowerCase().includes(userInput))
     })
@@ -86,7 +86,7 @@ function searchUser(userInput, arrayRecipes) {
         )
     ]
 
-    // ARRAY MERGE WITHOUT DUPLICATE IN ES6 - NEW SET WITH SPREAD OPERATOR
+    // MERGE ARRAYS WITHOUT DUPLICATE IN ES6 - NEW SET WITH SPREAD OPERATOR
     const mergeArraysFilter = [
         ...new Set([
             ...recipeArrayFilterByName,
@@ -96,7 +96,8 @@ function searchUser(userInput, arrayRecipes) {
     ]
     console.log(mergeArraysFilter) 
 
-    actualisationChampsIngredients(mergeArraysFilter) // FONCTION D'ACTUALISATION DU CHAMPS DE RECHERCHE AVANCE
+    // FONCTION D'ACTUALISATION DES CHAMPS DE RECHERCHE AVANCES
+    actualisationChampsIngredients(mergeArraysFilter) 
     actualisationChampsAppareils(mergeArraysFilter)
     actualisationChampsUstensiles(mergeArraysFilter)
 
@@ -128,7 +129,6 @@ function searchByTags(recetteReduite) {
     let ingredients = ingredientsIterable.map((item) => {
         return item.innerText
     })
-    console.log(ingredients); // JE RECUPERE UN ARRAY AVEC LES INGREDIENTS RESTANTS DES RECETTES REDUITES
          
     /* TAG APPLIANCE ADDED */
     const appliancesElements = document.querySelectorAll(".tagDesAppareils")
@@ -191,8 +191,8 @@ function searchByTags(recetteReduite) {
 
 /* FONCTION DE MISE A JOUR DES CHAMPS DE RECHERCHE AVANCES - INGREDIENTS, APPAREILS, USTENSILES */
 
-function actualisationChampsIngredients(recettes) { // ON PASSE LES RECIPES RESTANTES APRES FILTRATION - NAME - INGREDIENTS - DESCRIPTION
-    let tagByIngredient = []; // VA RECEVOIR TOUS LES INGREDIENTS
+function actualisationChampsIngredients(recettes) { 
+    let tagByIngredient = [];
     
     const ingredientsArrRecipe = recettes.map((arrIngredient) => {
         let tempArray = []
@@ -214,17 +214,21 @@ function actualisationChampsIngredients(recettes) { // ON PASSE LES RECIPES REST
         ]
 
         const listIngredientsSorted = tagByIngredientNoDuplicate.sort() // PAR ORDRE ALPHABETIQUE
-        // console.log(listIngredientsSorted) // OK
 
         const ingredientsElementsTags = document.querySelectorAll(".tagDesIngredients")
         const ingredientsIterable = Array.from(ingredientsElementsTags)
 
-        //FILTER
-// listIngredientsSorted.filter
+        const valueIngredientsTags = []
+        ingredientsIterable.forEach(el => valueIngredientsTags.push(el.innerText))
 
-
+        const containsTags = []
+        listIngredientsSorted.filter(item => {
+            if(!(valueIngredientsTags.includes(item))) {
+                containsTags.push(item)
+            }
+        })
        
-        let listItems = listIngredientsSorted.map(item => {
+        let listItems = containsTags.map(item => {
             return '<p>' + item + '</p>'
         })
         const listElementsTagIngredients = document.querySelector('.listElementsIngredients')
@@ -267,8 +271,22 @@ function actualisationChampsAppareils(recettes) {
 
     const tagApplianceAfterPrincipaleSearchNoDuplicate = [...new Set(tagApplianceAfterPrincipaleSearch.map((item) => {return item}))]
 
+    const listAppareilsSorted = tagApplianceAfterPrincipaleSearchNoDuplicate.sort() // PAR ORDRE ALPHABETIQUE
+
+    const appareilsElementsTags = document.querySelectorAll(".tagDesAppareils")
+    const appareilsIterable = Array.from(appareilsElementsTags)
+
+    const valueAppareilsTags = []
+    appareilsIterable.forEach(el => valueAppareilsTags.push(el.innerText))
+
+    const containsAppareilsTags = []
+    listAppareilsSorted.filter(item => {
+        if(!(valueAppareilsTags.includes(item))) {
+            containsAppareilsTags.push(item)
+        }
+    })
     // HYDRATATION LIST ELEMENTS TAG APPLIANCE (APPAREILS)
-    let listItemsAppliance = tagApplianceAfterPrincipaleSearchNoDuplicate.map(item => {
+    let listItemsAppliance = containsAppareilsTags.map(item => {
         return '<p>' + item + '</p>'
     })
 
@@ -301,9 +319,11 @@ function actualisationChampsAppareils(recettes) {
     })
     addTagAppliances()
 }
+
 /* CHAMPS USTENSILES */
 function actualisationChampsUstensiles(recettes) {
     let tagUtensilsAfterPrincipaleSearch = [] // ARRAY QUI VA RECEVOIR LES USTENSILES DES RECIPES
+
     const tagFilterByUstensilsSecondary =  recettes.map(ele => {
         ele.ustensils.filter((item) => {
             tagUtensilsAfterPrincipaleSearch.push(item)
@@ -311,12 +331,24 @@ function actualisationChampsUstensiles(recettes) {
     })  
 
     const arrTagUstensilesSecondaryNoDuplicate = [...new Set(tagUtensilsAfterPrincipaleSearch.map((item) => {return item}))]
-    // console.log(arrTagUstensilesSecondaryNoDuplicate)
+
     const listUstensilesSorted = arrTagUstensilesSecondaryNoDuplicate.sort()
 
+    const ustensilsElementsTags = document.querySelectorAll(".tagDesUstensiles")
+    const ustensilesIterable = Array.from(ustensilsElementsTags)
+
+    const valueUstensilesTags = []
+    ustensilesIterable.forEach(el => valueUstensilesTags.push(el.innerText))
+
+    const containsUstensilesTags = []
+    listUstensilesSorted.filter(item => {
+        if(!(valueUstensilesTags.includes(item))) {
+            containsUstensilesTags.push(item)
+        }
+    })
 
     // HYDRATATION LIST ELEMENTS TAG USTENSILES
-    let listItemsUstensiles = listUstensilesSorted.map(item => {
+    let listItemsUstensiles = containsUstensilesTags.map(item => {
         return '<p>' + item + '</p>'
     })
 
@@ -324,26 +356,26 @@ function actualisationChampsUstensiles(recettes) {
     listElementsTagUtensils.innerHTML = listItemsUstensiles  // HYDRATATION LISTE USTENSILES DOM
 
     /* L'UTILISATEUR PRECISE SA RECHERCHE AVEC LE CHAMPS USTENSILES */
-        const tagFilterUstensiles = document.querySelector('.inputSearchBtnUstensiles')
-        tagFilterUstensiles.addEventListener('keyup', (e) => {
-        const inputSearchTag = e.target.value.toLowerCase(); 
+    const tagFilterUstensiles = document.querySelector('.inputSearchBtnUstensiles')
+    tagFilterUstensiles.addEventListener('keyup', (e) => {
+    const inputSearchTag = e.target.value.toLowerCase(); 
 
-        let afterFilterByTagUstensiles = []
+    let afterFilterByTagUstensiles = []
 
-        arrTagUstensilesSecondaryNoDuplicate.filter(item => {
-            if(item.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "").includes(inputSearchTag)) {   
-                afterFilterByTagUstensiles.push(item)
-            }
-        })
+    arrTagUstensilesSecondaryNoDuplicate.filter(item => {
+        if(item.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "").includes(inputSearchTag)) {   
+            afterFilterByTagUstensiles.push(item)
+        }
+    })
 
-        let listItemsTagSecondary = afterFilterByTagUstensiles.map(item => {
-            return '<p>' + item + '</p>'
-        })
+    let listItemsTagSecondary = afterFilterByTagUstensiles.map(item => {
+        return '<p>' + item + '</p>'
+    })
 
-        const listElementsTagUstensiles = document.querySelector('.listElementsUstensiles')
-        listElementsTagUstensiles.innerHTML = listItemsTagSecondary
+    const listElementsTagUstensiles = document.querySelector('.listElementsUstensiles')
+    listElementsTagUstensiles.innerHTML = listItemsTagSecondary
 
-        addTagUstensiles()
+    addTagUstensiles()
     })
     addTagUstensiles()
 }
@@ -356,47 +388,33 @@ function addTagIngredients() {
     const listOfChamps = document.querySelectorAll('.listElementsIngredients > p')
     const listing = [...listOfChamps] // TRANSFORME EN ARRAY AVEC SPREAD OPERATOR
 
-        listing.forEach(item => {
-            item.addEventListener('click', function(e) {
+    listing.forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault()
+            const groupTags = document.querySelector('.groupResultsTags')
+            groupTags.style.display = 'flex'
+            const buttonTag = document.createElement('button')
+            buttonTag.classList.add('resultTag')
+            buttonTag.style.backgroundColor = '#3282F7';
+            const spanButton = document.createElement('span')
+            spanButton.classList.add('tagDesIngredients')
+            spanButton.innerText = `${item.innerText}`
+            const crossInsideSpan = document.createElement('i')
+            crossInsideSpan.classList.add('fa-regular')
+            crossInsideSpan.classList.add('fa-circle-xmark')
+            spanButton.appendChild(crossInsideSpan)
+            buttonTag.appendChild(spanButton)
 
-                if (item.innerText ) {
+            groupTags.appendChild(buttonTag)
 
-                e.preventDefault()
-                const groupTags = document.querySelector('.groupResultsTags')
-                groupTags.style.display = 'flex'
-                const buttonTag = document.createElement('button')
-                buttonTag.classList.add('resultTag')
-                buttonTag.style.backgroundColor = '#3282F7';
-                const spanButton = document.createElement('span')
-                spanButton.classList.add('tagDesIngredients')
-                spanButton.innerText = `${item.innerText}`
-                const crossInsideSpan = document.createElement('i')
-                crossInsideSpan.classList.add('fa-regular')
-                crossInsideSpan.classList.add('fa-circle-xmark')
-                spanButton.appendChild(crossInsideSpan)
-                buttonTag.appendChild(spanButton)
-
-                groupTags.appendChild(buttonTag)
-
-                const indexOfItem = listing.indexOf(item) // RECUPERATION INDEX ITEM QUI RECOIT LE CLICK
-                console.log(indexOfItem); // OK FOR INDEX
-
-                let newListing = listing.splice(indexOfItem) // RETOURNE LES P TAGS RESTANTS
-                console.log(newListing)
+            principalSearch(recipes)
                 
-                console.log(item.innerText);
-                item.style.display = 'none' // LA FONCTION PRINCIPALE SEARCH VA REHYDRATER LA LISTE DES INGREDIENTS
-
+            spanButton.addEventListener('click', function () {
+                groupTags.removeChild(buttonTag)
                 principalSearch(recipes)
-                
-                spanButton.addEventListener('click', function () {
-                    console.log(buttonTag, 'BUTTON INGREDIENTS')
-                    groupTags.removeChild(buttonTag)
-                    principalSearch(recipes)
-                })
-            }
             })
-        }) 
+        })
+    }) 
 }
 
 addTagIngredients()
@@ -416,12 +434,10 @@ function addTagAppliances() {
             buttonTag.style.backgroundColor = '#68D9A4';
             buttonTag.innerHTML = `<span class='tagDesAppareils'>${item.innerText}<i class="fa-regular fa-circle-xmark"></i></span>`
             groupTags.appendChild(buttonTag)
-            console.log('POUF 2')
 
             principalSearch(recipes)
 
             buttonTag.addEventListener('click', function () {
-                console.log(buttonTag, 'BUTTON APPLIANCE')
                 groupTags.removeChild(buttonTag)
                 principalSearch(recipes)
             })
@@ -445,12 +461,10 @@ function addTagUstensiles() {
             buttonTag.style.backgroundColor = '#ED6454';
             buttonTag.innerHTML = `<span class='tagDesUstensiles'>${item.innerText}<i class="fa-regular fa-circle-xmark"></i></span>`
             groupTags.appendChild(buttonTag)
-            console.log('POUF 3') 
 
             principalSearch(recipes)
 
             buttonTag.addEventListener('click', function () {
-                console.log(buttonTag, 'BUTTON USTENSILES')
                 groupTags.removeChild(buttonTag)
                 principalSearch(recipes)
             })
