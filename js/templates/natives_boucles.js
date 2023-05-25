@@ -21,21 +21,6 @@ function principalSearch(recettes) {
     hydrateInterface(recettesFinales)
 }
 
-/* FONCTION D'ACTUALISATION DE L'INTERFACE AVEC LES RECETTES RESTANTES APRES FILTRATION */
-
-const hydrateInterface = (arrRecipesRemaining) => {
-	const classRecipesWrapper = document.querySelector('.recipes-wrapper')
-
-    if(arrRecipesRemaining == 0) {
-        classRecipesWrapper.innerHTML = '<h2>Aucune recette ne correspond à votre critère de recherche, vous pouvez chercher "tarte aux pommes", "poisson", etc.</h2>'
-    } else {
-        classRecipesWrapper.innerHTML = ''   // CLEAN DOM RECIPES WRAPPER CONTAINER
-        finalRecipeArray = Object.entries(arrRecipesRemaining);
-
-        finalRecipeArray.forEach(recipe => createCard(recipe));     // INJECTION IN THE DOM
-    }
-}
-
 /* SEARCH BY PRINCIPAL BAR */
 function searchUser(userInput, arrayRecipes) {
     if(userInput.length < 3) return arrayRecipes
@@ -58,8 +43,8 @@ function searchUser(userInput, arrayRecipes) {
 			mergeArraysFilter.push(arrayRecipes[i])
 		}
 	}
-	console.log(mergeArraysFilter);
-	actualisationChampsIngredients(mergeArraysFilter)
+
+	actualisationChampsIngredients(mergeArraysFilter) // BUG ICI PAD D'ACTUALISATION DES 3 CHAMPS
 	actualisationChampsAppareils(mergeArraysFilter)
 	actualisationChampsUstensiles(mergeArraysFilter)
 
@@ -92,6 +77,23 @@ const checkTableau = (tableauMots, motInput) => {
 	}
 };
 
+/* FONCTION D'ACTUALISATION DE L'INTERFACE AVEC LES RECETTES RESTANTES APRES FILTRATION */
+
+const hydrateInterface = (arrRecipesRemaining) => {
+	const classRecipesWrapper = document.querySelector('.recipes-wrapper')
+
+    if(arrRecipesRemaining == 0) {
+        classRecipesWrapper.innerHTML = '<h2>Aucune recette ne correspond à votre critère de recherche, vous pouvez chercher "tarte aux pommes", "poisson", etc.</h2>'
+    } else {
+        classRecipesWrapper.innerHTML = ''   // CLEAN DOM RECIPES WRAPPER CONTAINER
+        finalRecipeArray = Object.entries(arrRecipesRemaining);
+
+        finalRecipeArray.forEach(recipe => createCard(recipe));     // INJECTION IN THE DOM
+    }
+}
+
+/* IMPLEMENTATION DE LA FONCTION  GET TAG SEARCH */
+
 function searchByTags(recetteReduite) {
 	console.log(recetteReduite);
     /* TAG INGREDIENTS ADDED */
@@ -101,7 +103,8 @@ function searchByTags(recetteReduite) {
     let ingredients = ingredientsIterable.map((item) => {
         return item.innerText
     })
-    console.log(ingredients); // JE RECUPERE UN ARRAY AVEC LES INGREDIENTS RESTANTS DES RECETTES REDUITES
+
+	console.log(ingredients);
          
     /* TAG APPLIANCE ADDED */
     const appliancesElements = document.querySelectorAll(".tagDesAppareils")
@@ -154,6 +157,8 @@ function searchByTags(recetteReduite) {
         }
     })
 
+	console.log(recettesRestantes)
+
     actualisationChampsIngredients(recettesRestantes)
     actualisationChampsAppareils(recettesRestantes)
     actualisationChampsUstensiles(recettesRestantes)
@@ -162,8 +167,10 @@ function searchByTags(recetteReduite) {
     return recettesRestantes;
 }   
 
-function actualisationChampsIngredients(recetteReduite) {
-console.log(recetteReduite)
+/* FONCTION DE MISE A JOUR DES CHAMPS DE RECHERCHE AVANCES - INGREDIENTS, APPAREILS, USTENSILES */
+
+function actualisationChampsIngredients(recettes) {
+console.log(recettes)
 	let searchIngredient = '';
 	let tableauIngredients = [];
 	let listeIngredients = document.querySelector('.listElementsIngredients')
@@ -172,19 +179,18 @@ console.log(recetteReduite)
 
 	searchBarIngredients.addEventListener('input', () => {
 
-		if (searchBarIngredients.value.length != 0) {
+		if (searchBarIngredients.value.length >= 1) {
 			const ingredientsArr = []
-			for (let i = 0; i < recetteReduite.length; i++) {
-				const ingredients = recetteReduite[i].ingredients;
+			for (let i = 0; i < recettes.length; i++) {
+				const ingredients = recettes[i].ingredients;
 				ingredientsArr.push([]);
-				console.log(recetteReduite);
-				console.log(ingredients);
+				console.log(recettes);
 
 				for (let j = 0; j < ingredients.length; j++) {
 					ingredientsArr[i].push(ingredients[j].ingredient)
 				}
 			}
-			// console.log(ingredientsArr);
+			console.log(ingredientsArr);
 
 			for (let i = 0; i < ingredientsArr.length; i++) {
 				const ingredients = ingredientsArr[i];
@@ -193,10 +199,10 @@ console.log(recetteReduite)
 					tableauIngredients.push(ingredients[j].toLowerCase())
 				}
 			}
-			// console.log(tableauIngredients);
+			console.log(tableauIngredients);
 			}
 		const tableauIngredientsNoDuplicate = [...new Set(tableauIngredients)]
-		// console.log(tableauIngredientsNoDuplicate);
+		console.log(tableauIngredientsNoDuplicate);
 
 		// Search ingredients by user
 		searchIngredient =searchBarIngredients.value.toLowerCase()
@@ -208,7 +214,7 @@ console.log(recetteReduite)
 				matchSearchArr.push(tableauIngredientsNoDuplicate[i])
 			}
 		}
-
+		console.log(matchSearchArr)
 
 		listeIngredients.innerHTML = '' // CLEAN THE DOM
 
@@ -270,7 +276,7 @@ function actualisationChampsAppareils(recetteReduite) {
 }
 
 function actualisationChampsUstensiles(recetteReduite) {
-// console.log(recetteReduite)
+console.log(recetteReduite)
 	let searchUstensiles = '';
 	let tableauUstensiles = [];
 	let listeUstensiles = document.querySelector('.listElementsUstensiles')
@@ -316,7 +322,7 @@ function actualisationChampsUstensiles(recetteReduite) {
 	})
 }
 
-hydrateInterface(recipes) // ACTUALISATION INTERFACE
+// hydrateInterface(recipes) // ACTUALISATION INTERFACE
 
 /* DEFINITION DE LA FONCTION QUI RECOIT LE CLIQUE UTILISATEUR SUR LE CHAMPS INGREDIENTS ET AJOUTE LE TAG OU LES TAGS */
 
