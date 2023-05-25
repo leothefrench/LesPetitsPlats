@@ -16,10 +16,12 @@ function principalSearch(recettes) {
         .replace(/\p{Diacritic}/gu, ""); 
 
     const recipesRemainingAfterSearch = searchUser(dataSearch, recettes)
-    const recettesFinales =  searchByTags(recipesRemainingAfterSearch) // IMPLEMENTER SEARCH BY TAGS
+    const recettesFinales =  searchByTags(recipesRemainingAfterSearch) 
 
     hydrateInterface(recettesFinales)
 }
+
+/* FONCTION D'ACTUALISATION DE L'INTERFACE AVEC LES RECETTES RESTANTES APRES FILTRATION */
 
 const hydrateInterface = (arrRecipesRemaining) => {
 	const classRecipesWrapper = document.querySelector('.recipes-wrapper')
@@ -90,140 +92,75 @@ const checkTableau = (tableauMots, motInput) => {
 	}
 };
 
-function searchByTags(recetteReduite) { 
+function searchByTags(recetteReduite) {
 	console.log(recetteReduite);
-
     /* TAG INGREDIENTS ADDED */
     const ingredientsElementsTags = document.querySelectorAll(".tagDesIngredients")
+    const ingredientsIterable = Array.from(ingredientsElementsTags)
 
-	let newListIngredients = []
-	for( let i = 0; i < ingredientsElementsTags.length; i++) {
-		newListIngredients.push(ingredientsElementsTags[i].innerText)
-	}
-	console.log(newListIngredients) // ARRAY WITH INGREDIENTS TAGS SELECTED
-
+    let ingredients = ingredientsIterable.map((item) => {
+        return item.innerText
+    })
+    console.log(ingredients); // JE RECUPERE UN ARRAY AVEC LES INGREDIENTS RESTANTS DES RECETTES REDUITES
+         
     /* TAG APPLIANCE ADDED */
-    const appliancesElementsTags = document.querySelectorAll(".tagDesAppareils")
-
-	let newListAppareils = []
-	for( let i = 0; i < appliancesElementsTags.length; i++) {
-		newListAppareils.push(appliancesElementsTags[i].innerText)
-	}
-	console.log(newListAppareils) // ARRAY WITH APPAREILS TAGS SELECTED	
-
-    /* TAG USTENSILES ADDED */
-    const ustensilesElementsTags = document.querySelectorAll(".tagDesUstensiles")
-
-	let newListUstensiles = []
-	for( let i = 0; i < ustensilesElementsTags.length; i++) {
-		newListUtensiles.push(ustensilesElementsTags[i].innerText)
-	}
-	console.log(newListUstensiles) // ARRAY WITH APPAREILS TAGS SELECTED	
-
-const recetteFinales = []
-
-for (let z = 0; z < recetteReduite.length; z++) {
-
-/* ALL THE INGREDIENTS FOR THE RECIPES REMAINING WITH NO DUPLICATE */
-	let allIngredientsArr = [];
-	for (let i = 0; i < recetteReduite.length; i++ ) {
-		const ingredients = recetteReduite[i].ingredients;
-		allIngredientsArr.push([]);
-
-		for (let j = 0; j < ingredients.length; j++) {
-			allIngredientsArr[i].push(ingredients[j].ingredient)
-		}
-	} // CHECK THIS
-
-	let allIngredientsLowerCase = [];
-	for (let i = 0; i < allIngredientsArr.length; i++ ) {
-		const ingredients = allIngredientsArr[i];
-
-		for (let j =0; j < ingredients.length; j++ ) {
-			allIngredientsLowerCase.push(ingredients[j].toLowerCase())
-		}
-	}
-
-	// DELETE DUPLICATE IN THE ARRAY ALL INGREDIENTS IN LOWER CASE
-	const allIngredientsInLowerCaseNoDuplicate = [...new Set(allIngredientsLowerCase)];
-	console.log(allIngredientsInLowerCaseNoDuplicate); // JE RECUPERE UN ARRAY AVEC LES INGREDIENTS RESTANTS DES RECETTES REDUITES
-
-	/* ALL THE APPLIANCES FOR THE RECIPES WITH NO DUPLICATE */
-	const allAppliancesInLowerCase = []; // TO STOCK ALL APPLIANCE IN LOWER CASE
-
-	for (let i = 0; i < recetteReduite.length; i++) {
-		const appliance = recetteReduite[i].appliance.toLowerCase()
-		allAppliancesInLowerCase.push(appliance) // STOCK ALL APPLIANCES
-	}
-
-	// DELETE DUPLICATE IN THE ARRAY ALL APPLIANCE IN LOWER CASE
-	const allAppliancesInLowerCaseNoDuplicate = [...new Set(allAppliancesInLowerCase)];
-	// console.log(allAppliancesInLowerCaseNoDuplicate);
-
-/* ALL THE UTENSILS FOR THE RECIPES WITH NO DUPLICATE */
-	const allUtensilsInLowerCase = [];
-
-	const allUtensils = []
-	for (let i = 0; i < recetteReduite.length; i++) {
-		const utensils = recetteReduite[i].ustensils;
-		allUtensils.push(utensils) 
-	}
-	// console.log(allUtensils);
-
-	for (let i = 0; i < allUtensils.length; i++) {
-		const utensils = allUtensils[i]
-
-		for (let j = 0; j < utensils.length; j++) {
-			allUtensilsInLowerCase.push(utensils[j].toLowerCase())
-		}
-	}
-	// DELETE DUPLICATE IN THE ARRAY ALL UTENSILS IN LOWER CASE
-	const allUtensilsInLowerCaseNoDuplicate = [...new Set(allUtensilsInLowerCase)];
-
-	// INTERSECTION DES ARRAYS INGREDIENTS & APPAREILS
-
+    const appliancesElements = document.querySelectorAll(".tagDesAppareils")
+    const appliancesIterable = Array.from(appliancesElements)
  
-		let hasIngredients = true;
-		let hasAppliance = true;
-		let hasUstensils = true;
+    let appliance = appliancesIterable.map((item) => {
+        return item.innerText
+    })
 
-		for (let i = 0; newListIngredients.length; i++) {
-			for (let j = 0; j < allIngredientsInLowerCaseNoDuplicate.length; j++) {
-				if( !(newListIngredients[i] === allIngredientsInLowerCaseNoDuplicate[j])) {
-					hasIngredients = false
-				}
-			}
-		}
+   /* TAG USTENSILES ADDED */
+    const ustensilsElements = document.querySelectorAll(".tagDesUstensiles")
+    const ustensilsIterable = Array.from(ustensilsElements)
 
-		for (let i = 0; newListAppareils.length; i++) {
-			for (let j = 0; j < allAppliancesInLowerCaseNoDuplicate.length; j++) {
-				if( !(newListAppareils[i] === allAppliancesInLowerCaseNoDuplicate[j])) {
-					hasAppliance = false
-				}
-			}
-		}
+    let ustensiles = ustensilsIterable.map((item) => {
+        return item.innerText
+    })
 
-		for (let i = 0; newListUstensiles.length; i++) {
-			for (let j = 0; j < allUtensilsInLowerCaseNoDuplicate.length; j++) {
-				if( !(newListUstensiles[i] === allUtensilsInLowerCaseNoDuplicate[j])) {
-					hasUstensils = false
-				}
-			}
-		}
+    const recettesRestantes = recetteReduite.filter(recette => {
+        let hasIngredients = true;
+        let hasAppliance = true;
+        let hasUstensils = true;
 
-		if (hasIngredients && hasAppliance && hasUstensils) {
-			recetteFinales.push(recetteReduite[])
-		}
-	}
+        let recette2 = recette.ingredients
+        // console.log(recette2);
+        let recette3 = recette2.map(item => {return item.ingredient})
 
-	actualisationChampsIngredients(recetteFinales)
-    actualisationChampsAppareils(recetteFinales)
-    actualisationChampsUstensiles(recetteFinales)
+        ingredients.forEach(ingredient => {
+            if (!recette3.includes(ingredient)) {
+                hasIngredients = false;
+            }
+        })
 
-	hydrateInterface(recetteFinales)
-	return recetteFinales
-}
+        appliance.forEach(appliance => {
+            if (!recette.appliance.includes(appliance)) {
+                hasAppliance = false;
+            }
+        })
 
+        ustensiles.forEach(ustensil => {
+            console.log(recette.ustensils)
+            if (!recette.ustensils.includes(ustensil)) {
+                hasUstensils = false;
+            }
+        })
+
+        if (hasIngredients && hasAppliance && hasUstensils) {
+            return true
+        } else {
+            return false
+        }
+    })
+
+    actualisationChampsIngredients(recettesRestantes)
+    actualisationChampsAppareils(recettesRestantes)
+    actualisationChampsUstensiles(recettesRestantes)
+
+    hydrateInterface(recettesRestantes) // ACTUALISATION INTERFACE
+    return recettesRestantes;
+}   
 
 function actualisationChampsIngredients(recetteReduite) {
 console.log(recetteReduite)
@@ -272,7 +209,6 @@ console.log(recetteReduite)
 			}
 		}
 
-		// console.log(matchSearchArr);
 
 		listeIngredients.innerHTML = '' // CLEAN THE DOM
 
@@ -285,13 +221,12 @@ console.log(recetteReduite)
 }
 
 function actualisationChampsAppareils(recetteReduite) {
-// console.log(recetteReduite)
+
 	let searchAppareils = '';
 	let tableauAppareils = [];
 	let listeAppareils = document.querySelector('.listElementsAppliances');
-	// console.log(listeAppareils)
+	
 	let searchBarAppareils = document.querySelector('.inputSearchBtnAppareils')
-	// console.log(searchBarAppareils);
 
 	searchBarAppareils.addEventListener('keyup', (e) => {
 
