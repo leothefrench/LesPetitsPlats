@@ -235,7 +235,7 @@ h1 {
 
 /* INTERFACE DES RECETTES */
 .recipes-wrapper {
-    margin-top: 8rem;
+    margin-top: 25px;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
@@ -248,6 +248,7 @@ h1 {
     border-radius: 5px;
     margin-left: 60px;
     margin-bottom: 50px;
+    margin-top: 8rem;
     background-color: #E7E7E7;
 }
 
