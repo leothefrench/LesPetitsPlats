@@ -94,7 +94,6 @@ function searchUser(userInput, arrayRecipes) {
             ...recipeArrayFilterByDescription
         ])
     ]
-    console.log(mergeArraysFilter) 
 
     // FONCTION D'ACTUALISATION DES CHAMPS DE RECHERCHE AVANCES
     actualisationChampsIngredients(mergeArraysFilter) 
@@ -107,7 +106,7 @@ function searchUser(userInput, arrayRecipes) {
 /* FONCTION D'ACTUALISATION DE L'INTERFACE AVEC LES RECETTES RESTANTES APRES FILTRATION */
 
 function hydrateInterface(arrRecipesRemaining) {
-    /* A1 - TESTING IF NO RECIPES ELSE DO THE NEXT THING */
+    
     const classRecipesWrapper = document.querySelector('.recipes-wrapper') // CIBLAGE CONTENEUR DES RECIPES
     if(arrRecipesRemaining == 0) {
         classRecipesWrapper.innerHTML = '<h2>Aucune recette ne correspond à votre critère de recherche, vous pouvez chercher "tarte aux pommes", "poisson", etc.</h2>'
@@ -115,7 +114,7 @@ function hydrateInterface(arrRecipesRemaining) {
         classRecipesWrapper.innerHTML = ''   // CLEAN DOM RECIPES WRAPPER CONTAINER
         finalRecipeArray = Object.entries(arrRecipesRemaining);
 
-        finalRecipeArray.forEach(recipe => createCard(recipe)); // INJECTION DOM AVEC FONCTION CREATECARD (fichier ModelRecipes.js)
+        finalRecipeArray.forEach(recipe => createCard(recipe)); // INJECTION DOM AVEC FONCTION CREATECARD
     }
 }
 
@@ -168,7 +167,6 @@ function searchByTags(recetteReduite) {
         })
 
         ustensiles.forEach(ustensil => {
-            console.log(recette.ustensils)
             if (!recette.ustensils.includes(ustensil)) {
                 hasUstensils = false;
             }
@@ -213,7 +211,7 @@ function actualisationChampsIngredients(recettes) {
             )
         ]
 
-        const listIngredientsSorted = tagByIngredientNoDuplicate.sort() // PAR ORDRE ALPHABETIQUE
+        const listIngredientsSorted = tagByIngredientNoDuplicate.sort()
 
         const ingredientsElementsTags = document.querySelectorAll(".tagDesIngredients")
         const ingredientsIterable = Array.from(ingredientsElementsTags)
@@ -271,7 +269,7 @@ function actualisationChampsAppareils(recettes) {
 
     const tagApplianceAfterPrincipaleSearchNoDuplicate = [...new Set(tagApplianceAfterPrincipaleSearch.map((item) => {return item}))]
 
-    const listAppareilsSorted = tagApplianceAfterPrincipaleSearchNoDuplicate.sort() // PAR ORDRE ALPHABETIQUE
+    const listAppareilsSorted = tagApplianceAfterPrincipaleSearchNoDuplicate.sort()
 
     const appareilsElementsTags = document.querySelectorAll(".tagDesAppareils")
     const appareilsIterable = Array.from(appareilsElementsTags)
@@ -473,7 +471,3 @@ function addTagUstensiles() {
 }
 
 addTagUstensiles()
-
-actualisationChampsIngredients(recipes)
-actualisationChampsAppareils(recipes)
-actualisationChampsUstensiles(recipes)

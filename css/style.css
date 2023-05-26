@@ -63,6 +63,7 @@ h1 {
     margin-top: 20px;
     padding-left: 100px;
     display: flex;
+    position: absolute;
 }
 
 .inputSearchBtn {
@@ -234,7 +235,7 @@ h1 {
 
 /* INTERFACE DES RECETTES */
 .recipes-wrapper {
-    margin-top: 25px;
+    margin-top: 8rem;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
