@@ -3,11 +3,11 @@
 /* ADD EVENT LISTENER SUR INPUT DE L'UTILISATEUR DANS LA BARRE PRINCIPALE DE RECHERCHE */
 document.querySelector('.inputSearch').addEventListener('keyup', (e) => {
 	console.log(e.target.value)
+    console.log((recipes))
     principalSearch(recipes)
 })
 
 /* FUNCTION DE RECHERCHE BARRE PRINCIPALE COMMENCANT AVEC AU MOINS DE 3 CARACTERES */
-
 function principalSearch(recettes) {
     const dataSearch = document
         .querySelector('.inputSearch')
@@ -36,23 +36,23 @@ function searchUser(userInput, arrayRecipes) {
 		}
 
 		if (
+			checkTableau(tableauIngredient, userInput) ||
 			checkInput(arrayRecipes[i].name, userInput) ||
-			checkInput(arrayRecipes[i].description, userInput) ||
-			checkTableau(tableauIngredient, userInput)
+			checkInput(arrayRecipes[i].description, userInput)			
 		) {
 			mergeArraysFilter.push(arrayRecipes[i])
 		}
 	}
 
-	actualisationChampsIngredients(mergeArraysFilter) // BUG ICI PAD D'ACTUALISATION DES 3 CHAMPS
+	actualisationChampsIngredients(mergeArraysFilter)
 	actualisationChampsAppareils(mergeArraysFilter)
 	actualisationChampsUstensiles(mergeArraysFilter)
 
-	return mergeArraysFilter
+	return mergeArraysFilter // RETURN ALL RECIPES REMAINING AFTER SEARCH BY NAME, INGREDIENTS & DESCRIPTION
 }
 
 const checkInput = (mot, motInput) => {
-	return mot.toLowerCase().match(motInput.toLowerCase()) ? true : false;
+	return mot.toLowerCase().match(motInput) ? true : false; // toLowerCase()
 }
 
 const checkTableau = (tableauMots, motInput) => {
@@ -65,7 +65,7 @@ const checkTableau = (tableauMots, motInput) => {
 	let tableauMotsTrouver = [];
 
 	for (let i= 0; i < nouveauTableau.length; i++) {
-		if (nouveauTableau[i].match(motInput.toLowerCase())) {
+		if (nouveauTableau[i].match(motInput)) {
 			tableauMotsTrouver.push(nouveauTableau[i])
 		}
 
@@ -78,22 +78,20 @@ const checkTableau = (tableauMots, motInput) => {
 };
 
 /* FONCTION D'ACTUALISATION DE L'INTERFACE AVEC LES RECETTES RESTANTES APRES FILTRATION */
-
 const hydrateInterface = (arrRecipesRemaining) => {
 	const classRecipesWrapper = document.querySelector('.recipes-wrapper')
 
     if(arrRecipesRemaining == 0) {
         classRecipesWrapper.innerHTML = '<h2>Aucune recette ne correspond à votre critère de recherche, vous pouvez chercher "tarte aux pommes", "poisson", etc.</h2>'
     } else {
-        classRecipesWrapper.innerHTML = ''   // CLEAN DOM RECIPES WRAPPER CONTAINER
+        classRecipesWrapper.innerHTML = ''
         finalRecipeArray = Object.entries(arrRecipesRemaining);
 
-        finalRecipeArray.forEach(recipe => createCard(recipe));     // INJECTION IN THE DOM
+        finalRecipeArray.forEach(recipe => createCard(recipe));
     }
 }
 
 /* IMPLEMENTATION DE LA FONCTION  GET TAG SEARCH */
-
 function searchByTags(recetteReduite) {
 	console.log(recetteReduite);
     /* TAG INGREDIENTS ADDED */
@@ -103,9 +101,7 @@ function searchByTags(recetteReduite) {
     let ingredients = ingredientsIterable.map((item) => {
         return item.innerText
     })
-
-	console.log(ingredients);
-         
+       
     /* TAG APPLIANCE ADDED */
     const appliancesElements = document.querySelectorAll(".tagDesAppareils")
     const appliancesIterable = Array.from(appliancesElements)
@@ -128,7 +124,6 @@ function searchByTags(recetteReduite) {
         let hasUstensils = true;
 
         let recette2 = recette.ingredients
-        // console.log(recette2);
         let recette3 = recette2.map(item => {return item.ingredient})
 
         ingredients.forEach(ingredient => {
@@ -144,7 +139,6 @@ function searchByTags(recetteReduite) {
         })
 
         ustensiles.forEach(ustensil => {
-            console.log(recette.ustensils)
             if (!recette.ustensils.includes(ustensil)) {
                 hasUstensils = false;
             }
@@ -157,175 +151,214 @@ function searchByTags(recetteReduite) {
         }
     })
 
-	console.log(recettesRestantes)
-
     actualisationChampsIngredients(recettesRestantes)
     actualisationChampsAppareils(recettesRestantes)
     actualisationChampsUstensiles(recettesRestantes)
 
-    hydrateInterface(recettesRestantes) // ACTUALISATION INTERFACE
+    hydrateInterface(recettesRestantes)
     return recettesRestantes;
 }   
 
 /* FONCTION DE MISE A JOUR DES CHAMPS DE RECHERCHE AVANCES - INGREDIENTS, APPAREILS, USTENSILES */
+function actualisationChampsIngredients(recettes) { 
+    let tagByIngredient = [];
+    
+    const ingredientsArrRecipe = recettes.map((arrIngredient) => {
+        let tempArray = []
 
-function actualisationChampsIngredients(recettes) {
-console.log(recettes)
-	let searchIngredient = '';
-	let tableauIngredients = [];
-	let listeIngredients = document.querySelector('.listElementsIngredients')
+        arrIngredient.ingredients.map(item => {
+            tempArray.push(item.ingredient)
+        })
 
-	let searchBarIngredients = document.querySelector('.inputSearchBtnIngredients')
+        const inter = tempArray.forEach(item => {
+            tagByIngredient.push(item)
+        })
 
-	searchBarIngredients.addEventListener('input', () => {
+        const tagByIngredientNoDuplicate = [
+            ...new Set(
+                tagByIngredient.map((item) => {
+                    return item
+                })
+            )
+        ]
 
-		if (searchBarIngredients.value.length >= 1) {
-			const ingredientsArr = []
-			for (let i = 0; i < recettes.length; i++) {
-				const ingredients = recettes[i].ingredients;
-				ingredientsArr.push([]);
-				console.log(recettes);
+        const listIngredientsSorted = tagByIngredientNoDuplicate.sort()
 
-				for (let j = 0; j < ingredients.length; j++) {
-					ingredientsArr[i].push(ingredients[j].ingredient)
-				}
-			}
-			console.log(ingredientsArr);
+        const ingredientsElementsTags = document.querySelectorAll(".tagDesIngredients")
+        const ingredientsIterable = Array.from(ingredientsElementsTags)
 
-			for (let i = 0; i < ingredientsArr.length; i++) {
-				const ingredients = ingredientsArr[i];
+        const valueIngredientsTags = []
+        ingredientsIterable.forEach(el => valueIngredientsTags.push(el.innerText))
 
-				for (let j =0; j < ingredients.length; j++) {
-					tableauIngredients.push(ingredients[j].toLowerCase())
-				}
-			}
-			console.log(tableauIngredients);
-			}
-		const tableauIngredientsNoDuplicate = [...new Set(tableauIngredients)]
-		console.log(tableauIngredientsNoDuplicate);
-
-		// Search ingredients by user
-		searchIngredient =searchBarIngredients.value.toLowerCase()
-
-		// Table with match the search ingredient
-		const matchSearchArr = [];
-		for (let i = 0; i < tableauIngredientsNoDuplicate.length; i++) {
-			if (checkInput(tableauIngredientsNoDuplicate[i], searchIngredient)) {
-				matchSearchArr.push(tableauIngredientsNoDuplicate[i])
-			}
-		}
-		console.log(matchSearchArr)
-
-		listeIngredients.innerHTML = '' // CLEAN THE DOM
-
-		for (let i = 0; i < matchSearchArr.length; i++) {
-			listeIngredients.innerHTML += `<p>${matchSearchArr[i]}</p>`
-		}
-		addTagIngredients()
-	})
-	// addTagIngredients()
-}
-
-function actualisationChampsAppareils(recetteReduite) {
-
-	let searchAppareils = '';
-	let tableauAppareils = [];
-	let listeAppareils = document.querySelector('.listElementsAppliances');
-	
-	let searchBarAppareils = document.querySelector('.inputSearchBtnAppareils')
-
-	searchBarAppareils.addEventListener('keyup', (e) => {
-
-		const inputSearchTag = e.target.value.toLowerCase()
-		console.log(inputSearchTag);
-
-		if(inputSearchTag) {
-			const appareilsArr = [];
-			for (let i = 0; i < recetteReduite.length; i++) {
-				console.log(recetteReduite);
-				appareilsArr.push(recetteReduite[i].appliance);
-			}
-
-			for (let i = 0; i < appareilsArr.length; i++) {
-				tableauAppareils.push(appareilsArr[i].toLowerCase())
-			}
-
-			// REMOVE DUPLICATE APPLIANCE
-			const tableauAppareilsNoDuplicate = [...new Set(tableauAppareils)]
-			// console.log(tableauAppareilsNoDuplicate);
-
-			searchAppareils = searchBarAppareils.value.toLowerCase()
-
-			// Table with match the search appareil
-        	const matchSearchArrAppliance = [];
-        	for (let i = 0; i < tableauAppareilsNoDuplicate.length; i++) {
-            	if (checkInput(tableauAppareilsNoDuplicate[i], searchAppareils)) {
-            		matchSearchArrAppliance.push(tableauAppareilsNoDuplicate[i])
-            	}
-			console.log(matchSearchArrAppliance);
-
-				listeAppareils.innerHTML = '' // CLEAN THE DOM
-				for (let i= 0; i < matchSearchArrAppliance.length; i++)  {
-					listeAppareils.innerHTML += `<p>${matchSearchArrAppliance[i]}</p>`
-				}
-			}
-			addTagAppliances()
-        }
-		// addTagAppliances()
-	})
-}
-
-function actualisationChampsUstensiles(recetteReduite) {
-console.log(recetteReduite)
-	let searchUstensiles = '';
-	let tableauUstensiles = [];
-	let listeUstensiles = document.querySelector('.listElementsUstensiles')
-	// console.log(listeUstensiles)
-	let searchBarUstensiles = document.querySelector('.inputSearchBtnUstensiles')
-	// console.log(searchBarUstensiles);
-
-	searchBarUstensiles.addEventListener('input', () => {
-		if (searchBarUstensiles.value.length >= 1) {
-			const ustensilesArr = [];
-
-			for (let i = 0; i < recetteReduite.length; i++) {
-				ustensilesArr.push(recetteReduite[i].ustensils)
-			}
-
-			for (let i = 0; i < ustensilesArr.length; i++) {
-				const ustensiles = ustensilesArr[i];
-				for (let j = 0; j < ustensiles.length; j++) {
-					tableauUstensiles.push(ustensiles[j].toLowerCase())
-				}
-			}
-
-			const tableauUstensilesNoDuplicate = [...new Set(tableauUstensiles)]
-			// console.log(tableauUstensilesNoDuplicate);
-
-			searchUstensiles =  searchBarUstensiles.value.toLowerCase();
-
-			// Table with match the search ustensiles
-        	const matchSearchArrUstensile = [];
-        	for (let i = 0; i < tableauUstensilesNoDuplicate.length; i++) {
-            	if (checkInput(tableauUstensilesNoDuplicate[i], searchUstensiles)) {
-            matchSearchArrUstensile.push(tableauUstensilesNoDuplicate[i])
+        const containsTags = []
+        listIngredientsSorted.filter(item => {
+            if(!(valueIngredientsTags.includes(item))) {
+                containsTags.push(item)
             }
+        })
+       
+        let listItems = containsTags.map(item => {
+            return '<p>' + item + '</p>'
+        })
+        const listElementsTagIngredients = document.querySelector('.listElementsIngredients')
+        listElementsTagIngredients.innerHTML = listItems // INJECTION DANS LE CHAMPS INGREDIENTS
 
-			listeUstensiles.innerHTML = '' // CLEAN THE DOM
-			for (let i= 0; i < matchSearchArrUstensile.length; i++)  {
-				listeUstensiles.innerHTML += `<p>${matchSearchArrUstensile[i]}</p>`
-			}
-		}
-		addTagUstensiles()
-	}
-	// addTagUstensiles()
-	})
+        /* L'UTILISATEUR PRECISE SA RECHERCHE AVEC LE CHAMPS INPUT INGREDIENTS */
+        document
+            .querySelector('.inputSearchBtnIngredients')
+            .addEventListener('keyup', (e) => {
+                const inputSearchTag = e.target.value.toLowerCase(); 
+
+            let afterFilterByTagIngredients = []
+
+            tagByIngredientNoDuplicate.filter(item => {
+                if(item.toLowerCase().includes(inputSearchTag)) {   
+                    afterFilterByTagIngredients.push(item)
+                }
+            })
+
+            let listItemsTagSecondary = afterFilterByTagIngredients.map(item => {
+                return '<p>' + item + '</p>'
+            })
+
+            const listElementsTagIngredients = document.querySelector('.listElementsIngredients') // HYDRATE LA LISTE DES ELEMENTS
+            listElementsTagIngredients.innerHTML = listItemsTagSecondary
+
+            addTagIngredients()     
+        })
+        addTagIngredients()
+    })
 }
 
-// hydrateInterface(recipes) // ACTUALISATION INTERFACE
+/* CHAMPS APPAREILS */
+function actualisationChampsAppareils(recettes) {
+    let tagApplianceAfterPrincipaleSearch = [] // ARRAY VA RECEVOIR LES APPAREILS
+
+    recettes.forEach(item => {
+        tagApplianceAfterPrincipaleSearch.push(item.appliance)
+    })
+
+    const tagApplianceAfterPrincipaleSearchNoDuplicate = [...new Set(tagApplianceAfterPrincipaleSearch.map((item) => {return item}))]
+
+    const listAppareilsSorted = tagApplianceAfterPrincipaleSearchNoDuplicate.sort()
+
+    const appareilsElementsTags = document.querySelectorAll(".tagDesAppareils")
+    const appareilsIterable = Array.from(appareilsElementsTags)
+
+    const valueAppareilsTags = []
+    appareilsIterable.forEach(el => valueAppareilsTags.push(el.innerText))
+
+    const containsAppareilsTags = []
+    listAppareilsSorted.filter(item => {
+        if(!(valueAppareilsTags.includes(item))) {
+            containsAppareilsTags.push(item)
+        }
+    })
+
+    console.log(containsAppareilsTags)
+    // HYDRATATION LIST ELEMENTS TAG APPLIANCE (APPAREILS)
+    let listItemsAppliance = containsAppareilsTags.map(item => {
+        return '<p>' + item + '</p>'
+    })
+
+    const listElementsTagAppliances = document.querySelector('.listElementsAppliances')
+    console.log(listElementsTagAppliances)
+    listElementsTagAppliances.innerHTML = listItemsAppliance // HYDRATATION LIST DES APPAREILS
+
+    /* L'UTILISATEUR PRECISE SA RECHERCHE AVEC LE CHAMPS APPAREILS */
+    const tagFilterAppliances = document.querySelector('.inputSearchBtnAppareils')
+    tagFilterAppliances.addEventListener('keyup', (e) => {
+        const inputSearchTag = e.target.value.toLowerCase(); 
+
+        let afterFilterByTagAppliances = []
+
+        tagApplianceAfterPrincipaleSearch.filter(item => {
+            if(item.toLowerCase().includes(inputSearchTag)) {   
+                afterFilterByTagAppliances.push(item)
+            }
+        })
+
+        const tagByAppliancesNoDuplicate = [...new Set(afterFilterByTagAppliances.map((item) => {return item}))]
+
+        console.log(tagByAppliancesNoDuplicate)
+
+        let listItemsTagSecondaryAppliance = tagByAppliancesNoDuplicate.map(item => {
+            return '<p>' + item + '</p>'
+        })
+
+        const listElementsTagAppliances = document.querySelector('.listElementsAppareils')
+        console.log(listItemsTagSecondaryAppliance)
+        listElementsTagAppliances.innerHTML = listItemsTagSecondaryAppliance
+
+        addTagAppliances()
+    })
+    addTagAppliances()
+}
+
+/* CHAMPS USTENSILES */
+function actualisationChampsUstensiles(recettes) {
+    let tagUtensilsAfterPrincipaleSearch = [] // ARRAY QUI VA RECEVOIR LES USTENSILES DES RECIPES
+
+    const tagFilterByUstensilsSecondary =  recettes.map(ele => {
+        ele.ustensils.filter((item) => {
+            tagUtensilsAfterPrincipaleSearch.push(item)
+        })
+    })  
+
+    const arrTagUstensilesSecondaryNoDuplicate = [...new Set(tagUtensilsAfterPrincipaleSearch.map((item) => {return item}))]
+
+    const listUstensilesSorted = arrTagUstensilesSecondaryNoDuplicate.sort()
+
+    const ustensilsElementsTags = document.querySelectorAll(".tagDesUstensiles")
+    const ustensilesIterable = Array.from(ustensilsElementsTags)
+
+    const valueUstensilesTags = []
+    ustensilesIterable.forEach(el => valueUstensilesTags.push(el.innerText))
+
+    const containsUstensilesTags = []
+    listUstensilesSorted.filter(item => {
+        if(!(valueUstensilesTags.includes(item))) {
+            containsUstensilesTags.push(item)
+        }
+    })
+
+    // HYDRATATION LIST ELEMENTS TAG USTENSILES
+    let listItemsUstensiles = containsUstensilesTags.map(item => {
+        return '<p>' + item + '</p>'
+    })
+
+    const listElementsTagUtensils = document.querySelector('.listElementsUstensiles')
+    listElementsTagUtensils.innerHTML = listItemsUstensiles  // HYDRATATION LISTE USTENSILES DOM
+
+    /* L'UTILISATEUR PRECISE SA RECHERCHE AVEC LE CHAMPS USTENSILES */
+    const tagFilterUstensiles = document.querySelector('.inputSearchBtnUstensiles')
+
+    tagFilterUstensiles.addEventListener('keyup', (e) => {
+        const inputSearchTag = e.target.value.toLowerCase(); 
+
+        let afterFilterByTagUstensiles = []
+
+        arrTagUstensilesSecondaryNoDuplicate.filter(item => {
+            if(item.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "").includes(inputSearchTag)) {   
+                afterFilterByTagUstensiles.push(item)
+            }
+        })
+
+        let listItemsTagSecondary = afterFilterByTagUstensiles.map(item => {
+            return '<p>' + item + '</p>'
+        })
+
+        const listElementsTagUstensiles = document.querySelector('.listElementsUstensiles')
+        listElementsTagUstensiles.innerHTML = listItemsTagSecondary
+
+        addTagUstensiles()
+    })
+    addTagUstensiles()
+}
+
+hydrateInterface(recipes) // ACTUALISATION INTERFACE
 
 /* DEFINITION DE LA FONCTION QUI RECOIT LE CLIQUE UTILISATEUR SUR LE CHAMPS INGREDIENTS ET AJOUTE LE TAG OU LES TAGS */
-
 function addTagIngredients() {
     const listOfChamps = document.querySelectorAll('.listElementsIngredients > p')
     const listing = [...listOfChamps] // TRANSFORME EN ARRAY AVEC SPREAD OPERATOR
@@ -352,7 +385,6 @@ function addTagIngredients() {
             principalSearch(recipes)
 
             spanButton.addEventListener('click', function () {
-                console.log(buttonTag, 'BUTTON INGREDIENTS')
                 groupTags.removeChild(buttonTag)
                 principalSearch(recipes)
             })
@@ -377,12 +409,10 @@ function addTagAppliances() {
             buttonTag.style.backgroundColor = '#68D9A4';
             buttonTag.innerHTML = `<span class='tagDesAppareils'>${item.innerText}<i class="fa-regular fa-circle-xmark"></i></span>`
             groupTags.appendChild(buttonTag)
-            console.log('POUF 2')
 
             principalSearch(recipes)
 
             buttonTag.addEventListener('click', function () {
-                console.log(buttonTag, 'BUTTON APPLIANCE')
                 groupTags.removeChild(buttonTag)
                 principalSearch(recipes)
             })
@@ -406,12 +436,10 @@ function addTagUstensiles() {
             buttonTag.style.backgroundColor = '#ED6454';
             buttonTag.innerHTML = `<span class='tagDesUstensiles'>${item.innerText}<i class="fa-regular fa-circle-xmark"></i></span>`
             groupTags.appendChild(buttonTag)
-            console.log('POUF 3') 
 
             principalSearch(recipes)
 
             buttonTag.addEventListener('click', function () {
-                console.log(buttonTag, 'BUTTON USTENSILES')
                 groupTags.removeChild(buttonTag)
                 principalSearch(recipes)
             })
@@ -420,7 +448,3 @@ function addTagUstensiles() {
 }
 
 addTagUstensiles()
-
-actualisationChampsIngredients(recipes)
-actualisationChampsAppareils(recipes)
-actualisationChampsUstensiles(recipes)
