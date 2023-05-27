@@ -63,6 +63,7 @@ h1 {
     margin-top: 20px;
     padding-left: 100px;
     display: flex;
+    position: absolute;
 }
 
 .inputSearchBtn {
@@ -219,6 +220,7 @@ h1 {
     flex-wrap: wrap;
     height: 400px;
     overflow-y: scroll;
+    height: 200px;
 }
 
 .listElements > p {
@@ -232,11 +234,17 @@ h1 {
     padding-left: 19px;
     margin-top: 0;
     margin-bottom: 10px;
+    height: fit-content;
+}
+
+.listElements > p:hover {
+    color: #000;
+    background-color: #fff;
 }
 
 /* INTERFACE DES RECETTES */
 .recipes-wrapper {
-    margin-top: 25px;
+    margin-top: 8rem;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
