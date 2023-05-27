@@ -113,13 +113,6 @@ h1 {
     background: #3282F7;
 }
 
-/* .resultTag:nth-child(2) {
-    background-color: #68D9A4;
-}
-
-.resultTag:nth-child(3) {
-    background-color: #ED6454;
-} */
 /* BUTTONS*/
 .ingredients, .appareils, .ustensiles {
     width: 150px;
@@ -216,7 +209,7 @@ h1 {
 .listElements {
     display: flex;
     flex-wrap: wrap;
-    height: 300px;
+    /* height: 300px; */
     overflow-y: scroll;
 }
 
@@ -233,9 +226,14 @@ h1 {
     margin-bottom: 10px;
 }
 
+.listElements > p:hover {
+    color: #000;
+    background-color: #fff;
+}
+
 /* INTERFACE DES RECETTES */
 .recipes-wrapper {
-    margin-top: 25px;
+    margin-top: 8rem;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
@@ -248,7 +246,7 @@ h1 {
     border-radius: 5px;
     margin-left: 60px;
     margin-bottom: 50px;
-    margin-top: 8rem;
+    margin-top: 25px;
     background-color: #E7E7E7;
 }
 
