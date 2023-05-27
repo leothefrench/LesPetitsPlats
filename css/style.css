@@ -187,18 +187,19 @@ h1 {
     opacity: 0.5;
     color: #fff;
     border: none;
+    border-radius: 10px;
 }
 
 .inputSearchBtnIngredients {
-    background-color: #3282F7;
+    background-color: #458bf5;
 }
 
 .inputSearchBtnAppareils {
-    background-color: #68D9A4;
+    background-color: #4dcd90;
 }
 
 .inputSearchBtnUstensiles {
-    background-color: #ED6454;
+    background-color: #d9857b;
 }
 
 .fa-chevron-up {
@@ -209,7 +210,7 @@ h1 {
 .listElements {
     display: flex;
     flex-wrap: wrap;
-    /* height: 300px; */
+    height: 200px;
     overflow-y: scroll;
 }
 
@@ -224,6 +225,7 @@ h1 {
     padding-left: 19px;
     margin-top: 0;
     margin-bottom: 10px;
+    height: fit-content;
 }
 
 .listElements > p:hover {
