@@ -2,8 +2,6 @@
 
 /* ADD EVENT LISTENER SUR INPUT DE L'UTILISATEUR DANS LA BARRE PRINCIPALE DE RECHERCHE */
 document.querySelector('.inputSearch').addEventListener('keyup', (e) => {
-	console.log(e.target.value)
-    console.log((recipes))
     principalSearch(recipes)
 })
 
@@ -93,7 +91,7 @@ const hydrateInterface = (arrRecipesRemaining) => {
 
 /* IMPLEMENTATION DE LA FONCTION  GET TAG SEARCH */
 function searchByTags(recetteReduite) {
-	console.log(recetteReduite);
+	
     /* TAG INGREDIENTS ADDED */
     const ingredientsElementsTags = document.querySelectorAll(".tagDesIngredients")
     const ingredientsIterable = Array.from(ingredientsElementsTags)
@@ -255,18 +253,17 @@ function actualisationChampsAppareils(recettes) {
         }
     })
 
-    console.log(containsAppareilsTags)
     // HYDRATATION LIST ELEMENTS TAG APPLIANCE (APPAREILS)
     let listItemsAppliance = containsAppareilsTags.map(item => {
         return '<p>' + item + '</p>'
     })
 
     const listElementsTagAppliances = document.querySelector('.listElementsAppliances')
-    console.log(listElementsTagAppliances)
     listElementsTagAppliances.innerHTML = listItemsAppliance // HYDRATATION LIST DES APPAREILS
 
     /* L'UTILISATEUR PRECISE SA RECHERCHE AVEC LE CHAMPS APPAREILS */
     const tagFilterAppliances = document.querySelector('.inputSearchBtnAppareils')
+    
     tagFilterAppliances.addEventListener('keyup', (e) => {
         const inputSearchTag = e.target.value.toLowerCase(); 
 
@@ -280,14 +277,12 @@ function actualisationChampsAppareils(recettes) {
 
         const tagByAppliancesNoDuplicate = [...new Set(afterFilterByTagAppliances.map((item) => {return item}))]
 
-        console.log(tagByAppliancesNoDuplicate)
-
         let listItemsTagSecondaryAppliance = tagByAppliancesNoDuplicate.map(item => {
             return '<p>' + item + '</p>'
         })
 
-        const listElementsTagAppliances = document.querySelector('.listElementsAppareils')
-        console.log(listItemsTagSecondaryAppliance)
+        const listElementsTagAppliances = document.querySelector('.listElementsAppliances')
+        
         listElementsTagAppliances.innerHTML = listItemsTagSecondaryAppliance
 
         addTagAppliances()
