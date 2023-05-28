@@ -471,3 +471,7 @@ function addTagUstensiles() {
 }
 
 addTagUstensiles()
+
+actualisationChampsIngredients(recipes)
+actualisationChampsAppareils(recipes)
+actualisationChampsUstensiles(recipes)

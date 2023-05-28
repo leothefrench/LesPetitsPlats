@@ -89,7 +89,6 @@ h1 {
 
 .resultTag {
     display: inline-block;
-    /* width: 107px; */
     height: 37px;
     border-radius: 5px;
     color: #fff;
@@ -99,13 +98,13 @@ h1 {
     font-weight: 700;
     font-size: 14px;
     line-height: 17px;
-    /* text-align: center; */
     box-sizing: border-box;
     padding: 10px 0px 10px 20px;
 }
 
 .fa-circle-xmark {
     padding-left: 13px;
+    margin-right: 13px;
     font-size: 20px;;
 }
 
